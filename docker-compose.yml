@@ -39,7 +39,7 @@ services:
             - "3306:3306"
         environment:
             MYSQL_DATABASE: shop
-            MYSQL_ROOT_PASSWORD: root
+            MYSQL_ROOT_PASSWORD: anti331
             SERVICE_TAGS: dev
             SERVICE_NAME: mysql
         networks:
