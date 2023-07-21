@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $category = Category::with(['description'])->where('status',1)->get();
+        $category = Category::with(['description'])->where('status',1)->where('top',1)->get();
         $category_mass=[];
         foreach ($category as $key=> $item) {
             $data=$item->toArray();

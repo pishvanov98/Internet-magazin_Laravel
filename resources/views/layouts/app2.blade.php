@@ -127,9 +127,10 @@
                                                     <span ><a href="{{$children['href']}}">{{$children['description'][0]['name']}}</a></span>
                                                 @endif
                                             @endforeach
-                                            @endif
-                                            <a class="all_category_list_item" href="{{$category['href']}}" >Смотреть все {{$category['description'][0]['name']}}</a>
+                                                <a class="all_category_list_item" href="{{$category['href']}}" >Смотреть все {{$category['description'][0]['name']}}</a>
                                         </div>
+                                            @endif
+                                    </div>
 
 
                                     @endforeach
