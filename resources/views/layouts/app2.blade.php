@@ -76,7 +76,7 @@
                             <div class="centre-block-search-category"><img style="width: 20px;height: 17.5px;" src="/image/new_header/menu.svg"><span class="centre-block-search-search">Каталог</span></div>
                             <ul class="submenu">
                                 <?php if ($categories) {   ?>
-                                <?php foreach ($categories as $category) {   ?>
+                                <?php foreach ($categories as $category) { ?>
                                 <li><a href="<?php echo $category['href']; ?>" data-name="<?php echo $category['description'][0]['name']; ?>"><?php echo $category['description'][0]['name']; ?> </a></li>
                                 <?php  } ?>
                                 <li><a  href="/promo">Акции</a></li>
@@ -132,37 +132,45 @@
                         <div class="category_list_right">
                             <div class="category_children" data-name_children="Производители">
                                 <div class="unstyled">
-                                    <?php if(!empty($manufacturer)){ foreach($manufacturer as $val_manufactur){
-                                    ?>  <a href="<?php echo $val_manufactur['href']; ?>"><?php echo $val_manufactur['name']; ?></a> <?php
-                                    } } ?>
-                                    <a class="all_category_list_item" href="/brands" >Смотреть всех производителей</a>
+                                        @if(!empty($manufacturer))
+                                            @foreach($manufacturer as $val_manufactur)
+                                            <a href="{{$val_manufactur['href']}}">{{$val_manufactur['name']}}</a>
+                                            @endforeach
+                                            <a class="all_category_list_item" href="/brands" >Смотреть всех производителей</a>
+                                        @endif
                                 </div>
                             </div>
-                            <?php if ($categories) { ?>
-
-                            <?php foreach ($categories as $category) { ?>
-                            <?php if ( !empty($category['children'])  ) { ?>
-                            <div class="category_children" data-name_children="<?php echo $category['name']; ?>">
-
-                                <?php for ($i = 0; $i < count($category['children']);) { ?>
+                            @if($categories)
+                            @foreach($categories as $category)
+                            @if(!empty($category['children']))
+                            <div class="category_children" data-name_children="{{$category['description'][0]['name']}}">
                                 <div class="unstyled">
-                                    <?php $j = $i + ceil(count($category['children']) / $category['column']); ?>
-                                    <?php for (; $i < $j; $i++) { ?>
-                                    <?php if (isset($category['children'][$i])) { ?>
-
-                                    <?php if(!empty($category['children'][$i]['children_children'])){ ?> <div class="item_category<?php echo $category['children'][$i]['category_id']; ?>"><span class="wrapper_children_category caret_bottom" ><a href="<?php echo $category['children'][$i]['href']; ?>"><?php echo $category['children'][$i]['name']; ?></a> <span class="caret_category_child" onclick="open_category_children('<?php echo $category['children'][$i]['category_id']; ?>');"><img src="/image/new_header/caret2.svg"></span></span><div class="block_children_category"></div></div><?php }else{
-                                    ?>
-                                    <span ><a href="<?php echo $category['children'][$i]['href']; ?>"><?php echo $category['children'][$i]['name']; ?></a></span>
-                                    <?php
-                                    } ?>
-                                    <?php } ?>
-                                    <?php } ?>
-                                    <a class="all_category_list_item" href="<?php echo $category['href']; ?>" ><?php echo $text_all; ?> <?php echo $category['name']; ?></a>
+                                    @foreach($category['children'] as $children)
+                                    @if(!empty($children['children_children']))
+                                    @foreach($children['children_children'] as $children_children)
+                                        <div class="item_category{{$children_children['category_id']}}">
+                                            <span class="wrapper_children_category caret_bottom" >
+                                                <a href="{{$children_children['href']}}">
+                                                    {{$children_children['description'][0]['name']}}
+                                                </a>
+                                            <span class="caret_category_child" onclick="open_category_children('{{$children_children['category_id']}}');">
+                                                <img src="/image/new_header/caret2.svg">
+                                            </span>
+                                            </span>
+                                            <div class="block_children_category"></div>
+                                        </div>
+                                        @endforeach
+                                        @else
+                                    <span ><a href="{{$children['href']}}">{{$children['description'][0]['name']}}</a></span>
+                                        @endif
+                                    @endforeach
+                                    @endif
+                                    <a class="all_category_list_item" href="{{$category['href']}}" >Смотреть все {{$category['description'][0]['name']}}</a>
                                 </div>
-                                <?php } ?>
+
                             </div>
-                            <?php } } ?>
-                            <?php } ?>
+                                @endforeach
+                            @endif
 
                         </div>
                     </div>
