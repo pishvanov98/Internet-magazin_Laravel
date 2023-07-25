@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Img;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -26,14 +27,20 @@ class HomeController extends Controller
     public function index()
     {
 
+        $slider=DB::table('sliders')->where('location','На главной')->first();
+        $images=[];
+        if(!empty($slider)){
+            $data=(array)$slider;
+            if(!empty($data['id_image'])){
+                $images_explode=explode(',',$slider->id_image);
 
-       // $lector = DB::connection('mysql2')->table('lector')->get();
+                $img = Img::whereIn('id', $images_explode)->orderBy('order','ASC')->get();
+                foreach ($img as $val){
+                    $images[]=$val->toArray();
+                }
+            }
+        }
 
-       // dd($lector);
-
-
-
-
-        return view('home');
+        return view('home',compact('images'));
     }
 }

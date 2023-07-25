@@ -3,59 +3,48 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
 
-
-               @guest
-
-                   Вы гость
-
-                @endguest
-
-
+@if($images)
                    <div class="owl-carousel owl-theme" id="slider">
                        <!--Слайд 1-->
-                       <div class="slide" >
-                           <h2 class="slide__title">Заголовок слайда</h2>
-                           <a href="#" class="slide__link">Кнопка</a>
-                       </div>
-                       <div class="slide" >
-                           <h2 class="slide__title">Заголовок слайда</h2>
-                           <a href="#" class="slide__link">Кнопка</a>
-                       </div>
-                       <div class="slide" >
-                           <h2 class="slide__title">Заголовок слайда</h2>
-                           <a href="#" class="slide__link">Кнопка</a>
-                       </div>
-                       <!--Остальные слайды-->
-                       ...
+                       @foreach($images as $image)
+                           <div class="slide" >
+                              <img src="{{asset($image['path'])}}">
+                           </div>
+                       @endforeach
                    </div>
+@endif
 
-                   <script type="module">
 
-                       $(document).ready(function(){
-                           const slider = $("#slider").owlCarousel({
-                               loop:true,
-                               margin:10,
-                               nav:true,
-                               responsive:{
-                                   0:{
-                                       items:1
-                                   },
-                                   600:{
-                                       items:3
-                                   },
-                                   1000:{
-                                       items:5
-                                   }
-                               }
-                           });
-                       });
 
-                   </script>
+    @guest
 
-        </div>
-    </div>
+        Вы гость
+
+    @endguest
+@push('script')
+        <script type="module">
+
+            $(document).ready(function(){
+                const slider = $("#slider").owlCarousel({
+                    loop:true,
+                    margin:5,
+                    autoplay: true,
+                    autoplayTimeout: 10000,
+                    nav:false,
+                    responsive:{
+                        0:{
+                            items:1
+                        },
+                    }
+                });
+            });
+
+        </script>
+@endpush
+
+
+
+
 </div>
 @endsection
