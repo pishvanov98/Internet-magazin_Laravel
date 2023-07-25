@@ -20,3 +20,11 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/admin',[\App\Http\Controllers\Admin\AdminController::class,'index']);
+Route::get('/admin/slider',[\App\Http\Controllers\Admin\SliderController::class, 'index'])->name('admin.slider');
+Route::get('/admin/slider/create',[\App\Http\Controllers\Admin\SliderController::class, 'create'])->name('admin.slider.create');
+Route::post('/admin/slider',[\App\Http\Controllers\Admin\SliderController::class, 'store'])->name('admin.slider.store');
+Route::post('/admin/slider/image',[\App\Http\Controllers\Admin\SliderController::class, 'storeImage'])->name('admin.slider.image.store');
+Route::post('/admin/slider/{id_slider}/image/{id}',[\App\Http\Controllers\Admin\SliderController::class, 'destroyImage'])->name('admin.slider.image.destroy');
+Route::get('/admin/slider/edit/{id}',[\App\Http\Controllers\Admin\SliderController::class, 'edit'])->name('admin.slider.edit');
+Route::put('/admin/slider/{id}',[\App\Http\Controllers\Admin\SliderController::class, 'update'])->name('admin.slider.update');
+Route::delete('/admin/slider/{id}',[\App\Http\Controllers\Admin\SliderController::class, 'destroy'])->name('admin.slider.destroy');

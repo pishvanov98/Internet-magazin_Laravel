@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="{{asset('adminFile/plugins/daterangepicker/daterangepicker.css')}}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{asset('adminFile/plugins/summernote/summernote-bs4.min.css')}}">
+    @stack('css')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -69,9 +70,9 @@
                     <li class="nav-item menu-open">
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="./index.html" class="nav-link active">
+                                <a href="{{route('admin.slider')}}" class="nav-link active">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Dashboard v1</p>
+                                    <p>Слайдеры</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -229,7 +230,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Dashboard</h1>
+                        <h1 class="m-0">@if(!empty($title)) {{$title}} @else Dashboard @endif</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -297,6 +298,7 @@
 <!-- AdminLTE App -->
 <script src="{{asset('adminFile/dist/js/adminlte.js')}}"></script>
 
+@stack('script')
 
 </body>
 </html>
