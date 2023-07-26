@@ -28,7 +28,7 @@ class HomeController extends Controller
     {
 
         $slider=DB::table('sliders')->where('location','На главной')->first();
-        $images=[];
+        $images_slider=[];
         if(!empty($slider)){
             $data=(array)$slider;
             if(!empty($data['id_image'])){
@@ -36,11 +36,17 @@ class HomeController extends Controller
 
                 $img = Img::whereIn('id', $images_explode)->orderBy('order','ASC')->get();
                 foreach ($img as $val){
-                    $images[]=$val->toArray();
+                    $images_slider[]=$val->toArray();
                 }
             }
         }
 
-        return view('home',compact('images'));
+
+        //Новинки
+        $NewGoodsSlaider=[];
+        $NewGoodsSlaider=app('Product')->NewGoodsSlaider();
+
+
+        return view('home',compact('images_slider','NewGoodsSlaider'));
     }
 }

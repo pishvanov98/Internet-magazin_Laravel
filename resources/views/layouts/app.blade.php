@@ -55,7 +55,7 @@
             </ul>
         </div>
     </nav>
-    <header class="py-3 mb-4 ">
+    <header class="py-3 pb-0">
         <div class="container d-flex flex-wrap justify-content-center">
             <div class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto ">
             <a href="/" class="text-decoration-none">
@@ -132,19 +132,26 @@
                                         <div class="unstyled">
                                             @foreach($category['children'] as $children)
                                                 @if(!empty($children['children_children']))
-                                                    @foreach($children['children_children'] as $children_children)
-                                                        <div class="item_category{{$children_children['category_id']}}">
-                                            <span class="wrapper_children_category caret_bottom" >
-                                                <a href="{{$children_children['href']}}">
-                                                    {{$children_children['name']}}
-                                                </a>
-                                            <span class="caret_category_child" onclick="open_category_children('{{$children_children['category_id']}}');">
-                                                <img src="{{asset('/img/caret2.svg')}}">
-                                            </span>
-                                            </span>
-                                                            <div class="block_children_category"></div>
-                                                        </div>
-                                                    @endforeach
+
+                                                            <div class="item_category{{$children['category_id']}}">
+
+                                                                <span class="wrapper_children_category caret_bottom" >
+                                                            <a href="{{$children['href']}}">
+                                                                {{$children['name']}}
+                                                            </a>
+                                                        <span class="caret_category_child" onclick="open_category_children('{{$children['category_id']}}');">
+                                                            <img src="{{asset('/img/caret2.svg')}}">
+                                                        </span>
+                                                        </span>
+                                                                <div class="block_children_category">
+                                                                    <div class="shadow_category">
+                                                                    @foreach($children['children_children'] as $children_children)
+                                                                            <a href="{{$children_children['href']}}">{{$children_children['name']}}</a>
+                                                                        @endforeach
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
                                                 @else
                                                     <span ><a href="{{$children['href']}}">{{$children['name']}}</a></span>
                                                 @endif
@@ -179,6 +186,17 @@
             $( ".catalog_list" ).addClass( "catalog_list_open" );
         }
     }
+     function open_category_children(a){
+         if($('.caret_category_child').hasClass('active')){
+             $(' .block_children_category').removeClass('active');
+             $(' .caret_category_child').removeClass('active');
+             $(' .caret_bottom').removeClass('active');
+         }else{
+             $('.item_category'+a+' .block_children_category').addClass('active');
+             $('.item_category'+a+' .caret_category_child').addClass('active');
+             $('.item_category'+a+' .caret_bottom' ).addClass('active');
+         }
+     }
 
 
      $('.category_lef').eq(4).addClass('active_category');

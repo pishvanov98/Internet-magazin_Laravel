@@ -170,6 +170,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\HeaderProvider::class,
+        App\Providers\ProductProvider::class,
         Intervention\Image\ImageServiceProvider::class,
     ])->toArray(),
 
