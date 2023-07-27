@@ -4,7 +4,7 @@ services:
     appAvel:
         image: devilbox/php-fpm:8.1-work
         container_name: appAvel
-        restart: unless-stopped
+        restart: always
         tty: true
         environment:
             SERVICE_NAME: appAvel
@@ -19,7 +19,7 @@ services:
     webserverAvel:
         image: nginx:alpine
         container_name: webserverAvel
-        restart: unless-stopped
+        restart: always
         tty: true
         ports:
             - "80:80"
@@ -52,6 +52,19 @@ services:
         environment:
             - PMA_HOST=dbAvel
             - PMA_PORT=3306
+        networks:
+            - app-network
+    elasticsearch:
+        image: elasticsearch:8.8.1
+        environment:
+            - discovery.type=single-node
+            - xpack.security.enabled=true
+            - ELASTIC_PASSWORD=anti331
+        ports:
+            - 9200:9200
+            - 9300:9300
+        volumes:
+            - ./:/usr/share/elasticsearch/data
         networks:
             - app-network
 #Docker Networks

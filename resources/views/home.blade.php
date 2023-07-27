@@ -28,14 +28,12 @@
         <div id="GoodsSlaiderHome1" class="owl-carousel owl-theme ">
             <?php
                 foreach ($NewGoodsSlaider as $product) {  ?>
-                <div class="card" style="width: 18rem;">
-                    @if($product['DB'] == "Aveldent")
-                    <img src="https://aveldent.ru/image/{{$product['image']}}"  class="card-img-top" alt="">
-                    @else
-                        <img src="" class="card-img-top" alt="...">
-                    @endif
+                <div class="card" style="width: 290px;min-height: 400px;">
+
+                    @if($product['image']) <img src="{{asset($product['image'])}}"  class="card-img-top" alt=""> @else <img src="{{asset('img/zag_258x258.svg')}}"  class="card-img-top" alt=""> @endif
+
                     <div class="card-body">
-                        <h5 class="card-title">{{$product['name']}}</h5>
+                        <h6 class="card-title">{{$product['name']}}</h6>
                         <p class="card-text">Стоимость {{$product['price']}}</p>
                         <a href="#" class="btn btn-primary">Купить</a>
                     </div>
@@ -75,51 +73,52 @@
                 autoPlay: false,
                 lazyLoad: true,
                 navigation: true,
+                margin:20,
                 nav:true,
                 dots: false,
                 navigationText: ['‹', '›']
             });
         });
 
-        // $('.filterslider_home ul li.item').click(function() {
-        //     if($(this).hasClass("activ_")) {
-        //         window.location = $(this).data('link');
-        //         return;
-        //     }
-        //     $(".filterslider_home ul li.item").removeClass('activ_');
-        //     $(this).addClass('activ_');
-        //
-        //
-        //     var idSlider = $(this).data("selectid");
-        //     idSlider = $("#"+idSlider);
-        //
-        //     if (idSlider.length > 0) {
-        //         $(".filterslider_home div.carousel_goods").addClass('hide_');
-        //         idSlider.removeClass('hide_');
-        //         return;
-        //     }
-        //     var name = $(this).data("name");
-        //
-        //
-        //     $.ajax({
-        //         url: '/index.php?route=product/search&taghome='+name, //Путь к файлу, который нужно подгрузить https://aveldent.ru/index.php?route=product/search&tag=Эксклюзивное предложение
-        //         type: 'GET',
-        //         beforeSend: function(){
-        //             //$("#GoodsSlaiderHome1").addClass('hide_');
-        //             $(".filterslider_home div.carousel_goods").addClass('hide_');
-        //             idSlider.removeClass('hide_');
-        //         },
-        //         success: function(data){
-        //             $('.container_carousel').append(data); //Подгрузка внутрь блока
-        //         },
-        //         error: function(){
-        //             alert('Error!');
-        //         }
-        //     });
-        //
-        //
-        //
-        // });
+        $('.filterslider_home ul li.item').click(function() {
+            if($(this).hasClass("activ_")) {
+                window.location = $(this).data('link');
+                return;
+            }
+            $(".filterslider_home ul li.item").removeClass('activ_');
+            $(this).addClass('activ_');
+
+
+            var idSlider = $(this).data("selectid");
+            idSlider = $("#"+idSlider);
+
+            if (idSlider.length > 0) {
+                $(".filterslider_home div.carousel_goods").addClass('hide_');
+                idSlider.removeClass('hide_');
+                return;
+            }
+            var name = $(this).data("name");
+
+
+            // $.ajax({
+            //     url: '/index.php?route=product/search&taghome='+name, //Путь к файлу, который нужно подгрузить https://aveldent.ru/index.php?route=product/search&tag=Эксклюзивное предложение
+            //     type: 'GET',
+            //     beforeSend: function(){
+            //         //$("#GoodsSlaiderHome1").addClass('hide_');
+            //         $(".filterslider_home div.carousel_goods").addClass('hide_');
+            //         idSlider.removeClass('hide_');
+            //     },
+            //     success: function(data){
+            //         $('.container_carousel').append(data); //Подгрузка внутрь блока
+            //     },
+            //     error: function(){
+            //         alert('Error!');
+            //     }
+            // });
+
+
+
+        });
 
 
 

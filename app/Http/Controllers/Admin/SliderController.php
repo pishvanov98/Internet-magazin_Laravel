@@ -95,9 +95,9 @@ class SliderController extends Controller
             //Сохраняем оригинальную картинку
             $data['image']->move(public_path('/image/slider/').'origin/',$filename);
             if(!empty($data['width']) && !empty($data['height'])){//если задан формат то ресайзим
-                //Создаем миниатюру изображения и сохраняем ее
+                //Создаем ресайз изображения
                 $thumbnail = Image::make(public_path('/image/slider/').'origin/'.$filename);
-                $thumbnail->fit($data['width'], $data['height']);
+                $thumbnail->resize($data['width'],$data['height']);
                 $thumbnail->save(public_path('/image/slider/').'thumbnail/'.$filename);
                 $img= new Img();
                 $img->path='image/slider/thumbnail/'.$filename;

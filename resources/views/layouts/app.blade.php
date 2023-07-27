@@ -19,7 +19,7 @@
 </head>
 <body>
 <div id="app">
-    <nav class="py-2 bg-light ">
+    <nav  class="py-2  ">
         <div class="container d-flex flex-wrap top_header">
             <ul class="nav me-auto">
                 <li class="nav-item menu_Info menu-hover">

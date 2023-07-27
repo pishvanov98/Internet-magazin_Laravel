@@ -19,17 +19,24 @@ class ProductComponent
         });
 
        $products= $this->ProductInit($mass_prod_id);
+
         return $products;
 
     }
 
 
     public function ProductInit($mass_prod_id){//получение информации по товару
-    $products_mass=[];
+
+        $imageComponent= new ImageComponent();
+        $products_mass=[];
         $query=DB::connection('mysql2')->table('sd_product')->whereIn('sd_product.product_id',$mass_prod_id)
-            ->select('sd_product.product_id', 'sd_product.price', 'sd_product.model', 'sd_product.mpn', 'sd_product.quantity', 'sd_product.manufacturer_id', 'sd_product.image', 'sd_product_description.name', 'sd_product_description.description', 'sd_product_description.seo_title', 'sd_product_description.seo_h1', 'sd_product_description.tag' )
-            ->where('sd_product.status',1)
-            ->join('sd_product_description','sd_product.product_id','=','sd_product_description.product_id');
+            ->select('sd_product.product_id', 'sd_product.price', 'sd_product.model', 'sd_product.mpn', 'sd_product.quantity', 'sd_product.manufacturer_id', 'sd_manufacturer.image AS manufacturer_image', 'sd_manufacturer.name AS manufacturer_name' , 'sd_manufacturer.strana AS manufacturer_region', 'sd_product.image', 'sd_product_description.name', 'sd_product_description.description', 'sd_product_description.seo_title', 'sd_product_description.seo_h1', 'sd_product_description.tag','sd_product_to_category.category_id' )
+            ->where('sd_product.status','=',1)
+            ->where('sd_product_to_category.main_category','=',1)
+            ->where('sd_product_to_category.category_id','!=',568)//убрал подарки
+            ->join('sd_product_description','sd_product.product_id','=','sd_product_description.product_id')
+            ->join('sd_product_to_category','sd_product.product_id','=','sd_product_to_category.product_id')
+            ->leftJoin('sd_manufacturer','sd_product.manufacturer_id','=','sd_manufacturer.manufacturer_id');
         $products= $query->get();
 
         $products_discount=DB::connection('mysql2')->table('sd_product_discount')->whereIn('sd_product_discount.product_id',$mass_prod_id)//получил цены в зависимости от группы пользователя
@@ -40,7 +47,7 @@ class ProductComponent
         ->select('sd_product_attribute.product_id', 'sd_product_attribute.attribute_id', 'sd_product_attribute.text')
             ->get();
 
-        $products->each(function ($item) use (&$products_mass, &$products_discount, &$products_attr){
+        $products->each(function ($item) use (&$products_mass, &$products_discount, &$products_attr,&$imageComponent){
             $data=(array)$item;
             $customer_group_id=0;
             $products_mass[$data['product_id']]=$data;
@@ -67,14 +74,20 @@ class ProductComponent
             if(!empty($filtered_attr)){
                 $products_mass[$data['product_id']]['product_attr']=$filtered_attr->all();
             }
-            $products_mass[$data['product_id']]['DB']='Aveldent';//ставлю метку что товары загружены из базы авеля
+
+            if(!empty($products_mass[$data['product_id']]['image'])){
+                $image_name=substr($products_mass[$data['product_id']]['image'],  strrpos($products_mass[$data['product_id']]['image'], '/' ));
+                $imageComponent->checkImg($products_mass[$data['product_id']]['image'],$image_name,'product');//проверяю есть ли на сервере эта картинка, если нет то создаю
+                $products_mass[$data['product_id']]['image']='/image/product'.$image_name;
+            }
+            if(!empty($products_mass[$data['product_id']]['manufacturer_image'])){
+                $image_name=substr($products_mass[$data['product_id']]['manufacturer_image'],  strrpos($products_mass[$data['product_id']]['manufacturer_image'], '/' ));
+                $imageComponent->checkImg($products_mass[$data['product_id']]['manufacturer_image'],$image_name,'brand');//проверяю есть ли на сервере эта картинка, если нет то создаю
+                $products_mass[$data['product_id']]['manufacturer_image']='/image/brand'.$image_name;
+            }
         });
-
         return($products_mass);
-
-
-
-
-
     }
+
+
 }
