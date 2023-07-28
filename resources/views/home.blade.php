@@ -22,25 +22,25 @@
         <ul>
             <li data-name="Новинки" data-selectid="GoodsSlaiderHome1" data-link="/entrance"  class="item activ_" >Новинки</li>
             <li data-name="Эксклюзивное предложение" data-selectid="GoodsSlaiderHome2" data-link="/exclusive" class="item" >Эксклюзивные предложения</li>
-            <li data-name="aciya" data-selectid="GoodsSlaiderHomeAciya" data-link="/action" class="item" >Акции</li>
+            <li data-name="actiya" data-selectid="GoodsSlaiderHomeAciya" data-link="/action" class="item" >Акции</li>
             <!--<li class="action_prod_home"><a href="/promo?product"> Товар дня </a></li>-->
         </ul>
-        <div id="GoodsSlaiderHome1" class="owl-carousel owl-theme ">
-            <?php
-                foreach ($NewGoodsSlaider as $product) {  ?>
-                <div class="card" style="width: 290px;min-height: 400px;">
+        <div class="container_carousel">
+            <div id="GoodsSlaiderHome1" class="owl-carousel owl-theme ">
+                <?php
+                    foreach ($NewGoodsSlaider as $product) {  ?>
+                    <div class="card" style="width: 290px;min-height: 400px;">
 
-                    @if($product['image']) <img src="{{asset($product['image'])}}"  class="card-img-top" alt=""> @else <img src="{{asset('img/zag_258x258.svg')}}"  class="card-img-top" alt=""> @endif
+                        @if($product['image']) <img src="{{asset($product['image'])}}"  class="card-img-top" alt=""> @else <img src="{{asset('img/zag_258x258.svg')}}"  class="card-img-top" alt=""> @endif
 
-                    <div class="card-body">
-                        <h6 class="card-title">{{$product['name']}}</h6>
-                        <p class="card-text">Стоимость {{$product['price']}}</p>
-                        <a href="#" class="btn btn-primary">Купить</a>
+                        <div class="card-body">
+                            <h6 class="card-title">{{$product['name']}}</h6>
+                            <p class="card-text">Стоимость {{$product['price']}}</p>
+                            <a href="#" class="btn btn-primary">Купить</a>
+                        </div>
                     </div>
-                </div>
-                <?php } ?>
-
-
+                    <?php } ?>
+            </div>
         </div>
     </div>
 <?php } ?>
@@ -73,7 +73,7 @@
                 autoPlay: false,
                 lazyLoad: true,
                 navigation: true,
-                margin:20,
+                margin:10,
                 nav:true,
                 dots: false,
                 navigationText: ['‹', '›']
@@ -93,28 +93,51 @@
             idSlider = $("#"+idSlider);
 
             if (idSlider.length > 0) {
-                $(".filterslider_home div.carousel_goods").addClass('hide_');
+                $(".filterslider_home div.owl-carousel").addClass('hide_');
                 idSlider.removeClass('hide_');
                 return;
             }
             var name = $(this).data("name");
+            var name_id_slider = $(this).data("selectid");
 
+            $.ajax({
+                url: 'api/home/exclusive', //Путь к файлу, который нужно подгрузить https://aveldent.ru/index.php?route=product/search&tag=Эксклюзивное предложение
+                type: 'GET',
+                data: {
+                    name: name,
+                    idSlider: name_id_slider,
+                },
+                beforeSend: function(){
+                    //$("#GoodsSlaiderHome1").addClass('hide_');
+                    $(".filterslider_home div.owl-carousel").addClass('hide_');
+                    idSlider.removeClass('hide_');
+                },
+                success: function(data){
 
-            // $.ajax({
-            //     url: '/index.php?route=product/search&taghome='+name, //Путь к файлу, который нужно подгрузить https://aveldent.ru/index.php?route=product/search&tag=Эксклюзивное предложение
-            //     type: 'GET',
-            //     beforeSend: function(){
-            //         //$("#GoodsSlaiderHome1").addClass('hide_');
-            //         $(".filterslider_home div.carousel_goods").addClass('hide_');
-            //         idSlider.removeClass('hide_');
-            //     },
-            //     success: function(data){
-            //         $('.container_carousel').append(data); //Подгрузка внутрь блока
-            //     },
-            //     error: function(){
-            //         alert('Error!');
-            //     }
-            // });
+                    if (!$("#"+name_id_slider).length) {
+
+                        $('.container_carousel').append(data); //Подгрузка внутрь блока
+
+                        jQuery(document).ready(function () {
+                            $("#"+name_id_slider).owlCarousel({
+                                items: 5,
+                                autoPlay: false,
+                                lazyLoad: true,
+                                navigation: true,
+                                margin:10,
+                                nav:true,
+                                dots: false,
+                                navigationText: ['‹', '›']
+                            });
+                        });
+
+                    }
+
+                },
+                error: function(){
+                    alert('Error!');
+                }
+            });
 
 
 

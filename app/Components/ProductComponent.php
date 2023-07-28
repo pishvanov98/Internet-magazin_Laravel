@@ -23,6 +23,37 @@ class ProductComponent
         return $products;
 
     }
+    public function ExclusiveSlaider($value_search){//получение последних 20 товаров
+
+        $mass_prod_id=[];
+        $query=DB::connection('mysql2')->table('sd_product')->select('sd_product.product_id')
+            ->where('sd_product.quantity','>',0)
+            ->where('sd_product.price','>',0);
+
+        if (is_array($value_search)){
+            foreach ($value_search as $val){
+                $query->orWhere('sd_product_description.tag', 'LIKE', '%'.$val.'%');
+            }
+        }else{
+            $query->where('sd_product_description.tag','LIKE','%'.$value_search.'%');
+        }
+
+        $query->join('sd_product_description','sd_product.product_id','=','sd_product_description.product_id')
+            ->latest('sd_product.product_id')
+            ->limit(20)
+            ->get();
+
+        $products_id=$query->get();
+
+        $products_id->each(function ($item) use(&$mass_prod_id){
+            $mass_prod_id[]=$item->product_id;
+        });
+
+        $products= $this->ProductInit($mass_prod_id);
+
+        return $products;
+
+    }
 
 
     public function ProductInit($mass_prod_id){//получение информации по товару

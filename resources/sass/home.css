@@ -92,7 +92,7 @@
 }
 #GoodsSlaiderHome1 .card .card-img-top{
     margin: auto;
-
+    width: 258px;
 }
 #GoodsSlaiderHome1 .card-title{
     overflow: hidden;
@@ -105,4 +105,8 @@
 .card{
     background-color:#fff !important;
     margin: auto;
+    padding: 15px 0 0px 0;
+}
+.container_carousel .hide_{
+    display: none !important;
 }
