@@ -73,9 +73,9 @@ class HomeController extends Controller
     $data=$request->all();
         if(!empty($data['name'])){
             $value_search=$data['name'];
-//            if($value_search ="actiya"){
-//                $value_search=['6+1','3+1','1+1=3','Подарок за покупку', '10+2', 'акция', 'специальная цена', '5+1', '3+1', 'asepta1', 'asepta2', 'asepta3', '2+1', 'asepta'];
-//            }
+            if($value_search == "actiya"){
+                $value_search=['6+1','3+1','1+1=3','Подарок за покупку', '10+2', 'акция', 'специальная цена', '5+1', '3+1', 'asepta1', 'asepta2', 'asepta3', '2+1', 'asepta'];
+            }
         }else{
             return '';
         }
@@ -94,7 +94,7 @@ class HomeController extends Controller
 
         $idSlider=$data['idSlider'];
 
-        $out='<div id="'.$idSlider.'" class="owl-carousel owl-theme ">'; //формирую на отдачу в хтмл код с товарами
+        $out='<div id="'.$idSlider.'" class="owl-carousel owl-theme slaider_prod">'; //формирую на отдачу в хтмл код с товарами
 
         foreach ($AjaxProduct as $product){
          $out .='<div class="card" style="width: 290px;min-height: 400px;">';

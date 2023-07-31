@@ -31,8 +31,12 @@ class ProductComponent
             ->where('sd_product.price','>',0);
 
         if (is_array($value_search)){
-            foreach ($value_search as $val){
-                $query->orWhere('sd_product_description.tag', 'LIKE', '%'.$val.'%');
+            foreach ($value_search as  $key=> $val){
+                if($key == 0){
+                    $query->Where('sd_product_description.tag', 'LIKE', '%'.$val.'%');
+                }else{
+                    $query->orWhere('sd_product_description.tag', 'LIKE', '%'.$val.'%');
+                }
             }
         }else{
             $query->where('sd_product_description.tag','LIKE','%'.$value_search.'%');
@@ -40,8 +44,7 @@ class ProductComponent
 
         $query->join('sd_product_description','sd_product.product_id','=','sd_product_description.product_id')
             ->latest('sd_product.product_id')
-            ->limit(20)
-            ->get();
+            ->limit(20);
 
         $products_id=$query->get();
 

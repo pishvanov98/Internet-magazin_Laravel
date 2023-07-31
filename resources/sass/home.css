@@ -27,7 +27,7 @@
 .container_carousel .hide_ {
     display: none!important;
 }
-#GoodsSlaiderHome1 .owl-next {
+.slaider_prod .owl-next {
     position: absolute;
     top: min(182px,40%);
     width: 40px;
@@ -48,7 +48,7 @@
     left: auto;
     right: 15px;
 }
-#GoodsSlaiderHome1 .owl-prev {
+.slaider_prod .owl-prev {
     position: absolute;
     top: min(182px,40%);
     left: 15px;
@@ -68,33 +68,33 @@
     opacity: .5;
     filter: alpha(opacity=50);
 }
-.owl-theme#GoodsSlaiderHome1 .owl-nav button.owl-next {
+.owl-theme.slaider_prod .owl-nav button.owl-next {
     display: none;
     cursor: pointer;
 }
-.owl-theme#GoodsSlaiderHome1:hover .owl-nav button.owl-next {
+.owl-theme.slaider_prod:hover .owl-nav button.owl-next {
     display: block !important;
 }
-.owl-theme#GoodsSlaiderHome1 .owl-nav button.owl-prev {
+.owl-theme.slaider_prod .owl-nav button.owl-prev {
     display: none;
     cursor: pointer;
 }
-.owl-theme#GoodsSlaiderHome1:hover .owl-nav button.owl-prev {
+.owl-theme.slaider_prod:hover .owl-nav button.owl-prev {
     display: block !important;
 }
-.owl-theme#GoodsSlaiderHome1:hover .owl-nav button.owl-prev span{
+.owl-theme.slaider_prod:hover .owl-nav button.owl-prev span{
     display: block;
     margin-top: -6px;
 }
-.owl-theme#GoodsSlaiderHome1:hover .owl-nav button.owl-next span{
+.owl-theme.slaider_prod:hover .owl-nav button.owl-next span{
     display: block;
     margin-top: -6px;
 }
-#GoodsSlaiderHome1 .card .card-img-top{
+.slaider_prod .card .card-img-top{
     margin: auto;
     width: 258px;
 }
-#GoodsSlaiderHome1 .card-title{
+.slaider_prod .card-title{
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;

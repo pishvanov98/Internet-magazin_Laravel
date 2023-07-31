@@ -26,7 +26,7 @@
             <!--<li class="action_prod_home"><a href="/promo?product"> Товар дня </a></li>-->
         </ul>
         <div class="container_carousel">
-            <div id="GoodsSlaiderHome1" class="owl-carousel owl-theme ">
+            <div id="GoodsSlaiderHome1" class="owl-carousel owl-theme slaider_prod">
                 <?php
                     foreach ($NewGoodsSlaider as $product) {  ?>
                     <div class="card" style="width: 290px;min-height: 400px;">
