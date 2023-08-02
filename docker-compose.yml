@@ -57,10 +57,12 @@ services:
     elasticsearch:
         image: elasticsearch:8.8.1
         restart: always
+        container_name: sitelight-es01
         environment:
             - discovery.type=single-node
-            - xpack.security.enabled=true
-            - ELASTIC_PASSWORD=anti331
+            - xpack.security.enabled=false
+#            - xpack.security.enabled=true
+#            - ELASTIC_PASSWORD=anti331
         ports:
             - 9200:9200
             - 9300:9300
