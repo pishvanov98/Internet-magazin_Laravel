@@ -1,6 +1,7 @@
 <?php
 namespace App\Components;
 use Elastic\Elasticsearch\ClientBuilder;
+use Illuminate\Support\Facades\DB;
 
 class SearchComponent
 {
@@ -43,10 +44,16 @@ public function Mapping(){
                             'enabled' => true
                         ],
                         'properties' => [
-                            'code' => [
+                            'id' => [
                                 'type' => 'integer'
                             ],
                             'name' => [
+                                'type' => 'string'
+                            ],
+                            'description' => [
+                                'type' => 'string'
+                            ],
+                            'tag' => [
                                 'type' => 'string'
                             ],
                         ]
@@ -60,7 +67,7 @@ public function Mapping(){
 
 }
 
-public function Search(){
+public function SearchProduct(){
     $client = $this->elasticclient;
     $result = array();
 
@@ -70,31 +77,50 @@ public function Search(){
 
         'body'  => [
             'query' => [
-                'query_string' => [
-                    'query'=>'*трав*'
-                ],
+                "query_string"=> [
+                    "query"=> 'перча*',
+                    "fields"=> [
+                        "name^10",
+                        "description^5",
+                        "tag^3"
+                    ]
+                ]
             ],
         ],
     ];
 
         $response = $client->search($params);
 
-        printf("Total docs: %d\n", $response['hits']['total']['value']);
+//        printf("Total docs: %d\n", $response['hits']['total']['value']);
 //        printf("Max score : %.4f\n", $response['hits']['max_score']);
-        printf("Took      : %d ms\n", $response['took']);
+//        printf("Took      : %d ms\n", $response['took']);
 
         print_r($response['hits']['hits']); // documents
 }
 
-public function InsertData(){
+public function InsertDataProduct(){
     $this->Mapping();
     $client = $this->elasticclient;
 //    $stmt = "SELECT * FROM `table_name` limit 1";
 //    $result = $this->con->query($stmt);
+    $result=[];
+    $products=DB::connection('mysql2')->table('sd_product_description')->select('product_id','name','description','tag')->get();
 
-    $result = [
-            ['id' => 1, 'name' => 'На дворе трава'],
-            ['id' => 3, 'name' => 'На траве дрова'], ];
+    $products->each(function ($item) use(&$result){
+        if(!empty($item->tag)){
+            $explode_tag=explode(',',$item->tag);
+        }else{
+            $explode_tag='';
+        }
+        $result[]=['id'=>$item->product_id,'name'=>$item->name,'description'=>strip_tags($item->description),'tag'=>$explode_tag];
+    });
+
+
+//    $result = [
+//            ['id' => 1, 'name' => '2162 Матрицы Стальные, 0.03, высота 6.3мм  (50шт) КЕRR', 'description' => 'Идеальное решение для макрореставраций.', 'tag' => 'Эндодонтия, Товар дня (для отчета), 2022-12-7'],
+//            ['id' => 2, 'name' => '2162 Матрицы Стальные, 0.03, высота 6.3мм  (50шт) КЕRR', 'description' => 'Идеальное решение для макрореставраций.', 'tag' => 'Эндодонтия, Товар дня (для отчета), 2022-12-7'],
+//            ['id' => 3, 'name' => '2162 Матрицы Стальные, 0.03, высота 6.3мм  (50шт) КЕRR', 'description' => 'Идеальное решение для макрореставраций.', 'tag' => 'Эндодонтия, Товар дня (для отчета), 2022-12-7'],
+//             ];
 
     $params = ['body' => []];
     foreach($result as $row){
@@ -107,8 +133,10 @@ public function InsertData(){
         ];
 
         $params['body'][] = [
-            'code'     => $row['id'],
-            'name' => $row['name']
+            'id'     => $row['id'],
+            'name' => $row['name'],
+            'description' => $row['description'],
+            'tag' => $row['tag'],
         ];
 
     }
@@ -125,5 +153,44 @@ public function InsertData(){
     //echo "<pre>"; print_r($responses); die;
     return true;
 }
+
+
+    public function GetSearchProduct($name){
+        $client = $this->elasticclient;
+        $result = array();
+//multi_match
+////query_string
+        $params = [
+            'index' => 'products',
+            'type'  => '_doc',
+
+            'body'  => [
+                'query' => [
+                    "multi_match"=> [
+                        "query"=> $name,
+                        "fields"=> [
+                            "name^10",
+                            "description^5",
+                            "tag^3"
+                        ]
+                    ]
+                ],
+            ],
+        ];
+
+        $response = $client->search($params);
+
+        $resuil=[];
+        foreach ($response['hits']['hits'] as $hits){
+            $resuil[]=['product_id'=>$hits['_source']['id'],'name'=>$hits['_source']['name']];
+        }
+        return $resuil;
+
+//        printf("Total docs: %d\n", $response['hits']['total']['value']);
+//        printf("Max score : %.4f\n", $response['hits']['max_score']);
+//        printf("Took      : %d ms\n", $response['took']);
+
+//        print_r($response['hits']['hits']); // documents
+    }
 
 }

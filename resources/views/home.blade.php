@@ -50,6 +50,7 @@
 </div>
 
 @push('script')
+
     <script type="module">
 
         $(document).ready(function(){

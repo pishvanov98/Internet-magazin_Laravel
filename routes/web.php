@@ -28,3 +28,5 @@ Route::post('/admin/slider/{id_slider}/image/{id}',[\App\Http\Controllers\Admin\
 Route::get('/admin/slider/edit/{id}',[\App\Http\Controllers\Admin\SliderController::class, 'edit'])->name('admin.slider.edit');
 Route::put('/admin/slider/{id}',[\App\Http\Controllers\Admin\SliderController::class, 'update'])->name('admin.slider.update');
 Route::delete('/admin/slider/{id}',[\App\Http\Controllers\Admin\SliderController::class, 'destroy'])->name('admin.slider.destroy');
+
+Route::get('/query/{name}', [\App\Http\Controllers\SearchController::class,'find'])->name('query');

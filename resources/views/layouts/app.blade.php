@@ -16,6 +16,7 @@
     <!-- Scripts -->
     <script src="{{asset('js/jquery-3.4.1.min.js')}}"></script>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <script src="{{asset('js/typeahead.bundle.min.js')}}"></script>
 </head>
 <body>
 <div id="app">
@@ -177,6 +178,42 @@
     </main>
 </div>
 </body>
+<script type="module">
+
+    jQuery(document).ready(function($) {
+
+        // Set the Options for "Bloodhound" suggestion engine
+        var bloodhound = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.whitespace,
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            remote: {
+                url: '{{route('query','%QUERY%')}}',
+                wildcard: '%QUERY%'
+            },
+        });
+
+        $('#search input').typeahead({
+            hint: true,
+            highlight: true,
+            minLength: 1
+        }, {
+            name: 'users',
+            source: bloodhound,
+            display: function(data) {
+                return data.name  //Input value to be set when you select a suggestion.
+            },
+            templates: {
+                empty: [
+                    '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
+                ],
+                suggestion: function (data) {
+                    return '<a href="' + data.product_id + '" class="list-group-item">' + data.name + '</a>'
+                }
+            }
+        });
+    });
+
+</script>
 
 <script>
      function openCategory(){
