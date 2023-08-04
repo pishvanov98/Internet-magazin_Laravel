@@ -194,8 +194,9 @@
 
         $('#search input').typeahead({
             hint: true,
-            highlight: true,
-            minLength: 1
+            highlight: false,
+            minLength: 4,
+
         }, {
             name: 'users',
             source: bloodhound,
@@ -203,13 +204,19 @@
                 return data.name  //Input value to be set when you select a suggestion.
             },
             templates: {
-                empty: [
-                    '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
-                ],
+                // empty: [
+                //     '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
+                // ],
                 suggestion: function (data) {
-                    return '<a href="' + data.product_id + '" class="list-group-item">' + data.name + '</a>'
+
+                    if (data.id_category){
+                        return '<a href="' + data.id_category + '" class="list-group-item">' + data.name_category + '</a>'
+                    }else{
+                        return '<a href="' + data.product_id + '" class="list-group-item">' + data.name + '</a>'
+                    }
                 }
-            }
+            },
+            limit: 25
         });
     });
 

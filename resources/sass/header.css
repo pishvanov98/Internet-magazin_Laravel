@@ -466,12 +466,25 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 .tt-menu{
     background: #fff;
     box-shadow: #23a1d1 0px 1px 5px 0px, rgb(14 14 14 / 25%) -20px 10px 20px 3px, rgb(14 14 14 / 25%) 20px 10px 20px 3px;
+    width: 600px;
+    overflow: hidden;
+    overflow-y: auto;
+    box-sizing: border-box;
+    height: 408px;
 }
 .list-group-item.tt-suggestion.tt-selectable{
     position: relative;
-    padding: 0 0.6em;
     display: flex;
     justify-content: flex-start;
     color: #333;
-    padding-right: 0;
+    padding: 5px;
+    border-bottom: 1px solid #d5d5d5;
+}
+.tt-menu::-webkit-scrollbar-thumb {
+    background-color: #00AEEF;
+}
+.tt-menu::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background-color: #f2f2f2;
 }

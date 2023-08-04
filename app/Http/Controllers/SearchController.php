@@ -13,18 +13,13 @@ return '2';
     public function find(Request $request)
     {
 
-        if( preg_match("/[А-Яа-я]/", $request->route('name')) ) {
+$category=app('Search')->GetSearchProductCategory(mb_strtolower($request->route('name')));
+$product_name=app('Search')->GetSearchProductName(mb_strtolower($request->route('name')));
 
-            if (strlen($request->route('name')) < 7){
-                return '';
-            }
+$massive=[];
+$massive=array_merge($category,$product_name);
+return $massive;
 
-        }else{
-            if (strlen($request->route('name')) < 4){
-                return '';
-            }
-        }
-        return app('Search')->GetSearchProduct($request->route('name'));
 // return ProductDescription::search($request->route('name'))->select('product_id','name')->get();
     }
 

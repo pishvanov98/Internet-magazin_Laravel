@@ -31,12 +31,11 @@ public function __construct(){
 
 
 
-public function Mapping(){
-    $params = ['index' => 'products'];
+public function MappingProductName(){
+    $params = ['index' => 'products_name'];
     $this->deleteIndex($params['index']);
-//    $response = $this->elasticclient->indices()->delete($params);
     $params = [
-        'index' => 'products',
+        'index' => $params['index'],
         'body' => [
                 'mappings' => [
                     '_doc' => [
@@ -50,12 +49,6 @@ public function Mapping(){
                             'name' => [
                                 'type' => 'string'
                             ],
-                            'description' => [
-                                'type' => 'string'
-                            ],
-                            'tag' => [
-                                'type' => 'string'
-                            ],
                         ]
                     ]
                 ]
@@ -67,45 +60,105 @@ public function Mapping(){
 
 }
 
+public function MappingProductCategory(){
+        $params = ['index' => 'products_category'];
+        $this->deleteIndex($params['index']);
+        $params = [
+            'index' => $params['index'],
+            'body' => [
+                'mappings' => [
+                    '_doc' => [
+                        '_source' => [
+                            'enabled' => true
+                        ],
+                        'properties' => [
+                            'id_prod' => [
+                                'type' => 'integer'
+                            ],
+                            'id_category' => [
+                                'type' => 'integer'
+                            ],
+                            'name_category' => [
+                                'type' => 'string'
+                            ],
+                            'main_category' => [
+                                'type' => 'integer'
+                            ],
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        //echo "<pre>"; print_r($params); //die;
+        $this->elasticclient->index($params);
+
+    }
+
 public function SearchProduct(){
     $client = $this->elasticclient;
     $result = array();
 
+
+
+//    $params = [
+//        'index' => 'products_name',
+//        'type'  => '_doc',
+//
+//        'body'  => [
+//            'query' => [
+//                "bool" => [
+//                    "must" => [ ],
+//                    "should" => [
+//                        [
+//                            "multi_match"=> [
+//                                "query"=> "перчатки",
+//                                "fields"=> [
+//                                    "name^10",
+//                                ],
+//                                "boost"=> 4
+//                            ]
+//                        ],
+//                        [
+//                            "wildcard"=> [
+//                                "name"=>[
+//                                    "value"=>"перчатки*",
+//                                    "boost"=> 2,
+//                                    "rewrite"=>"constant_score",
+//                                ]
+//                            ],
+//                        ],
+//                        [
+//                            "wildcard"=> [
+//                                "name"=>[
+//                                    "value"=>"*перчатки*",
+//                                    "boost"=> 1,
+//                                    "rewrite"=>"constant_score",
+//                                ]
+//                            ],
+//                        ],
+//                    ],
+//                    "minimum_should_match" => 1
+//
+//
+//                ],
+//            ],
+//            "size"=>30,
+//        ],
+//    ];
+
     $params = [
-        'index' => 'products',
+        'index' => 'products_category',
         'type'  => '_doc',
 
         'body'  => [
             'query' => [
-                "bool" => [
-                    "must" => [ ],
-                    "should" => [
-                        [
-                            "multi_match"=> [
-                                "query"=> 'перчатк',
-                                "fields"=> [
-                                    "name^10",
-                                    "description^5",
-                                    "tag^3"
-                                ]
-                            ]
-                        ],
-                        [
-                            "query_string"=> [
-                                "default_field"=> "name",
-                                "query"=> "перчатк*"
-                            ]
-                        ],
-//                    [ "match" => [ "tag" => "перчатки" ] ],
-                    ],
-                    "minimum_should_match" => 1
-
-
-                ],
+                "match"=> [
+                    "name_category"=> 'инструменты',
+                ]
             ],
-            "size"=>15,
-
         ],
+        "size"=>1,
     ];
 
         $response = $client->search($params);
@@ -117,36 +170,28 @@ public function SearchProduct(){
         print_r($response['hits']['hits']); // documents
 }
 
+
 public function InsertDataProduct(){
-    $this->Mapping();
+    $this->MappingProductName();
     $client = $this->elasticclient;
 //    $stmt = "SELECT * FROM `table_name` limit 1";
 //    $result = $this->con->query($stmt);
     $result=[];
-    $products=DB::connection('mysql2')->table('sd_product_description')->select('product_id','name','description','tag')->get();
+    $products=DB::connection('mysql2')->table('sd_product_description')->select('product_id','name')->get();
 
     $products->each(function ($item) use(&$result){
-        if(!empty($item->tag)){
-            $explode_tag=explode(',',$item->tag);
-        }else{
-            $explode_tag='';
-        }
-        $result[]=['id'=>$item->product_id,'name'=>$item->name,'description'=>strip_tags($item->description),'tag'=>$explode_tag];
+
+        $result[]=['id'=>$item->product_id,'name'=>$item->name];
     });
 
 
-//    $result = [
-//            ['id' => 1, 'name' => '2162 Матрицы Стальные, 0.03, высота 6.3мм  (50шт) КЕRR', 'description' => 'Идеальное решение для макрореставраций.', 'tag' => 'Эндодонтия, Товар дня (для отчета), 2022-12-7'],
-//            ['id' => 2, 'name' => '2162 Матрицы Стальные, 0.03, высота 6.3мм  (50шт) КЕRR', 'description' => 'Идеальное решение для макрореставраций.', 'tag' => 'Эндодонтия, Товар дня (для отчета), 2022-12-7'],
-//            ['id' => 3, 'name' => '2162 Матрицы Стальные, 0.03, высота 6.3мм  (50шт) КЕRR', 'description' => 'Идеальное решение для макрореставраций.', 'tag' => 'Эндодонтия, Товар дня (для отчета), 2022-12-7'],
-//             ];
 
     $params = ['body' => []];
     foreach($result as $row){
 
         $params['body'][] = [
             'index' => [
-                '_index' => 'products',
+                '_index' => 'products_name',
                 '_id'    => $row['id']
             ]
         ];
@@ -154,15 +199,9 @@ public function InsertDataProduct(){
         $params['body'][] = [
             'id'     => $row['id'],
             'name' => $row['name'],
-            'description' => $row['description'],
-            'tag' => $row['tag'],
         ];
 
     }
-
-
-
-
 
 // Send the last batch if it exists
     if (!empty($params['body'])) {
@@ -173,14 +212,58 @@ public function InsertDataProduct(){
     return true;
 }
 
+public function InsertDataProductCategory(){
+        $this->MappingProductCategory();
+        $client = $this->elasticclient;
+//    $stmt = "SELECT * FROM `table_name` limit 1";
+//    $result = $this->con->query($stmt);
+        $result=[];
+        $productsCategory=DB::connection('mysql2')->table('sd_product_to_category')->select('.sd_product_to_category.product_id','sd_product_to_category.category_id','sd_product_to_category.main_category','sd_category_description.name')
+            ->join('sd_category_description', 'sd_category_description.category_id', '=', 'sd_product_to_category.category_id')
+            ->join('sd_category','sd_category.category_id','=','sd_product_to_category.category_id')
+            ->where('sd_category.status','=','1')
+            ->get();
 
-    public function GetSearchProduct($name){
+    $productsCategory->each(function ($item) use(&$result){
+            $result[]=['id_prod'=>$item->product_id,'id_category'=>$item->category_id,'name_category'=>$item->name,'main_category'=>$item->main_category];
+        });
+
+
+        $params = ['body' => []];
+        foreach($result as $row){
+
+            $params['body'][] = [
+                'index' => [
+                    '_index' => 'products_category',
+                    '_id'    => $row['id_prod'].$row['id_category']
+                ]
+            ];
+
+            $params['body'][] = [
+                'id_prod'     => $row['id_prod'],
+                'id_category' => $row['id_category'],
+                'name_category' => $row['name_category'],
+                'main_category' => $row['main_category'],
+            ];
+
+        }
+
+// Send the last batch if it exists
+        if (!empty($params['body'])) {
+            $responses = $client->bulk($params);
+        }
+
+        //echo "<pre>"; print_r($responses); die;
+        return true;
+}
+
+
+public function GetSearchProductName($name){
         $client = $this->elasticclient;
         $result = array();
-//multi_match
-////query_string
+
         $params = [
-            'index' => 'products',
+            'index' => 'products_name',
             'type'  => '_doc',
 
             'body'  => [
@@ -193,28 +276,39 @@ public function InsertDataProduct(){
                                     "query"=> $name,
                                     "fields"=> [
                                         "name^10",
-                                        "description^5",
-                                        "tag^3"
                                     ],
+                                    "boost"=> 4
                                 ]
                             ],
                             [
-                                "query_string"=> [
-                                    "default_field"=> "name",
-                                    "query"=> $name."*",
-                                ]
+                                "wildcard"=> [
+                                    "name"=>[
+                                        "value"=>$name."*",
+                                        "boost"=> 2,
+                                        "rewrite"=>"constant_score",
+                                    ]
+                                ],
                             ],
-//                    [ "match" => [ "tag" => "перчатки" ] ],
+                            [
+                                "wildcard"=> [
+                                    "name"=>[
+                                        "value"=>"*".$name."*",
+                                        "boost"=> 1,
+                                        "rewrite"=>"constant_score",
+                                    ]
+                                ],
+                            ],
                         ],
                         "minimum_should_match" => 1
 
 
                     ],
                 ],
-                "size"=>15,
-
+                "size"=>30,
             ],
         ];
+
+
 
 
         $response = $client->search($params);
@@ -231,5 +325,41 @@ public function InsertDataProduct(){
 
 //        print_r($response['hits']['hits']); // documents
     }
+
+public function GetSearchProductCategory($name){
+        $client = $this->elasticclient;
+        $result = array();
+
+    $params = [
+        'index' => 'products_category',
+        'type'  => '_doc',
+
+        'body'  => [
+            'query' => [
+                "match"=> [
+                    "name_category"=> $name,
+                ]
+            ],
+        ],
+        "size"=>1,
+    ];
+
+
+
+
+        $response = $client->search($params);
+
+        $resuil=[];
+        foreach ($response['hits']['hits'] as $hits){
+            $resuil[]=['id_category'=>$hits['_source']['id_category'],'name_category'=>$hits['_source']['name_category'],'main_category'=>$hits['_source']['main_category']];
+        }
+        return $resuil;
+
+//        printf("Total docs: %d\n", $response['hits']['total']['value']);
+//        printf("Max score : %.4f\n", $response['hits']['max_score']);
+//        printf("Took      : %d ms\n", $response['took']);
+
+//        print_r($response['hits']['hits']); // documents
+}
 
 }
