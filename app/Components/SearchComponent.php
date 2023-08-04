@@ -77,15 +77,34 @@ public function SearchProduct(){
 
         'body'  => [
             'query' => [
-                "query_string"=> [
-                    "query"=> 'перча*',
-                    "fields"=> [
-                        "name^10",
-                        "description^5",
-                        "tag^3"
-                    ]
-                ]
+                "bool" => [
+                    "must" => [ ],
+                    "should" => [
+                        [
+                            "multi_match"=> [
+                                "query"=> 'перчатк',
+                                "fields"=> [
+                                    "name^10",
+                                    "description^5",
+                                    "tag^3"
+                                ]
+                            ]
+                        ],
+                        [
+                            "query_string"=> [
+                                "default_field"=> "name",
+                                "query"=> "перчатк*"
+                            ]
+                        ],
+//                    [ "match" => [ "tag" => "перчатки" ] ],
+                    ],
+                    "minimum_should_match" => 1
+
+
+                ],
             ],
+            "size"=>15,
+
         ],
     ];
 
@@ -166,17 +185,37 @@ public function InsertDataProduct(){
 
             'body'  => [
                 'query' => [
-                    "multi_match"=> [
-                        "query"=> $name,
-                        "fields"=> [
-                            "name^10",
-                            "description^5",
-                            "tag^3"
-                        ]
-                    ]
+                    "bool" => [
+                        "must" => [ ],
+                        "should" => [
+                            [
+                                "multi_match"=> [
+                                    "query"=> $name,
+                                    "fields"=> [
+                                        "name^10",
+                                        "description^5",
+                                        "tag^3"
+                                    ],
+                                ]
+                            ],
+                            [
+                                "query_string"=> [
+                                    "default_field"=> "name",
+                                    "query"=> $name."*",
+                                ]
+                            ],
+//                    [ "match" => [ "tag" => "перчатки" ] ],
+                        ],
+                        "minimum_should_match" => 1
+
+
+                    ],
                 ],
+                "size"=>15,
+
             ],
         ];
+
 
         $response = $client->search($params);
 
