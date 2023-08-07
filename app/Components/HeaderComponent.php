@@ -2,6 +2,8 @@
 
 namespace App\Components;
 
+use App\Models\CategoryDescription;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Facades\DB;
 
 class HeaderComponent
@@ -17,7 +19,7 @@ class HeaderComponent
 
 
             $category = DB::connection('mysql2')->table('sd_category')
-                ->select('sd_category.category_id', 'sd_category.parent_id', 'sd_category_description.name')
+                ->select('sd_category.category_id', 'sd_category.parent_id', 'sd_category_description.name', 'sd_category_description.slug')
                 ->join('sd_category_description','sd_category.category_id','=','sd_category_description.category_id')
                 ->where('sd_category.status', '=', '1')
                 ->where('sd_category.top', '=', '1')
@@ -30,7 +32,13 @@ class HeaderComponent
                 $parent=$data['parent_id'];
                 if(empty($parent)) {//проверка на главную категорию
                     $category_mass[$data['category_id']] = $data;
-                    $category_mass[$data['category_id']]['href'] = url('/category/' . $data['category_id']);
+
+                    if(empty($data->slug)){
+                        $slug=  $this->SlugCategory($data['category_id']);
+                        $category_mass[$data['category_id']]['href'] = url('/category/' . $slug);
+                    }else{
+                        $category_mass[$data['category_id']]['href'] = url('/category/' . $data->slug);
+                    }
                 }
 
             }
@@ -40,7 +48,13 @@ class HeaderComponent
                 if(!empty($parent)) {//проверка на дочерние элементы
                     if(!empty($category_mass[$parent])){
                         $category_mass[$parent]['children'][$data['category_id']]=$data;
-                        $category_mass[$parent]['children'][$data['category_id']]['href']=url('/category/' . $data['category_id']);
+
+                        if(empty($data->slug)){
+                            $slug=  $this->SlugCategory($data['category_id']);
+                            $category_mass[$parent]['children'][$data['category_id']]['href'] = url('/category/' . $slug);
+                        }else{
+                            $category_mass[$parent]['children'][$data['category_id']]['href']=url('/category/' . $data->slug);
+                        }
                     }
                 }
 
@@ -54,7 +68,13 @@ class HeaderComponent
 
                     if(!empty($val['children'][$parent])){
                         $category_mass[$key2]['children'][$parent]['children_children'][$data['category_id']]=$data;
-                        $category_mass[$key2]['children'][$parent]['children_children'][$data['category_id']]['href']=url('/category/' . $data['category_id']);;
+
+                        if(empty($data->slug)){
+                            $slug=  $this->SlugCategory($data['category_id']);
+                            $category_mass[$key2]['children'][$parent]['children_children'][$data['category_id']]['href'] = url('/category/' . $slug);
+                        }else{
+                            $category_mass[$key2]['children'][$parent]['children_children'][$data['category_id']]['href']=url('/category/' . $data->slug);
+                        }
                     }
                 }
             }
@@ -85,5 +105,17 @@ class HeaderComponent
         });
 
     }
+
+    public function SlugCategory($id){
+
+            //чпу
+            $category_description=CategoryDescription::findOrFail($id);
+            $slug = SlugService::createSlug(CategoryDescription::class, 'slug', $category_description->name);//чпу slug
+            $category_description->slug=$slug;
+            $category_description->save();
+            return $slug;
+
+    }
+
 
 }

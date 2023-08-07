@@ -177,7 +177,11 @@ public function InsertDataProduct(){
 //    $stmt = "SELECT * FROM `table_name` limit 1";
 //    $result = $this->con->query($stmt);
     $result=[];
-    $products=DB::connection('mysql2')->table('sd_product_description')->select('product_id','name')->get();
+    $products=DB::connection('mysql2')->table('sd_product_description')->select('sd_product_description.product_id','sd_product_description.name')
+        ->join('sd_product','sd_product.product_id','=','sd_product_description.product_id')
+        ->where('sd_product.quantity','>',0)
+        ->where('sd_product.price','>',0)
+        ->get();
 
     $products->each(function ($item) use(&$result){
 
@@ -222,6 +226,7 @@ public function InsertDataProductCategory(){
             ->join('sd_category_description', 'sd_category_description.category_id', '=', 'sd_product_to_category.category_id')
             ->join('sd_category','sd_category.category_id','=','sd_product_to_category.category_id')
             ->where('sd_category.status','=','1')
+            ->where('sd_category.top', '=', '1')
             ->get();
 
     $productsCategory->each(function ($item) use(&$result){
@@ -315,7 +320,7 @@ public function GetSearchProductName($name){
 
         $resuil=[];
         foreach ($response['hits']['hits'] as $hits){
-            $resuil[]=['product_id'=>$hits['_source']['id'],'name'=>$hits['_source']['name']];
+            $resuil[]=['product_id'=>$hits['_source']['id']];//'name'=>$hits['_source']['name']
         }
         return $resuil;
 
@@ -351,7 +356,7 @@ public function GetSearchProductCategory($name){
 
         $resuil=[];
         foreach ($response['hits']['hits'] as $hits){
-            $resuil[]=['id_category'=>$hits['_source']['id_category'],'name_category'=>$hits['_source']['name_category'],'main_category'=>$hits['_source']['main_category']];
+            $resuil[]=['id_category'=>$hits['_source']['id_category']];//'name_category'=>$hits['_source']['name_category'],'main_category'=>$hits['_source']['main_category']
         }
         return $resuil;
 

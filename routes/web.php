@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/', [\App\Http\Controllers\Home\HomeController::class, 'index']);
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [\App\Http\Controllers\Home\HomeController::class, 'index'])->name('home');
 
 Route::get('/admin',[\App\Http\Controllers\Admin\AdminController::class,'index']);
 Route::get('/admin/slider',[\App\Http\Controllers\Admin\SliderController::class, 'index'])->name('admin.slider');
@@ -29,4 +29,5 @@ Route::get('/admin/slider/edit/{id}',[\App\Http\Controllers\Admin\SliderControll
 Route::put('/admin/slider/{id}',[\App\Http\Controllers\Admin\SliderController::class, 'update'])->name('admin.slider.update');
 Route::delete('/admin/slider/{id}',[\App\Http\Controllers\Admin\SliderController::class, 'destroy'])->name('admin.slider.destroy');
 
-Route::get('/query/{name}', [\App\Http\Controllers\SearchController::class,'find'])->name('query');
+Route::get('/product/{slug}', [App\Http\Controllers\Product\ProductController::class,'show'])->name('product.show');
+Route::get('/category/{slug}', [\App\Http\Controllers\Category\CategoryController::class,'show'])->name('category.show');

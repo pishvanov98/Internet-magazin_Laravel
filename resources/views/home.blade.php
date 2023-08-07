@@ -31,10 +31,10 @@
                     foreach ($NewGoodsSlaider as $product) {  ?>
                     <div class="card" style="width: 290px;min-height: 400px;">
 
-                        @if($product['image']) <img src="{{asset($product['image'])}}"  class="card-img-top" alt=""> @else <img src="{{asset('img/zag_258x258.svg')}}"  class="card-img-top" alt=""> @endif
+                        <a href="product/{{$product['slug']}}">@if($product['image']) <img src="{{asset($product['image'])}}"  class="card-img-top" alt=""> @else <img src="{{asset('img/zag_258x258.svg')}}"  class="card-img-top" alt=""> @endif </a>
 
                         <div class="card-body">
-                            <h6 class="card-title">{{$product['name']}}</h6>
+                            <a class="card-title" href="product/{{$product['slug']}}"><h6>{{$product['name']}}</h6></a>
                             <p class="card-text">Стоимость {{$product['price']}}</p>
                             <a href="#" class="btn btn-primary">Купить</a>
                         </div>

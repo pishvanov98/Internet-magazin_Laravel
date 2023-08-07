@@ -210,9 +210,9 @@
                 suggestion: function (data) {
 
                     if (data.id_category){
-                        return '<a href="' + data.id_category + '" class="list-group-item">' + data.name_category + '</a>'
+                        return '<a href="category/' + data.id_category + '" class="list-group-item">' + data.name_category + '</a>'
                     }else{
-                        return '<a href="' + data.product_id + '" class="list-group-item">' + data.name + '</a>'
+                        return '<a href="product/' + data.slug + '" class="list-group-item">' + data.name + '</a>'
                     }
                 }
             },

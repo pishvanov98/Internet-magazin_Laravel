@@ -101,6 +101,8 @@
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     min-height: 52px;
+    color: #212529;
+    text-decoration: none;
 }
 .card{
     background-color:#fff !important;
@@ -110,3 +112,4 @@
 .container_carousel .hide_{
     display: none !important;
 }
+

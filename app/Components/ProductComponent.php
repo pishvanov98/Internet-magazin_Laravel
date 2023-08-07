@@ -2,6 +2,8 @@
 
 namespace App\Components;
 
+use App\Models\ProductDescription;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Facades\DB;
 
 class ProductComponent
@@ -63,8 +65,9 @@ class ProductComponent
 
         $imageComponent= new ImageComponent();
         $products_mass=[];
+
         $query=DB::connection('mysql2')->table('sd_product')->whereIn('sd_product.product_id',$mass_prod_id)
-            ->select('sd_product.product_id', 'sd_product.price', 'sd_product.model', 'sd_product.mpn', 'sd_product.quantity', 'sd_product.manufacturer_id', 'sd_manufacturer.image AS manufacturer_image', 'sd_manufacturer.name AS manufacturer_name' , 'sd_manufacturer.strana AS manufacturer_region', 'sd_product.image', 'sd_product_description.name', 'sd_product_description.description', 'sd_product_description.seo_title', 'sd_product_description.seo_h1', 'sd_product_description.tag','sd_product_to_category.category_id' )
+            ->select('sd_product.product_id', 'sd_product.price', 'sd_product.model', 'sd_product.mpn', 'sd_product.quantity', 'sd_product.manufacturer_id', 'sd_manufacturer.image AS manufacturer_image', 'sd_manufacturer.name AS manufacturer_name' , 'sd_manufacturer.strana AS manufacturer_region', 'sd_product.image', 'sd_product_description.name', 'sd_product_description.description', 'sd_product_description.seo_title', 'sd_product_description.seo_h1', 'sd_product_description.tag', 'sd_product_description.slug','sd_product_to_category.category_id' )
             ->where('sd_product.status','=',1)
             ->where('sd_product_to_category.main_category','=',1)
             ->where('sd_product_to_category.category_id','!=',568)//убрал подарки
@@ -119,6 +122,16 @@ class ProductComponent
                 $imageComponent->checkImg($products_mass[$data['product_id']]['manufacturer_image'],$image_name,'brand');//проверяю есть ли на сервере эта картинка, если нет то создаю
                 $products_mass[$data['product_id']]['manufacturer_image']='/image/brand'.$image_name;
             }
+
+
+            if(empty($products_mass[$data['product_id']]['slug'])){//чпу
+                $product_description=ProductDescription::findOrFail($products_mass[$data['product_id']]['product_id']);
+                $slug = SlugService::createSlug(ProductDescription::class, 'slug', $product_description->name);//чпу slug
+                $product_description->slug=$slug;
+                $product_description->save();
+                $products_mass[$data['product_id']]['slug']=$slug;
+            }
+
         });
         return($products_mass);
     }
