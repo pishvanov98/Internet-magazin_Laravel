@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function show($slug)
+    public function show(Request $request)
     {
-        $category = CategoryDescription::where('slug', $slug)->firstOrFail();
+        $category = CategoryDescription::where('slug', $request->route('slug'))->firstOrFail();
         dd($category);
     }
 }

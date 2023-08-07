@@ -33,11 +33,11 @@ class HeaderComponent
                 if(empty($parent)) {//проверка на главную категорию
                     $category_mass[$data['category_id']] = $data;
 
-                    if(empty($data->slug)){
+                    if(empty($data['slug'])){
                         $slug=  $this->SlugCategory($data['category_id']);
                         $category_mass[$data['category_id']]['href'] = url('/category/' . $slug);
                     }else{
-                        $category_mass[$data['category_id']]['href'] = url('/category/' . $data->slug);
+                        $category_mass[$data['category_id']]['href'] = url('/category/' . $data['slug']);
                     }
                 }
 
@@ -49,11 +49,11 @@ class HeaderComponent
                     if(!empty($category_mass[$parent])){
                         $category_mass[$parent]['children'][$data['category_id']]=$data;
 
-                        if(empty($data->slug)){
+                        if(empty($data['slug'])){
                             $slug=  $this->SlugCategory($data['category_id']);
                             $category_mass[$parent]['children'][$data['category_id']]['href'] = url('/category/' . $slug);
                         }else{
-                            $category_mass[$parent]['children'][$data['category_id']]['href']=url('/category/' . $data->slug);
+                            $category_mass[$parent]['children'][$data['category_id']]['href']=url('/category/' . $data['slug']);
                         }
                     }
                 }
@@ -69,11 +69,11 @@ class HeaderComponent
                     if(!empty($val['children'][$parent])){
                         $category_mass[$key2]['children'][$parent]['children_children'][$data['category_id']]=$data;
 
-                        if(empty($data->slug)){
+                        if(empty($data['slug'])){
                             $slug=  $this->SlugCategory($data['category_id']);
                             $category_mass[$key2]['children'][$parent]['children_children'][$data['category_id']]['href'] = url('/category/' . $slug);
                         }else{
-                            $category_mass[$key2]['children'][$parent]['children_children'][$data['category_id']]['href']=url('/category/' . $data->slug);
+                            $category_mass[$key2]['children'][$parent]['children_children'][$data['category_id']]['href']=url('/category/' . $data['slug']);
                         }
                     }
                 }

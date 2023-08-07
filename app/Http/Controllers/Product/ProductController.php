@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function show($slug)
+    public function show(Request $request)
     {
         // $post = Post::where('id', $id)->where('published', 1)->firstOrFail();
-        $product = ProductDescription::where('slug', $slug)->firstOrFail();
+        $product = ProductDescription::where('slug', $request->route('slug'))->firstOrFail();
         dd($product);
     }
 }
