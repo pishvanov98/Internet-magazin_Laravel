@@ -1,0 +1,9 @@
+.block_category{
+    display: grid;
+    grid-template-columns: 15% 85%;
+}
+.wrapper_goods{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}

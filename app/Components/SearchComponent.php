@@ -367,4 +367,37 @@ public function GetSearchProductCategory($name){
 //        print_r($response['hits']['hits']); // documents
 }
 
+
+    public function GetSearchAllProductToCategory($id){
+        $client = $this->elasticclient;
+        $result = array();
+
+        $params = [
+            'index' => 'products_category',
+            'type'  => '_doc',
+
+            'body'  => [
+                'query' => [
+                    "match"=> [
+                        "id_category"=> $id,
+                    ],
+                ],
+            ],
+            "size"=>10000,
+        ];
+
+
+
+
+        $response = $client->search($params);
+
+        $resuil=[];
+        foreach ($response['hits']['hits'] as $hits){
+            $resuil[]=['id_product'=>$hits['_source']['id_prod']];//'name_category'=>$hits['_source']['name_category'],'main_category'=>$hits['_source']['main_category']
+        }
+        return $resuil;
+
+    }
+
+
 }

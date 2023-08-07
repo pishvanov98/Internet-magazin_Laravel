@@ -1,5 +1,7 @@
 <?php
 namespace App\Components;
+use Intervention\Image\Facades\Image;
+
 Class ImageComponent
 {
     public function checkImg($url,$image_name,$direction){
@@ -19,4 +21,16 @@ Class ImageComponent
         curl_close($ch);
         return $result;
     }
+
+
+    public function resizeImg($url,$directory,$image_name,$width,$height){
+
+        if (!file_exists( public_path('/image/'.$directory.'/resize').$image_name)){
+            $thumbnail = Image::make(public_path($url));
+            $thumbnail->resize($width,$height);
+            $thumbnail->save(public_path('/image/product/resize').$image_name);
+        }
+
+    }
+
 }

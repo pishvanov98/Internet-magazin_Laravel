@@ -15,6 +15,7 @@ class SearchController extends Controller
         $Products=app('Product')->ProductInit($products_id);
         $Products_out=[];
         foreach ($Products as $key=> $item){
+            $item=(array)$item;
             $Products_out[$key]['name']=$item['name'];
             $Products_out[$key]['slug']=$item['slug'];
         }
@@ -27,9 +28,9 @@ class SearchController extends Controller
                 $slug = SlugService::createSlug(CategoryDescription::class, 'slug', $category->name);//чпу slug
                 $category->slug=$slug;
                 $category->save();
-                $One_category_massive=['slug'=>$slug,'name'=>$category->name];
+                $One_category_massive=['slug_category'=>$slug,'name'=>$category->name];
             }else{
-                $One_category_massive=['slug'=>$category->slug,'name'=>$category->name];
+                $One_category_massive=['slug_category'=>$category->slug,'name'=>$category->name];
             }
 
             array_unshift($Products_out,$One_category_massive);

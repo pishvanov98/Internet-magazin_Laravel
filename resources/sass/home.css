@@ -90,25 +90,6 @@
     display: block;
     margin-top: -6px;
 }
-.slaider_prod .card .card-img-top{
-    margin: auto;
-    width: 258px;
-}
-.slaider_prod .card-title{
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    min-height: 52px;
-    color: #212529;
-    text-decoration: none;
-}
-.card{
-    background-color:#fff !important;
-    margin: auto;
-    padding: 15px 0 0px 0;
-}
 .container_carousel .hide_{
     display: none !important;
 }

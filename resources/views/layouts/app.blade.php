@@ -209,8 +209,8 @@
                 // ],
                 suggestion: function (data) {
 
-                    if (data.id_category){
-                        return '<a href="category/' + data.id_category + '" class="list-group-item">' + data.name_category + '</a>'
+                    if (data.slug_category){
+                        return '<a href="category/' + data.slug_category + '" class="list-group-item">' + data.name + '</a>'
                     }else{
                         return '<a href="product/' + data.slug + '" class="list-group-item">' + data.name + '</a>'
                     }

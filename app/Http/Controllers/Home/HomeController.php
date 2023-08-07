@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Home;
 
 
+use App\Components\ImageComponent;
 use App\Http\Controllers\Controller;
 use App\Models\Img;
 use Illuminate\Http\Request;
@@ -49,30 +50,23 @@ class HomeController extends Controller
         //Новинки
         $NewGoodsSlaider=[];
         $Products=app('Product')->NewGoodsSlaider();
+        $image=new ImageComponent();//ресайз картинок
+        $Products->map(function ($item)use(&$image){
+            if(!empty($item->image)){
+                $image_name=substr($item->image,  strrpos($item->image, '/' ));
+                $image->resizeImg($item->image,'product',$image_name,258,258);
+                $item->image='/image/product/resize'.$image_name;
+                return $item;
+            }
+        });
 
         //ресайз картинок
-        foreach ($Products as $product){
-            if (!empty($product['image'])){
-                $image_name=substr($product['image'],  strrpos($product['image'], '/' ));
-                $this->resizeImg($product['image'],'product',$image_name,258,258);
-                $product['image']='/image/product/resize'.$image_name;
-            }
-            $NewGoodsSlaider[$product['product_id']]=$product;
-        }
 
 
-        return view('home',compact('images_slider','NewGoodsSlaider'));
+        return view('home',compact('images_slider','Products'));
     }
 
-    public function resizeImg($url,$directory,$image_name,$width,$height){
 
-        if (!file_exists( public_path('/image/'.$directory.'/resize').$image_name)){
-            $thumbnail = Image::make(public_path($url));
-            $thumbnail->resize($width,$height);
-            $thumbnail->save(public_path('/image/product/resize').$image_name);
-        }
-
-    }
     public function getAjaxProduct(Request $request){
     $data=$request->all();
         if(!empty($data['name'])){
@@ -87,10 +81,12 @@ class HomeController extends Controller
 
         $AjaxProduct=[];
         //ресайз картинок
+        $image=new ImageComponent();
         foreach ($Products as $product){
+            $product=(array)$product;
             if (!empty($product['image'])){
                 $image_name=substr($product['image'],  strrpos($product['image'], '/' ));
-                $this->resizeImg($product['image'],'product',$image_name,258,258);
+                $image->resizeImg($product['image'],'product',$image_name,258,258);
                 $product['image']='/image/product/resize'.$image_name;
             }
             $AjaxProduct[$product['product_id']]=$product;

@@ -10,11 +10,40 @@
 @import "/resources/sass/owl.theme.default.min.css";
 @import "/resources/sass/header.css";
 @import "/resources/sass/home.css";
+@import "/resources/sass/category.css";
 body{
     background-color: #fff;
 }
 .container{
     max-width: 1620px;
+}
+.card .card-img-top{
+    margin: auto;
+    width: 258px !important;
+}
+.card-title{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    min-height: 52px;
+    color: #212529;
+    text-decoration: none;
+}
+.card .wrapper_img_card{
+    display: flex;
+}
+.card{
+    background-color:#fff !important;
+    margin: 5px;
+    padding: 15px 0 0px 0;
+}
+.pagination_wrapper{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 @media (max-width: 1430px) {
