@@ -4,6 +4,7 @@ namespace App\Components;
 
 use App\Models\ProductDescription;
 use Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class ProductComponent
@@ -25,7 +26,7 @@ class ProductComponent
         return $products;
 
     }
-    public function ExclusiveSlaider($value_search){//получение последних 20 товаров
+    public function ExclusiveSlaider($value_search){//получение последних 22 товаров
 
         $mass_prod_id=[];
         $query=DB::connection('mysql2')->table('sd_product')->select('sd_product.product_id')
@@ -61,91 +62,122 @@ class ProductComponent
     }
 
 
-    public function ProductInit($mass_prod_id,$paginate = false){//получение информации по товару
+    public function ProductInit($mass_prod_id,$paginate = false,$page=false){//получение информации по товару
 
-        $imageComponent= new ImageComponent();
-
-        $query=DB::connection('mysql2')->table('sd_product')->whereIn('sd_product.product_id',$mass_prod_id)
-            ->select('sd_product.product_id', 'sd_product.price', 'sd_product.model', 'sd_product.mpn', 'sd_product.quantity', 'sd_product.manufacturer_id', 'sd_manufacturer.image AS manufacturer_image', 'sd_manufacturer.name AS manufacturer_name' , 'sd_manufacturer.strana AS manufacturer_region', 'sd_product.image', 'sd_product_description.name', 'sd_product_description.description', 'sd_product_description.seo_title', 'sd_product_description.seo_h1', 'sd_product_description.tag', 'sd_product_description.slug','sd_product_to_category.category_id' )
-            ->where('sd_product.status','=',1)
-            ->where('sd_product_to_category.main_category','=',1)
-            ->where('sd_product_to_category.category_id','!=',568)//убрал подарки
-            ->join('sd_product_description','sd_product.product_id','=','sd_product_description.product_id')
-            ->join('sd_product_to_category','sd_product.product_id','=','sd_product_to_category.product_id')
-            ->leftJoin('sd_manufacturer','sd_product.manufacturer_id','=','sd_manufacturer.manufacturer_id');
-
-        if(!empty($paginate)){
-            var_dump($query);
-            $products= $query->Paginate($paginate);
-        }else{
-            $products= $query->get();
+    $products_out=$mass_prod_id;
+//        $products_out->put('TEST','43');
+//        dd($products_out);
+        $max=$paginate;
+        $min=0;
+        if(!empty($page)){
+            $max=$page * $paginate;
+            $min=$max - $paginate;
         }
 
-        $products_discount=DB::connection('mysql2')->table('sd_product_discount')->whereIn('sd_product_discount.product_id',$mass_prod_id)//получил цены в зависимости от группы пользователя
-            ->select('sd_product_discount.product_id', 'sd_product_discount.price', 'sd_product_discount.customer_group_id')
-            ->get();
+        $mass_prod_id=array_slice($mass_prod_id, $min, $paginate,true);//срезаем не нужные id
 
-        $products_attr=DB::connection('mysql2')->table('sd_product_attribute')->whereIn('sd_product_attribute.product_id',$mass_prod_id)//получил атрибуты товара
-        ->select('sd_product_attribute.product_id', 'sd_product_attribute.attribute_id', 'sd_product_attribute.text')
-            ->get();
+        foreach ($mass_prod_id as $key=>$item){//если существует товар в кеше берем его из кеша, если нет то делаем запрос и помещаем в кеш
 
-
-
-
-        $products->map(function ($item) use (&$products, &$products_discount, &$products_attr,&$imageComponent){
-
-            $customer_group_id=0;
-            if($item->mpn == 1){
-                //mpn спец предложение в случае mpn = 1 делаем запрос на получение цены
-                $product_special=DB::connection('mysql2')->table('sd_product_special')->where('sd_product_special.product_id',$item->product_id)//получил спец цену на товар
-                    ->select('sd_product_special.price', 'sd_product_special.customer_group_id', 'sd_product_special.priority')
-                    ->get();
-                $item->special_price=$product_special->all();
-            }
-            $filtered_discount = $products_discount->where('product_id', $item->product_id);
-            if(!empty($filtered_discount)){
-                $item->product_discount=$filtered_discount->all();
-                //если известен customer_group_id то заменяем price на нужный
-
-                if(isset($customer_group_id)){
-                    $price_customer_group=$filtered_discount->where('customer_group_id',$customer_group_id)->first();
-                    $price_customer_group=(array)$price_customer_group;
-                    if(!empty($price_customer_group['price'])){
-                        $item->price=$price_customer_group['price'];
+                    if(Cache::has('product_'.$item)) {
+                        $result = Cache::get('product_' . $item);
+                        $products_out[$key]=$result;
+                        unset($mass_prod_id[$key]);
                     }
+        }
+
+if(!empty($mass_prod_id)){
+
+    $imageComponent= new ImageComponent();
+
+    $query=DB::connection('mysql2')->table('sd_product')->whereIn('sd_product.product_id',$mass_prod_id)
+        ->select('sd_product.product_id', 'sd_product.price', 'sd_product.model', 'sd_product.mpn', 'sd_product.quantity', 'sd_product.manufacturer_id', 'sd_manufacturer.image AS manufacturer_image', 'sd_manufacturer.name AS manufacturer_name' , 'sd_manufacturer.strana AS manufacturer_region', 'sd_product.image', 'sd_product_description.name', 'sd_product_description.description', 'sd_product_description.seo_title', 'sd_product_description.seo_h1', 'sd_product_description.tag', 'sd_product_description.slug','sd_product_to_category.category_id' )
+        ->where('sd_product.status','=',1)
+        ->where('sd_product_to_category.main_category','=',1)
+        ->where('sd_product_to_category.category_id','!=',568)//убрал подарки
+        ->join('sd_product_description','sd_product.product_id','=','sd_product_description.product_id')
+        ->join('sd_product_to_category','sd_product.product_id','=','sd_product_to_category.product_id')
+        ->leftJoin('sd_manufacturer','sd_product.manufacturer_id','=','sd_manufacturer.manufacturer_id');
+
+        $products= $query->get();
+
+
+
+    $products_discount=DB::connection('mysql2')->table('sd_product_discount')->whereIn('sd_product_discount.product_id',$mass_prod_id)//получил цены в зависимости от группы пользователя
+    ->select('sd_product_discount.product_id', 'sd_product_discount.price', 'sd_product_discount.customer_group_id')
+        ->get();
+
+    $products_attr=DB::connection('mysql2')->table('sd_product_attribute')->whereIn('sd_product_attribute.product_id',$mass_prod_id)//получил атрибуты товара
+    ->select('sd_product_attribute.product_id', 'sd_product_attribute.attribute_id', 'sd_product_attribute.text')
+        ->get();
+
+
+
+
+    $products->map(function ($item) use (&$products_out,&$products, &$products_discount, &$products_attr,&$imageComponent){
+
+
+        $customer_group_id=0;
+        if($item->mpn == 1){
+            //mpn спец предложение в случае mpn = 1 делаем запрос на получение цены
+            $product_special=DB::connection('mysql2')->table('sd_product_special')->where('sd_product_special.product_id',$item->product_id)//получил спец цену на товар
+            ->select('sd_product_special.price', 'sd_product_special.customer_group_id', 'sd_product_special.priority')
+                ->get();
+            $item->special_price=$product_special->all();
+        }
+        $filtered_discount = $products_discount->where('product_id', $item->product_id);
+        if(!empty($filtered_discount)){
+            $item->product_discount=$filtered_discount->all();
+            //если известен customer_group_id то заменяем price на нужный
+
+            if(isset($customer_group_id)){
+                $price_customer_group=$filtered_discount->where('customer_group_id',$customer_group_id)->first();
+                $price_customer_group=(array)$price_customer_group;
+                if(!empty($price_customer_group['price'])){
+                    $item->price=$price_customer_group['price'];
                 }
-
-            }
-            $filtered_attr = $products_attr->where('product_id', $item->product_id);
-            if(!empty($filtered_attr)){
-                $item->product_attr=$filtered_attr->all();
             }
 
-            if(!empty($item->image)){
-                $image_name=substr($item->image,  strrpos($item->image, '/' ));
-                $imageComponent->checkImg($item->image,$image_name,'product');//проверяю есть ли на сервере эта картинка, если нет то создаю
-                $item->image='/image/product'.$image_name;
-            }
-            if(!empty($item->manufacturer_image)){
-                $image_name=substr($item->manufacturer_image,  strrpos($item->manufacturer_image, '/' ));
-                $imageComponent->checkImg($item->manufacturer_image,$image_name,'brand');//проверяю есть ли на сервере эта картинка, если нет то создаю
-                $item->manufacturer_image='/image/brand'.$image_name;
-            }
+        }
+        $filtered_attr = $products_attr->where('product_id', $item->product_id);
+        if(!empty($filtered_attr)){
+            $item->product_attr=$filtered_attr->all();
+        }
+
+        if(!empty($item->image)){
+            $image_name=substr($item->image,  strrpos($item->image, '/' ));
+            $imageComponent->checkImg($item->image,$image_name,'product');//проверяю есть ли на сервере эта картинка, если нет то создаю
+            $item->image='/image/product'.$image_name;
+        }
+        if(!empty($item->manufacturer_image)){
+            $image_name=substr($item->manufacturer_image,  strrpos($item->manufacturer_image, '/' ));
+            $imageComponent->checkImg($item->manufacturer_image,$image_name,'brand');//проверяю есть ли на сервере эта картинка, если нет то создаю
+            $item->manufacturer_image='/image/brand'.$image_name;
+        }
 
 
-            if(empty($item->slug)){//чпу
-                $product_description=ProductDescription::findOrFail($item->product_id);
-                $slug = SlugService::createSlug(ProductDescription::class, 'slug', $product_description->name);//чпу slug
-                $product_description->slug=$slug;
-                $product_description->save();
-                $item->slug=$slug;
-            }
-            return $item;
-        });
+        if(empty($item->slug)){//чпу
+            $product_description=ProductDescription::findOrFail($item->product_id);
+            $slug = SlugService::createSlug(ProductDescription::class, 'slug', $product_description->name);//чпу slug
+            $product_description->slug=$slug;
+            $product_description->save();
+            $item->slug=$slug;
+        }
+        Cache::put('product_'.$item->product_id,$item);
 
+        $products_out[$item->product_id]=$item;
 
+        return $item;
+    });
 
-        return($products);
+}
+
+        $products_out=collect($products_out);
+
+if(!empty($paginate)){
+    return($products_out->paginate($paginate));
+}else{
+    return($products_out);
+}
     }
 
 

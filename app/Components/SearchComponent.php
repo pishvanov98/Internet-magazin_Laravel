@@ -225,9 +225,15 @@ public function InsertDataProductCategory(){
         $productsCategory=DB::connection('mysql2')->table('sd_product_to_category')->select('.sd_product_to_category.product_id','sd_product_to_category.category_id','sd_product_to_category.main_category','sd_category_description.name')
             ->join('sd_category_description', 'sd_category_description.category_id', '=', 'sd_product_to_category.category_id')
             ->join('sd_category','sd_category.category_id','=','sd_product_to_category.category_id')
+            ->join('sd_product','sd_product.product_id','=','sd_product_to_category.product_id')
             ->where('sd_category.status','=','1')
             ->where('sd_category.top', '=', '1')
+            ->where('sd_product.status','=','1')
             ->get();
+
+
+
+
 
     $productsCategory->each(function ($item) use(&$result){
             $result[]=['id_prod'=>$item->product_id,'id_category'=>$item->category_id,'name_category'=>$item->name,'main_category'=>$item->main_category];

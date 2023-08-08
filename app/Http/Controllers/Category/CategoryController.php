@@ -17,8 +17,9 @@ class CategoryController extends Controller
         $category = CategoryDescription::where('slug', $request->route('slug'))->firstOrFail();
 
         $products_id_category=app('Search')->GetSearchAllProductToCategory($category->category_id);
-
-        $Products=app('Product')->ProductInit($products_id_category,20);
+        $page=0;
+        $page = $request->get('page');
+        $Products=app('Product')->ProductInit(array_column($products_id_category, 'id_product'),24,$page);
 
         $image=new ImageComponent();//ресайз картинок
         $Products->map(function ($item)use(&$image){

@@ -7,6 +7,7 @@ use App\Components\ImageComponent;
 use App\Http\Controllers\Controller;
 use App\Models\Img;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 use function app;
@@ -117,6 +118,19 @@ class HomeController extends Controller
 
     return $out;
 
+    }
+
+    public function testRedis(){
+
+        $cache=Cache::get('test');
+
+        if($cache){
+            Cache::forget('test');
+        }else{
+            Cache::put('test','текст');
+        }
+
+        return '';
     }
 
 }

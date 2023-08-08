@@ -31,3 +31,6 @@ Route::delete('/admin/slider/{id}',[\App\Http\Controllers\Admin\SliderController
 
 Route::get('/product/{slug}', [App\Http\Controllers\Product\ProductController::class,'show'])->name('product.show');
 Route::get('/category/{slug}', [\App\Http\Controllers\Category\CategoryController::class,'show'])->name('category.show');
+
+
+Route::get('/testRedis', [\App\Http\Controllers\Home\HomeController::class, 'testRedis']);
