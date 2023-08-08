@@ -65,8 +65,7 @@ class ProductComponent
     public function ProductInit($mass_prod_id,$paginate = false,$page=false){//получение информации по товару
 
     $products_out=$mass_prod_id;
-//        $products_out->put('TEST','43');
-//        dd($products_out);
+                                                                             
         $max=$paginate;
         $min=0;
         if(!empty($page)){
@@ -74,7 +73,12 @@ class ProductComponent
             $min=$max - $paginate;
         }
 
-        $mass_prod_id=array_slice($mass_prod_id, $min, $paginate,true);//срезаем не нужные id
+           if(!empty($paginate)){
+            $mass_prod_id=array_slice($mass_prod_id, $min, $paginate,true);//срезаем не нужные id
+           }
+                                                                       
+
+        
 
         foreach ($mass_prod_id as $key=>$item){//если существует товар в кеше берем его из кеша, если нет то делаем запрос и помещаем в кеш
 
