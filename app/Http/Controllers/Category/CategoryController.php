@@ -31,6 +31,8 @@ class CategoryController extends Controller
             }
         });
 
+
+
         $slider=DB::table('sliders')->where('location','Категории')->first();
         $images_slider=[];
         if(!empty($slider)){

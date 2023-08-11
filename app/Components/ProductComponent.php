@@ -65,7 +65,7 @@ class ProductComponent
     public function ProductInit($mass_prod_id,$paginate = false,$page=false){//получение информации по товару
 
     $products_out=$mass_prod_id;
-                                                                             
+
         $max=$paginate;
         $min=0;
         if(!empty($page)){
@@ -76,9 +76,9 @@ class ProductComponent
            if(!empty($paginate)){
             $mass_prod_id=array_slice($mass_prod_id, $min, $paginate,true);//срезаем не нужные id
            }
-                                                                       
 
-        
+
+
 
         foreach ($mass_prod_id as $key=>$item){//если существует товар в кеше берем его из кеша, если нет то делаем запрос и помещаем в кеш
 
@@ -103,7 +103,6 @@ if(!empty($mass_prod_id)){
         ->leftJoin('sd_manufacturer','sd_product.manufacturer_id','=','sd_manufacturer.manufacturer_id');
 
         $products= $query->get();
-
 
 
     $products_discount=DB::connection('mysql2')->table('sd_product_discount')->whereIn('sd_product_discount.product_id',$mass_prod_id)//получил цены в зависимости от группы пользователя
@@ -166,9 +165,10 @@ if(!empty($mass_prod_id)){
             $product_description->save();
             $item->slug=$slug;
         }
+        $key = array_search($item->product_id,$products_out, true);
         Cache::put('product_'.$item->product_id,$item);
 
-        $products_out[$item->product_id]=$item;
+        $products_out[$key]=$item;
 
         return $item;
     });

@@ -49,7 +49,7 @@ class HomeController extends Controller
             }
         }
         //Новинки
-        $NewGoodsSlaider=[];
+
         $Products=app('Product')->NewGoodsSlaider();
         $image=new ImageComponent();//ресайз картинок
         $Products->map(function ($item)use(&$image){
