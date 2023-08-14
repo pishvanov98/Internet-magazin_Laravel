@@ -16,7 +16,8 @@ class SliderController extends Controller
 
         $sliders=Slider::all();
         $title='Список слайдеров';
-        return view('admin.slider.index',compact('title','sliders'));
+        $page="slider";
+        return view('admin.slider.index',compact('title','sliders','page'));
     }
 
     public function create(){

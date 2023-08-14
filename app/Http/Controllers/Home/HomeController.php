@@ -120,17 +120,6 @@ class HomeController extends Controller
 
     }
 
-    public function testRedis(){
 
-        $cache=Cache::get('test');
-
-        if($cache){
-            Cache::forget('test');
-        }else{
-            Cache::put('test','текст');
-        }
-
-        return '';
-    }
 
 }

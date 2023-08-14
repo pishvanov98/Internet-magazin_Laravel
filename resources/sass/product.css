@@ -1,0 +1,32 @@
+.product_container h1{
+        font-weight: 500;
+        font-size: 27px;
+        line-height: 140%;
+        color: #000;
+        margin-bottom: 30px;
+}
+.content_prod{
+    display: flex;
+    margin: auto;
+}
+.product_container .left_block img{
+    width: 400px;
+}
+.product_container .left_block{
+    display: flex;
+    width: 70%;
+}
+.product_container .right_block{
+    background-color: #f9f9f9;
+    padding-top: 30px;
+    padding-left: 45px;
+    padding-right: 45px;
+    padding-bottom: 30px;
+    margin-left: 10px;
+    width: 400px;
+}
+.product_container .info{
+    font-size: 14px;
+    margin-bottom: 10px;
+    line-height: 0.5;
+}

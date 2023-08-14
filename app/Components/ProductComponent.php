@@ -165,10 +165,17 @@ if(!empty($mass_prod_id)){
             $product_description->save();
             $item->slug=$slug;
         }
-        $key = array_search($item->product_id,$products_out, true);
-        Cache::put('product_'.$item->product_id,$item);
+        if (is_array($products_out)){
+            $key = array_search($item->product_id,$products_out, true);
+            Cache::put('product_'.$item->product_id,$item);
 
-        $products_out[$key]=$item;
+            $products_out[$key]=$item;
+        }else{
+            Cache::put('product_'.$item->product_id,$item);
+
+            $products_out=$item;
+        }
+
 
         return $item;
     });

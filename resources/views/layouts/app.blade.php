@@ -198,7 +198,7 @@
             minLength: 4,
 
         }, {
-            name: 'users',
+            // name: 'users',
             source: bloodhound,
             display: function(data) {
                 return data.name  //Input value to be set when you select a suggestion.
@@ -210,9 +210,9 @@
                 suggestion: function (data) {
 
                     if (data.slug_category){
-                        return '<a href="category/' + data.slug_category + '" class="list-group-item">' + data.name + '</a>'
+                        return '<a href="' + data.slug_category + '" class="list-group-item">' + data.name + '</a>'
                     }else{
-                        return '<a href="product/' + data.slug + '" class="list-group-item">' + data.name + '</a>'
+                        return '<a href="' + data.slug + '" class="list-group-item">' + data.name + '</a>'
                     }
                 }
             },
@@ -267,6 +267,15 @@
                  $( children_mass[i] ).css( "display", "none" );
              }
          }
+
+     });
+
+     $('.input__clear').on('click touch',function () {
+         $('.search input[name="search"]').val('');
+         $(".input__clear").attr('style', 'opacity: 0;');
+     });
+     $('.search').keyup(function () {
+         $(".input__clear").attr('style', 'opacity: 1;');
 
      });
 

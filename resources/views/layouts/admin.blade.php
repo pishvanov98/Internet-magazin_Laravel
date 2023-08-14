@@ -70,21 +70,27 @@
                     <li class="nav-item menu-open">
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{route('admin.slider')}}" class="nav-link active">
+                                <a href="{{route('admin.slider')}}" class="nav-link flex_block @if(!empty($page) && $page == "slider") active @endif ">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Слайдеры</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="./index2.html" class="nav-link">
+                                <a href="{{route('admin.category')}}" class="nav-link flex_block  @if(!empty($page) && $page == "category") active @endif ">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Dashboard v2</p>
+                                    <p>Категории товаров</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="./index3.html" class="nav-link">
+                                <a href="#" class="nav-link flex_block">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Dashboard v3</p>
+                                    <p>Производители товаров</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link flex_block">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Товары</p>
                                 </a>
                             </li>
                         </ul>
@@ -277,6 +283,8 @@
 </script>
 <!-- Bootstrap 4 -->
 <script src="{{asset('adminFile/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+<script src="{{asset('js/typeahead.bundle.min.js')}}"></script>
 <!-- ChartJS -->
 <script src="{{asset('adminFile/plugins/chart.js/Chart.min.js')}}"></script>
 <!-- Sparkline -->

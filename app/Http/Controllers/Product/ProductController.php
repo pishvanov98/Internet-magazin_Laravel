@@ -10,8 +10,13 @@ class ProductController extends Controller
 {
     public function show(Request $request)
     {
-        // $post = Post::where('id', $id)->where('published', 1)->firstOrFail();
+
         $product = ProductDescription::where('slug', $request->route('slug'))->firstOrFail();
-        dd($product);
+
+        if(!empty($product)){
+            $initProduct=app('Product')->ProductInit($product);
+        }
+
+        return view('product.index',['Product'=>$initProduct->all()]);
     }
 }
