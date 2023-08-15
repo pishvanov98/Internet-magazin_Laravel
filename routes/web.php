@@ -40,6 +40,21 @@ Route::get('/admin/category/edit/{id}',[\App\Http\Controllers\Admin\CategoryCont
 Route::put('/admin/category/{id}',[\App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('admin.category.update');
 Route::delete('/admin/category/{id}',[\App\Http\Controllers\Admin\CategoryController::class, 'destroy'])->name('admin.category.destroy');
 
+Route::get('/admin/manufacturer',[\App\Http\Controllers\Admin\ManufacturerController::class, 'index'])->name('admin.manufacturer');
+Route::get('/admin/manufacturer/create',[\App\Http\Controllers\Admin\ManufacturerController::class, 'create'])->name('admin.manufacturer.create');
+Route::post('/admin/manufacturer',[\App\Http\Controllers\Admin\ManufacturerController::class, 'store'])->name('admin.manufacturer.store');
+Route::delete('/admin/manufacturer/{id}',[\App\Http\Controllers\Admin\ManufacturerController::class, 'destroy'])->name('admin.manufacturer.destroy');
+
+Route::get('/admin/attribute',[\App\Http\Controllers\Admin\AttributeController::class, 'index'])->name('admin.attribute');
+Route::get('/admin/attribute/create',[\App\Http\Controllers\Admin\AttributeController::class, 'create'])->name('admin.attribute.create');
+Route::post('/admin/attribute',[\App\Http\Controllers\Admin\AttributeController::class, 'store'])->name('admin.attribute.store');
+Route::delete('/admin/attribute/{id}',[\App\Http\Controllers\Admin\AttributeController::class, 'destroy'])->name('admin.attribute.destroy');
+
+Route::get('/admin/product',[\App\Http\Controllers\Admin\ProductController::class, 'index'])->name('admin.product');
+Route::get('/admin/product/create',[\App\Http\Controllers\Admin\ProductController::class, 'create'])->name('admin.product.create');
+Route::post('/admin/product',[\App\Http\Controllers\Admin\ProductController::class,'store'])->name('admin.product.store');
+Route::delete('/admin/product/{id}',[\App\Http\Controllers\Admin\ProductController::class, 'destroy'])->name('admin.product.destroy');
+
 Route::get('/product/{slug}', [App\Http\Controllers\Product\ProductController::class,'show'])->name('product.show');
 Route::get('/category/{slug}', [\App\Http\Controllers\Category\CategoryController::class,'show'])->name('category.show');
 

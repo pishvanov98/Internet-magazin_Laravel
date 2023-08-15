@@ -19,7 +19,7 @@
                             <input type="text" name="name" value="{{$category_mass['name']}}"  class="form-control" placeholder="Наименование">
                         </div>
                         <div class="col-sm-3 mb-3">
-                            <input type="text" name="description" value="{{$category_mass['description']}}"  class="form-control" placeholder="Описание">
+                            <textarea class="form-control" placeholder="Описание" name="description">{{$category_mass['description']}}</textarea>
                         </div>
                         <div class="col-sm-3 mb-3">
                             <select class="form-control" name="parent" aria-label="Родитель">

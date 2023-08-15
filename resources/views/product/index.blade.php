@@ -8,6 +8,7 @@
                 <li class="breadcrumb-item active" aria-current="page">{{$Product['name']}}</li>
             </ol>
         </nav>
+
         <h1>{{$Product['name']}}</h1>
         <div class="content_prod">
             <div class="left_block">
@@ -15,11 +16,11 @@
                     <img src="{{asset($Product['image'])}}">
                 </div>
                 <div class="info">
-                    <p>Артикул {{$Product['model']}}</p>
+                    <p>Код товара {{$Product['model']}}</p>
                     <p>Производитель {{$Product['manufacturer_name']}}</p>
+                   @if(!empty($Product['manufacturer_image'])) <p>  <img style="width: 40px" src="{{asset($Product['manufacturer_image'])}}"></p> @endif
                     <p>Страна {{$Product['manufacturer_region']}}</p>
                     <p>В наличии ({{$Product['quantity']}} шт.)</p>
-
                 </div>
             </div>
             <div class="right_block">

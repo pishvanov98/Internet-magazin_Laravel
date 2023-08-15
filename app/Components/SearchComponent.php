@@ -46,6 +46,9 @@ public function MappingProductName(){
                             'id' => [
                                 'type' => 'integer'
                             ],
+                            'model' => [
+                                'type' => 'integer'
+                            ],
                             'name' => [
                                 'type' => 'string'
                             ],
@@ -177,7 +180,7 @@ public function InsertDataProduct(){
 //    $stmt = "SELECT * FROM `table_name` limit 1";
 //    $result = $this->con->query($stmt);
     $result=[];
-    $products=DB::connection('mysql2')->table('sd_product_description')->select('sd_product_description.product_id','sd_product_description.name')
+    $products=DB::connection('mysql2')->table('sd_product_description')->select('sd_product_description.product_id','sd_product_description.name','sd_product.model')
         ->join('sd_product','sd_product.product_id','=','sd_product_description.product_id')
         ->where('sd_product.quantity','>',0)
         ->where('sd_product.price','>',0)
@@ -185,10 +188,8 @@ public function InsertDataProduct(){
 
     $products->each(function ($item) use(&$result){
 
-        $result[]=['id'=>$item->product_id,'name'=>$item->name];
+        $result[]=['id'=>$item->product_id,'name'=>$item->name,'model'=>mb_substr($item->model, -5)];
     });
-
-
 
     $params = ['body' => []];
     foreach($result as $row){
@@ -203,6 +204,7 @@ public function InsertDataProduct(){
         $params['body'][] = [
             'id'     => $row['id'],
             'name' => $row['name'],
+            'model' => $row['model'],
         ];
 
     }
@@ -287,6 +289,7 @@ public function GetSearchProductName($name){
                                     "query"=> $name,
                                     "fields"=> [
                                         "name^10",
+                                        "model^5",
                                     ],
                                     "boost"=> 4
                                 ]

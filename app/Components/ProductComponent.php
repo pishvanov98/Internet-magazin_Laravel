@@ -94,7 +94,7 @@ if(!empty($mass_prod_id)){
     $imageComponent= new ImageComponent();
 
     $query=DB::connection('mysql2')->table('sd_product')->whereIn('sd_product.product_id',$mass_prod_id)
-        ->select('sd_product.product_id', 'sd_product.price', 'sd_product.model', 'sd_product.mpn', 'sd_product.quantity', 'sd_product.manufacturer_id', 'sd_manufacturer.image AS manufacturer_image', 'sd_manufacturer.name AS manufacturer_name' , 'sd_manufacturer.strana AS manufacturer_region', 'sd_product.image', 'sd_product_description.name', 'sd_product_description.description', 'sd_product_description.seo_title', 'sd_product_description.seo_h1', 'sd_product_description.tag', 'sd_product_description.slug','sd_product_to_category.category_id' )
+        ->select('sd_product.product_id', 'sd_product.price', 'sd_product.model', 'sd_product.sku', 'sd_product.mpn', 'sd_product.quantity', 'sd_product.manufacturer_id', 'sd_manufacturer.image AS manufacturer_image', 'sd_manufacturer.name AS manufacturer_name' , 'sd_manufacturer.strana AS manufacturer_region', 'sd_product.image', 'sd_product_description.name', 'sd_product_description.description', 'sd_product_description.seo_title', 'sd_product_description.seo_h1', 'sd_product_description.tag', 'sd_product_description.slug','sd_product_to_category.category_id' )
         ->where('sd_product.status','=',1)
         ->where('sd_product_to_category.main_category','=',1)
         ->where('sd_product_to_category.category_id','!=',568)//убрал подарки
@@ -155,6 +155,11 @@ if(!empty($mass_prod_id)){
             $image_name=substr($item->manufacturer_image,  strrpos($item->manufacturer_image, '/' ));
             $imageComponent->checkImg($item->manufacturer_image,$image_name,'brand');//проверяю есть ли на сервере эта картинка, если нет то создаю
             $item->manufacturer_image='/image/brand'.$image_name;
+        }
+
+
+        if (!empty($item->model)){
+            $item->model= mb_substr($item->model, -5);
         }
 
 

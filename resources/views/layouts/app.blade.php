@@ -201,6 +201,7 @@
             // name: 'users',
             source: bloodhound,
             display: function(data) {
+
                 return data.name  //Input value to be set when you select a suggestion.
             },
             templates: {

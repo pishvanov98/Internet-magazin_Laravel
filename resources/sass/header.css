@@ -472,7 +472,7 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
     overflow: hidden;
     overflow-y: auto;
     box-sizing: border-box;
-    height: 408px;
+    max-height: 408px;
 }
 .list-group-item.tt-suggestion.tt-selectable{
     position: relative;

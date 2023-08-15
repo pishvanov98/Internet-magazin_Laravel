@@ -10,7 +10,7 @@
                         <input type="text" name="search" class="form-control" placeholder="Поиск" value="" style="border: 1px solid #00b5d3;margin: 0;"/>
                     </div>
 
-                    <a href="{{route('admin.category.create')}}" class="btn btn-primary" type="button">Добавить Категорию</a>
+                    <a href="{{route('admin.product.create')}}" class="btn btn-primary" type="button">Добавить товар</a>
                 </div>
             </div>
             <table class="table">
@@ -18,22 +18,24 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Наименование</th>
-                    <th scope="col">Родитель</th>
+                    <th scope="col">Количество</th>
                     <th scope="col">Статус</th>
+                    <th scope="col">Модель</th>
                     <th scope="col">Действие</th>
                 </tr>
                 </thead>
                 <tbody>
-                @if($categories)
-                    @foreach($categories as $category)
+                @if($products)
+                    @foreach($products as $product)
 
                         <tr>
-                            <th scope="row">{{$category->category_id}}</th>
-                            <td>{{$category->name}}</td>
-                            <td>@if(!empty($category->parent_name)) {{$category->parent_name}} @else {{$category->parent_id}}  @endif</td>
-                            <td>@if($category->status == 1) Активный @else Не активный @endif</td>
-                            <td><a href="{{route('admin.category.edit',$category->category_id)}}">Редактировать</a>
-                                <form method="post" action="{{route('admin.category.destroy',$category->category_id)}}">
+                            <th scope="row">{{$product->product_id}}</th>
+                            <td>{{$product->name}}</td>
+                            <td>{{$product->quantity}}</td>
+                            <td>@if($product->status == 1) Активный @else Не активный @endif</td>
+                            <td>{{$product->model}}</td>
+                            <td><a href="#">Редактировать</a>
+                                <form method="post" action="{{route('admin.product.destroy',$product->product_id)}}">
                                     @csrf
                                     @method('delete')
                                     <input type="submit" class="btn btn-link ml-0 pl-0" value="Удалить">
@@ -47,7 +49,7 @@
             </table>
 
         </div><!-- /.container-fluid -->
-        {{$categories->links()}}
+        {{$products->links()}}
 
 
         @push('script')
@@ -61,7 +63,7 @@
                         datumTokenizer: Bloodhound.tokenizers.whitespace,
                         queryTokenizer: Bloodhound.tokenizers.whitespace,
                         remote: {
-                            url: '{{route('query.admin.category','%QUERY%')}}',
+                            url: '{{route('query.admin.product','%QUERY%')}}',
                             wildcard: '%QUERY%'
                         },
                     });
@@ -83,7 +85,7 @@
                             // ],
                             suggestion: function (data) {
 
-                                return '<a href="category/edit/' + data.category_id + '" class="list-group-item">' + data.name + '</a>'
+                                return '<a href="product/edit/' + data.product_id + '" class="list-group-item">' + data.name + '</a>'
 
                             }
                         },
