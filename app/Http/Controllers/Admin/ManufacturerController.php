@@ -51,7 +51,7 @@ class ManufacturerController extends Controller
 
             $manufacturer=new ManufacturerAdmin();
             $manufacturer->name=$validate['name'];
-            $manufacturer->image=$filename;
+            $manufacturer->image='/'.$filename;
             $manufacturer->sort_order=$validate['sort'];
             $manufacturer->strana=$validate['strana'];
             $manufacturer->slider=0;
