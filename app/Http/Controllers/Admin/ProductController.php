@@ -88,7 +88,7 @@ class ProductController extends Controller
     $filename = $validate['image']->getClientOriginalName();
     //Сохраняем оригинальную картинку
     $validate['image']->move(public_path('/image/product/'),$filename);
-    $product->image=$filename;
+    $product->image='/'.$filename;
     $product->manufacturer_id=$validate['manufacturer'];
     $product->shipping =1;
     $product->price=$validate['price1'];
