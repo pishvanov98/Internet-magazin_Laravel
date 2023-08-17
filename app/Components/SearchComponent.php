@@ -229,7 +229,7 @@ public function InsertDataProductCategory(){
             ->join('sd_category','sd_category.category_id','=','sd_product_to_category.category_id')
             ->join('sd_product','sd_product.product_id','=','sd_product_to_category.product_id')
             ->where('sd_category.status','=','1')
-            ->where('sd_category.top', '=', '1')
+//            ->where('sd_category.top', '=', '1')
             ->where('sd_product.status','=','1')
             ->get();
 
