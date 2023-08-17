@@ -171,6 +171,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\HeaderProvider::class,
         App\Providers\ProductProvider::class,
+        App\Providers\CartProvider::class,
         App\Providers\SearchServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
     ])->toArray(),

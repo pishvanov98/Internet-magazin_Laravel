@@ -58,3 +58,4 @@ Route::delete('/admin/product/{id}',[\App\Http\Controllers\Admin\ProductControll
 Route::get('/product/{slug}', [App\Http\Controllers\Product\ProductController::class,'show'])->name('product.show');
 Route::get('/category/{slug}', [\App\Http\Controllers\Category\CategoryController::class,'show'])->name('category.show');
 
+Route::get('/addCart',[\App\Http\Controllers\Cart\CartController::class,'addToCart'])->name('addCart');

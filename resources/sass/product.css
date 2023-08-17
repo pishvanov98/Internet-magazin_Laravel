@@ -9,11 +9,11 @@
     display: flex;
     margin: auto;
 }
-.product_container .left_block img{
-    width: 400px;
+.product_container .left_block .img{
+    height: 380px;
+    width: 380px;
 }
 .product_container .left_block{
-    display: flex;
     width: 70%;
 }
 .product_container .right_block{
@@ -23,10 +23,72 @@
     padding-right: 45px;
     padding-bottom: 30px;
     margin-left: 10px;
-    width: 400px;
+    width: 370px;
+    height: 400px;
 }
 .product_container .info{
     font-size: 14px;
     margin-bottom: 10px;
     line-height: 0.5;
+}
+.page_info_prod{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 100%;
+    background-color: #f2f2f2;
+    border-radius: 10px 20px 0 0;
+}
+.page_info_prod .row{
+    background-color: #fff;
+}
+.page_info_prod .btn-collapse{
+    border-radius: 10px 20px 0 0;
+   background-color: #f2f2f2;
+   color: #222;
+   border: none;
+}
+.page_info_prod .btn-collapse.show{
+    color: #fff;
+}
+.right_block .price{
+    font-weight: 500;
+    line-height: 140%;
+    font-size: 26px;
+}
+.right_block .buy_button{
+    color: #fff;
+    padding: 5px 30px;
+}
+.right_block .buy_button:hover{
+    color: #fff;
+}
+.element-buttons-count {
+    width: 88px;
+    margin-right: 14px;
+    border: 1px solid #dedede;
+    border-radius: 8px;
+}
+.element-buttons-count span {
+    width: 28px;
+    text-align: center;
+    line-height: 36px;
+    cursor: pointer;
+    border-radius: 8px;
+    -webkit-transition: .3s background-color;
+    -o-transition: .3s background-color;
+    transition: .3s background-color;
+}
+.element-buttons-count input {
+    background-color: #f9f9f9;
+    width: 30px;
+    border: none;
+}
+.element-buttons-count input::-webkit-outer-spin-button,
+.element-buttons-count input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+.element-buttons-count input:focus{
+    box-shadow:none;
 }

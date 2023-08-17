@@ -50,7 +50,7 @@
             <ul class="nav right-menu">
                 <a href="#"><img style="width: 25px;height: 25px;" src="{{asset('/img/account2.0.svg')}}">Войти</a>
                 @if(!empty($cart)) {{$cart}} @else
-                    <a href="/index.php?route=checkout/cart"><div style="line-height: 0.6;" id="cart"><img style="width: 25px;height: 25px;" src="{{asset('/img/cart.svg')}}"> <span class="text-items" id="cart-total">  1 Товар - 32 руб.</span>
+                    <a href="/index.php?route=checkout/cart"><div style="line-height: 0.6;" id="cart"><img style="width: 25px;height: 25px;" src="{{asset('/img/cart.svg')}}"> <span class="text-items" id="cart-total"> {{$infoCart}} </span>
                     </div></a>
                 @endif
             </ul>
@@ -241,6 +241,20 @@
              $('.item_category'+a+' .caret_category_child').addClass('active');
              $('.item_category'+a+' .caret_bottom' ).addClass('active');
          }
+     }
+
+     function addToCart(id){
+
+         $.ajax({
+             url: '{{route('addCart')}}',
+             method: 'get',
+             dataType: 'json',
+             data: {id: id},
+             success: function(data){
+                $('#cart-total').text(data);
+             }
+         });
+
      }
 
 

@@ -83,15 +83,15 @@ class HomeController extends Controller
         $AjaxProduct=[];
         //ресайз картинок
         $image=new ImageComponent();
-        foreach ($Products as $product){
-            $product=(array)$product;
-            if (!empty($product['image'])){
-                $image_name=substr($product['image'],  strrpos($product['image'], '/' ));
-                $image->resizeImg($product['image'],'product',$image_name,258,258);
-                $product['image']='/image/product/resize'.$image_name;
+
+        $Products->map(function ($item)use(&$image,&$AjaxProduct){
+            if(!empty($item->image)){
+                $image_name=substr($item->image,  strrpos($item->image, '/' ));
+                $image->resizeImg($item->image,'product',$image_name,258,258);
+                $item->image='/image/product/resize'.$image_name;
+                $AjaxProduct[$item->product_id]=(array)$item;
             }
-            $AjaxProduct[$product['product_id']]=$product;
-        }
+        });
 
         $idSlider=$data['idSlider'];
 
@@ -107,8 +107,10 @@ class HomeController extends Controller
          }
           $out .='<div class="card-body">';
           $out .='<h6 class="card-title">'.$product['name'].'</h6>';
+          $out .='<div>';
           $out .='<p class="card-text">Стоимость '.$product['price'].'</p>';
-          $out .='<a href="#" class="btn btn-primary">Купить</a>';
+          $out .='<a href="#" onclick="addToCart('.$product['product_id'].')" class="btn btn-primary">Купить</a>';
+          $out .='</div>';
           $out .='</div>';
 
 

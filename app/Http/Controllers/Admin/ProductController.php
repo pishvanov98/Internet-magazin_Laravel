@@ -181,8 +181,8 @@ class ProductController extends Controller
     public function destroy(Request $request){
         $prod=ProductAdmin::findOrFail($request->route('id'));
         $file = new Filesystem();
-        if($file->exists(public_path('/image/product/'),$prod->image)){
-            $file->delete(public_path('/image/product/'),$prod->image);
+        if($file->exists(public_path('/image/product'),$prod->image)){
+            $file->delete(public_path('/image/product'),$prod->image);
         }
         $prod->delete();
         $prodDescription=ProductDescriptionAdmin::findOrFail($request->route('id'));

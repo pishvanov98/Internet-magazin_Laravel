@@ -28,7 +28,6 @@ body{
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-    min-height: 52px;
     color: #212529;
     text-decoration: none;
 }
@@ -39,6 +38,13 @@ body{
     background-color:#fff !important;
     margin: 5px;
     padding: 15px 0 0px 0;
+    border: none;
+}
+.card-body{
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .pagination_wrapper{
     display: flex;

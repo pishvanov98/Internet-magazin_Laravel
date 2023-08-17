@@ -76,8 +76,8 @@ class ManufacturerController extends Controller
     public function destroy(Request $request){
         $Manufacturer=ManufacturerAdmin::findOrFail($request->route('id'));
         $file = new Filesystem();
-        if($file->exists(public_path('/image/brand/'),$Manufacturer->image)){
-            $file->delete(public_path('/image/brand/'),$Manufacturer->image);
+        if($file->exists(public_path('/image/brand'),$Manufacturer->image)){
+            $file->delete(public_path('/image/brand'),$Manufacturer->image);
         }
         $Manufacturer->delete();
         $ManufacturerDescription=ManufacturerDescriptionAdmin::findOrFail($request->route('id'));

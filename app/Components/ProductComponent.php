@@ -64,30 +64,41 @@ class ProductComponent
 
     public function ProductInit($mass_prod_id,$paginate = false,$page=false){//получение информации по товару
 
-    $products_out=$mass_prod_id;
 
-        $max=$paginate;
-        $min=0;
-        if(!empty($page)){
-            $max=$page * $paginate;
-            $min=$max - $paginate;
+        if(is_array($mass_prod_id)){
+            $products_out=$mass_prod_id;
+
+            $max=$paginate;
+            $min=0;
+            if(!empty($page)){
+                $max=$page * $paginate;
+                $min=$max - $paginate;
+            }
+
+            if(!empty($paginate)){
+                $mass_prod_id=array_slice($mass_prod_id, $min, $paginate,true);//срезаем не нужные id
+            }
+
+
+
+
+            foreach ($mass_prod_id as $key=>$item){//если существует товар в кеше берем его из кеша, если нет то делаем запрос и помещаем в кеш
+
+                if(Cache::has('product_'.$item)) {
+                    $result = Cache::get('product_' . $item);
+                    $products_out[$key]=$result;
+                    unset($mass_prod_id[$key]);
+                }
+            }
+        }else{
+            $products_out='';
+            if(Cache::has('product_'.$mass_prod_id)) {
+                $result = Cache::get('product_' . $mass_prod_id);
+                $products_out=$result;
+                unset($mass_prod_id);
+            }
         }
 
-           if(!empty($paginate)){
-            $mass_prod_id=array_slice($mass_prod_id, $min, $paginate,true);//срезаем не нужные id
-           }
-
-
-
-
-        foreach ($mass_prod_id as $key=>$item){//если существует товар в кеше берем его из кеша, если нет то делаем запрос и помещаем в кеш
-
-                    if(Cache::has('product_'.$item)) {
-                        $result = Cache::get('product_' . $item);
-                        $products_out[$key]=$result;
-                        unset($mass_prod_id[$key]);
-                    }
-        }
 
 if(!empty($mass_prod_id)){
 
@@ -119,7 +130,7 @@ if(!empty($mass_prod_id)){
     $products->map(function ($item) use (&$products_out,&$products, &$products_discount, &$products_attr,&$imageComponent){
 
 
-        $customer_group_id=0;
+        $customer_group_id=0;//обычный пользователь 2 это вип
         if($item->mpn == 1){
             //mpn спец предложение в случае mpn = 1 делаем запрос на получение цены
             $product_special=DB::connection('mysql2')->table('sd_product_special')->where('sd_product_special.product_id',$item->product_id)//получил спец цену на товар
@@ -141,6 +152,7 @@ if(!empty($mass_prod_id)){
             }
 
         }
+
         $filtered_attr = $products_attr->where('product_id', $item->product_id);
         if(!empty($filtered_attr)){
             $item->product_attr=$filtered_attr->all();
