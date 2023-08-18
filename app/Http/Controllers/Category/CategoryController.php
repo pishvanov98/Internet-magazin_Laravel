@@ -15,7 +15,6 @@ class CategoryController extends Controller
     {
 
         $category = CategoryDescription::where('slug', $request->route('slug'))->firstOrFail();
-
         $products_id_category=app('Search')->GetSearchAllProductToCategory($category->category_id);
         $page=0;
         $page = $request->get('page');

@@ -1,0 +1,46 @@
+<svg width="700" height="700" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="602" width="802" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_1">
+   <path id="svg_2" d="m176.4,333.19899l0,33.602l347.2,0l0,-33.602l-347.2,0z"/>
+   <use id="svg_3" xlink:href="#u" y="713.99899" x="70"/>
+   <use id="svg_4" xlink:href="#c" y="713.99899" x="90.55078"/>
+   <use id="svg_5" xlink:href="#a" y="713.99899" x="104.35938"/>
+   <use id="svg_6" xlink:href="#i" y="713.99899" x="123.34766"/>
+   <use id="svg_7" xlink:href="#b" y="713.99899" x="142.24219"/>
+   <use id="svg_8" xlink:href="#a" y="713.99899" x="155.62891"/>
+   <use id="svg_9" xlink:href="#h" y="713.99899" x="174.61719"/>
+   <use id="svg_10" xlink:href="#f" y="713.99899" x="204.41016"/>
+   <use id="svg_11" xlink:href="#e" y="713.99899" x="224.45313"/>
+   <use id="svg_12" xlink:href="#g" y="713.99899" x="252.45313"/>
+   <use id="svg_13" xlink:href="#e" y="713.99899" x="274.12109"/>
+   <use id="svg_14" xlink:href="#f" y="713.99899" x="292.375"/>
+   <use id="svg_15" xlink:href="#t" y="713.99899" x="312.41406"/>
+   <use id="svg_16" xlink:href="#s" y="713.99899" x="322.01563"/>
+   <use id="svg_17" xlink:href="#a" y="713.99899" x="342.05469"/>
+   <use id="svg_18" xlink:href="#r" y="741.99899" x="70"/>
+   <use id="svg_19" xlink:href="#c" y="741.99899" x="82.18359"/>
+   <use id="svg_20" xlink:href="#d" y="741.99899" x="95.99219"/>
+   <use id="svg_21" xlink:href="#q" y="741.99899" x="115.22656"/>
+   <use id="svg_22" xlink:href="#b" y="741.99899" x="154.15234"/>
+   <use id="svg_23" xlink:href="#p" y="741.99899" x="167.53516"/>
+   <use id="svg_24" xlink:href="#a" y="741.99899" x="187.46875"/>
+   <use id="svg_25" xlink:href="#o" y="741.99899" x="216.20703"/>
+   <use id="svg_26" xlink:href="#d" y="741.99899" x="239.64063"/>
+   <use id="svg_27" xlink:href="#n" y="741.99899" x="258.87891"/>
+   <use id="svg_28" xlink:href="#m" y="741.99899" x="278.8125"/>
+   <use id="svg_29" xlink:href="#l" y="741.99899" x="308.49219"/>
+   <use id="svg_30" xlink:href="#c" y="741.99899" x="329.01563"/>
+   <use id="svg_31" xlink:href="#d" y="741.99899" x="342.82031"/>
+   <use id="svg_32" xlink:href="#k" y="741.99899" x="362.05859"/>
+   <use id="svg_33" xlink:href="#a" y="741.99899" x="371.65625"/>
+   <use id="svg_34" xlink:href="#j" y="741.99899" x="390.64844"/>
+   <use id="svg_35" xlink:href="#b" y="741.99899" x="407.24219"/>
+  </g>
+ </g>
+</svg>

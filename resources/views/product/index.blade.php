@@ -66,7 +66,7 @@
                 </div>
             </div>
             <div class="right_block">
-                <p class="price">95 640 ₽</p>
+                <p class="price">{{number_format($Product['price'], 0, '', ' ')}} ₽</p>
                 <div class="d-flex ">
                     <div class="d-flex element-buttons-count">
                     <span class="decr">-</span>

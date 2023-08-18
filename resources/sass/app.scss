@@ -12,8 +12,14 @@
 @import "/resources/sass/home.css";
 @import "/resources/sass/category.css";
 @import "/resources/sass/product.css";
+@import "/resources/sass/footer.css";
+@import "/resources/sass/cart.css";
 body{
     background-color: #fff;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .container{
     max-width: 1620px;

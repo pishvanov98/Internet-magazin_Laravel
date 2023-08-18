@@ -39,19 +39,18 @@
                         </ul>
 
                 </li>
-                <li class="nav-item"><a href="https://aveldent.ru/dostavka" class="nav-link link-dark px-2">Доставка</a></li>
-                <li class="nav-item"><a href="https://aveldent.ru/oplata" class="nav-link link-dark px-2">Оплата</a></li>
+                <li class="nav-item"><a href="/dostavka" class="nav-link link-dark px-2">Доставка</a></li>
+                <li class="nav-item"><a href="/oplata" class="nav-link link-dark px-2">Оплата</a></li>
                 <li class="nav-item"><a href="/vozvrat" class="nav-link link-dark px-2">Возврат</a></li>
-                <li class="nav-item"><a href="https://aveldent.ru/samovivoz" class="nav-link link-dark px-2">Самовывоз</a></li>
-                <li class="nav-item"><a href="https://aveldent.ru/predzakaz" class="nav-link link-dark px-2">Предзаказ</a></li>
+                <li class="nav-item"><a href="/samovivoz" class="nav-link link-dark px-2">Самовывоз</a></li>
+                <li class="nav-item"><a href="/predzakaz" class="nav-link link-dark px-2">Предзаказ</a></li>
                 <li class="nav-item"><a href="/seminar" class="nav-link link-dark px-2">Семинары</a></li>
                 <li class="nav-item" style="color: #e43535;"><a href="/promo" class="nav-link link-dark px-2">Акции</a></li>
             </ul>
             <ul class="nav right-menu">
                 <a href="#"><img style="width: 25px;height: 25px;" src="{{asset('/img/account2.0.svg')}}">Войти</a>
                 @if(!empty($cart)) {{$cart}} @else
-                    <a href="/index.php?route=checkout/cart"><div style="line-height: 0.6;" id="cart"><img style="width: 25px;height: 25px;" src="{{asset('/img/cart.svg')}}"> <span class="text-items" id="cart-total"> {{$infoCart}} </span>
-                    </div></a>
+                    <a href="{{route('cart')}}"><div style="line-height: 0.6;" id="cart"><img style="width: 25px;height: 25px;" src="{{asset('/img/cart.svg')}}"> <span class="text-items" id="cart-total"> {{$infoCart}} </span> </div></a>
                 @endif
             </ul>
         </div>
@@ -177,6 +176,76 @@
         @yield('content')
     </main>
 </div>
+<footer>
+<div class="container">
+    <div class="wrapper_footer">
+        <div>
+            <ul>
+                <li>
+                    <b><a href="/about_avel">О компании</a></b>
+                </li>
+                <li><a href="/team">Наша команда</a></li>
+                <li><a href="/otzyvi">Отзывы клиентов</a></li>
+                <li><a href="/dostavka">Доставка </a></li>
+                <li><a href="/oplata">Оплата</a></li>
+                <li><a href="/vozvrat">Условия возврата</a></li>
+                <li><a href="/region">Региональным клиентам</a></li>
+                <li><a href="/viezd-predstavitelya">Выезд нашего представителя</a></li>
+            </ul>
+        </div>
+        <div>
+            <ul>
+                <li>
+                    <b>Сервисы</b>
+                </li>
+                <li><a href="/contact">Контакты</a></li>
+                <li><a href="/news">Новости</a></li>
+                <li><a href="#">Производители</a></li>
+                <li><a href="#">Вебинары</a></li>
+                <li><a href="/vakansii">Вакансии</a></li>
+                <li><a href="/seminar">Семинары</a></li>
+                <li><a href="/faq">Вопрос-ответ</a></li>
+            </ul>
+        </div>
+        <div>
+            <ul>
+                <li>
+                    <b><a href="#">Каталог</a></b>
+                </li>
+                <li><a href="#">Аптека</a></li>
+                <li><a href="#">Дезинфекция</a></li>
+                <li><a href="#">Зуботехнические материалы и <br>оборудование</a></li>
+                <li><a href="#">Инструменты</a></li>
+                <li><a href="#">Материалы</a></li>
+                <li><a href="#">Оборудование</a></li>
+                <li><a href="#">Расходные материалы</a></li>
+                <li><a href="#">Сувениры</a></li>
+                <li><a href="#">Эндодонтические инструменты</a></li>
+            </ul>
+        </div>
+        <div>
+            <div>
+                <p><b>Подпишитесь на наши <br>новости и акции</b></p>
+                <div class="d-flex"><input type="email" name="mailingList"><button class="button_mailList">&#9658;</button></div>
+            </div>
+            <div>
+                <p>Мы в социальных сетях</p>
+                <div>
+                    <a href="https://t.me/Aveldentru"><img style="height: 35px;width: 35px;cursor: pointer; padding: 0;" src="{{asset('/img/telegram.svg')}}"></a>
+                    <a href="https://vk.com/aveldentru"><img  style="height: 35px;width: 35px;cursor: pointer; padding: 0;margin-left: 5px" src="{{asset('/img/vk.svg')}}"></a>
+                </div>
+            </div>
+        </div>
+        <div>
+            <ul>
+                <li><b>Остались вопросы?</b></li>
+                <li><a href="tel:+74995020830">+7 499 502-08-30 </a></li>
+                <li><a href="mailto:zakaz@aveldent.ru">zakaz@aveldent.ru</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</footer>
 </body>
 <script type="module">
 
