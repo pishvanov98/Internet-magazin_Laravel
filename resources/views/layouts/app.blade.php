@@ -20,8 +20,8 @@
 </head>
 <body>
 <div id="app">
-    <nav  class="py-2  ">
-        <div class="container d-flex flex-wrap top_header">
+    <nav>
+        <div class="container d-flex flex-wrap top_header fixed_block_top pt-1 pb-1">
             <ul class="nav me-auto">
                 <li class="nav-item menu_Info menu-hover">
                         <a href="tel:+74995020830" class="menu_Info">О компании <img style="width: 20px" src="{{asset('/img/caret.svg')}}"></a>
@@ -56,7 +56,7 @@
         </div>
     </nav>
     <header class="py-3 pb-0">
-        <div class="container d-flex flex-wrap justify-content-center">
+        <div style="margin-top: 30px" class="container d-flex flex-wrap justify-content-center fixed_block_top ">
             <div class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto ">
             <a href="/" class="text-decoration-none">
                 <img width="300" height="50" src="{{asset('/img/home_sd.png')}}">

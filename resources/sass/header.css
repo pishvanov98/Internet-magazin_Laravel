@@ -252,7 +252,7 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
     grid-template-columns: auto;
     grid-template-rows: repeat(12,40px);
     background-color: #f9f9f9;
-    height: 620px;
+    /*height: 620px;*/
 }
 .category_list_left a {
     color: #222;
@@ -450,6 +450,15 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
     height: 10px;
     background-color: #f2f2f2;
 }
+.category_list_left::-webkit-scrollbar-thumb {
+    background-color: #00AEEF;
+}
+.category_list_left::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background-color: #f2f2f2;
+}
+
 .block_children_category.active{
     max-height: none;
     -webkit-transform: scaleY(1);
@@ -489,4 +498,33 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
     width: 10px;
     height: 10px;
     background-color: #f2f2f2;
+}
+
+.fixed_block_top{
+    position: fixed;
+    z-index: 2;
+    background: #fff;
+}
+
+@media (max-height: 800px) {
+    .catalog_list_open{
+        height: 480px;
+    }
+    .category_children {
+        height: 480px;
+    }
+
+    .category_list_left {
+        overflow: scroll;
+        overflow-x: hidden;
+    }
+    .popup-cart2, .popup-cart{
+        height: min(685px, 85%);
+        overflow: hidden;
+        overflow-y: auto;
+        top: max(5vh, 10px);
+        min-height:auto;
+    }
+
+
 }
