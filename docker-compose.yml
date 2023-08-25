@@ -55,7 +55,7 @@ services:
         networks:
             - app-network
     elasticsearch:
-        image: elasticsearch:8.8.1
+        image: elasticsearch:8.8.0
         restart: always
         container_name: sitelight-es01
         environment:
@@ -63,6 +63,10 @@ services:
             - xpack.security.enabled=false
 #            - xpack.security.enabled=true
 #            - ELASTIC_PASSWORD=anti331
+        deploy:
+            resources:
+                limits:
+                    memory: 2000M
         ports:
             - 9200:9200
             - 9300:9300
