@@ -61,12 +61,14 @@ services:
         environment:
             - discovery.type=single-node
             - xpack.security.enabled=false
-#            - xpack.security.enabled=true
+            - "ES_JAVA_OPTS= -Xms1g -Xmx1g"
+        mem_limit: 2g
+        #            - xpack.security.enabled=true
 #            - ELASTIC_PASSWORD=anti331
-        deploy:
-            resources:
-                limits:
-                    memory: 2000M
+#        deploy:
+#            resources:
+#                limits:
+#                    memory: 2000M
         ports:
             - 9200:9200
             - 9300:9300
