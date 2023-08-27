@@ -221,7 +221,7 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
     box-shadow: 0 0 5px rgb(0 0 0 / 20%);
     position: absolute;
     z-index: 999;
-    top: 145px;
+    top: 155px;
     max-height: 0;
     -webkit-transform: scaleY(0);
     -ms-transform: scaleY(0);

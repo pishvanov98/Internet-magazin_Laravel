@@ -15,3 +15,5 @@ Route::get('/elasticSearch/index/search',function (){
 Route::get('/query/{name}', [\App\Http\Controllers\SearchController::class,'find'])->name('query');
 Route::get('/query/admin/category/{name}', [\App\Http\Controllers\SearchController::class,'find_admin_category'])->name('query.admin.category');
 Route::get('/query/admin/product/{name}', [\App\Http\Controllers\SearchController::class,'find_admin_product'])->name('query.admin.product');
+
+Route::get('/getCategoryList',[\App\Http\Controllers\Header\HeaderController::class,'index'])->name('header.category');

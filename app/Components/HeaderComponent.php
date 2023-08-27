@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\DB;
 class HeaderComponent
 {
 
-    public function __construct()
-    {
-        $this->CategoryList();
-        $this->BrandList();
-    }
+//    public function __construct()
+//    {
+//        $this->CategoryList();
+//        $this->BrandList();
+//    }
 
     public function CategoryList(){
 
@@ -79,9 +79,10 @@ class HeaderComponent
                 }
             }
 
-        view()->composer('layouts.app', function ($view) use ($category_mass) {
-            $view->with('categories', $category_mass);
-        });
+            return $category_mass;
+//        view()->composer('layouts.app', function ($view) use ($category_mass) {
+//            $view->with('categories', $category_mass);
+//        });
 
 
     }
@@ -100,9 +101,11 @@ class HeaderComponent
                     $brand_mass[$data['manufacturer_id']]['href'] = url('/manufacturer/' . $data['manufacturer_id']);
         }
 
-        view()->composer('layouts.app', function ($view) use ($brand_mass) {
-            $view->with('brands', $brand_mass);
-        });
+        return $brand_mass;
+
+//        view()->composer('layouts.app', function ($view) use ($brand_mass) {
+//            $view->with('brands', $brand_mass);
+//        });
 
     }
 

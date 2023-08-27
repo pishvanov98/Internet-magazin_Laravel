@@ -5,6 +5,8 @@
 /public/storage
 /storage/*.key
 /vendor
+/cache_data_redis
+/Elasticsearch
 .env
 .env.backup
 .env.production
