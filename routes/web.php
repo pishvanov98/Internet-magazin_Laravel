@@ -61,3 +61,6 @@ Route::get('/category/{slug}', [\App\Http\Controllers\Category\CategoryControlle
 Route::get('/cart',[\App\Http\Controllers\Cart\CartController::class,'index'])->name('cart');
 
 Route::get('/addCart',[\App\Http\Controllers\Cart\CartController::class,'addToCart'])->name('addCart');
+Route::get('/delCart',[\App\Http\Controllers\Cart\CartController::class,'DelToCart'])->name('delCart');
+
+Route::get('/CheckCountProduct',[\App\Http\Controllers\Cart\CartController::class,'CheckCountProduct'])->name('CheckCountProduct');

@@ -16,6 +16,7 @@ class CartController extends Controller
         if(session()->has('cart')){
           $cart=session()->get('cart');
         }
+        $cart_info=app('Cart')->CheckCountProduct();
 
         $products_init=app('Product')->ProductInit(array_column($cart,'id'));
 
@@ -34,7 +35,7 @@ class CartController extends Controller
             return $item;
         });
 
-        return view('cart.index',['Products'=>$products_init]);
+        return view('cart.index',['Products'=>$products_init,'cart_info'=>$cart_info]);
     }
 
     public function addToCart(Request $request)
@@ -45,4 +46,10 @@ class CartController extends Controller
     {
         return json_encode(app('Cart')->deleteCart($request->get('id')));
     }
+
+    public function CheckCountProduct(Request $request){
+        return json_encode(app('Cart')->CheckCountProduct($request->get('id')));
+    }
+
+
 }

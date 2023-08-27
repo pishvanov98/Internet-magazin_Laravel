@@ -33,6 +33,37 @@ class CartComponent
         }
         return "1 Товар - 32 руб.";
     }
+
+    public function CheckCountProduct($id = false){
+        if(session()->has('cart')){
+            $cart=session()->get('cart');
+
+
+
+            $count=0;
+            $product_id=[];
+            $quantity=[];
+            $quantity_find_prod=0;
+            foreach ($cart as $val){
+                $count=$count+$val['quantity'];
+                $product_id[]=$val['id'];
+                $quantity[$val['id']]=$val['quantity'];
+                if($id == $val['id'] && $id !== false){
+                    $quantity_find_prod=$val['quantity'];
+                }
+            }
+
+            $products= App('Product')->ProductInit($product_id);
+            $itogo=0;
+            $products->map(function ($item)use (&$itogo,&$quantity){
+                $itogo= $itogo + ($item->price * $quantity[$item->product_id]);
+            });
+
+
+
+            return ['count_prod'=>$quantity_find_prod,'count_all_prod'=>$count,'itogo'=>$itogo];
+        }
+    }
     public function addCart($id,$quantity){
         $cart=[];
 

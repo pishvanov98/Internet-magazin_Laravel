@@ -63,7 +63,7 @@
             </a>
             <div class="centre-block-search">
                   <div onclick="openCategory()" class="centre-block-search-category  desktop_centre-block">
-                      <img style="width: 20px;height: 17.5px;" src="{{asset('/img/menu.svg')}}">
+                      <img style="width: 20px;height: 17.5px;margin-right: 5px;" src="{{asset('/img/menu.svg')}}">
                       <span class="centre-block-search-search">Каталог</span>
                   </div>
                   <div class="search" id="search"><img class="button-search" src="{{asset('/img/search.svg')}}">
