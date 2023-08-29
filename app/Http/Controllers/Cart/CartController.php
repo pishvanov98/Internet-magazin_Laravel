@@ -26,6 +26,7 @@ class CartController extends Controller
 
         $products_init->map(function ($item)use (&$cart,&$image){
             $item->quantity_cart=$cart[$item->product_id]['quantity'];
+            $item->active=$cart[$item->product_id]['active'];
             if(!empty($item->image)){
                 $image_name=substr($item->image,  strrpos($item->image, '/' ));
                 $image->resizeImg($item->image,'product',$image_name,258,258);
@@ -51,5 +52,15 @@ class CartController extends Controller
         return json_encode(app('Cart')->CheckCountProduct($request->get('id')));
     }
 
+    public function UpdateCountProduct(Request $request){
+        return json_encode(app('Cart')->UpdateCountProduct($request->get('id'),$request->get('Count')));
+    }
 
+    public function ActiveProduct(Request $request){
+        return json_encode(app('Cart')->ActiveProduct($request->get('id')));
+    }
+
+    public function ActiveAllProduct(Request $request){
+        return json_encode(app('Cart')->ActiveAllProduct($request->get('result')));
+    }
 }

@@ -24,7 +24,7 @@
                     @foreach($Products as $Product)
 
                         <tr class="cartItem_{{$Product->product_id}}">
-                            <th scope="row"><input  checked="" type="checkbox" class="check_cart "></th>
+                            <th scope="row"><input @if($Product->active == 1) checked  @endif    onclick="activeProduct({{$Product->product_id}})" type="checkbox" class="check_cart "></th>
                             <td><a href="{{route('product.show',$Product->slug)}}"><img width="120" height="120" src="{{asset($Product->image)}}"></a></td>
                             <td>
                                 <div class="flex_product-text">
@@ -35,7 +35,7 @@
                             <td class="flex_input_cart" style="min-width: 140px;zoom:1.3">
                                 <span class="flex_input_cart_top">
                                     <img src="{{asset('img/noun-minus.svg')}}" onclick="delToCartCart('{{$Product->product_id}}');" alt="Минус" class="cart-min" style="cursor: pointer;" >
-                                    <input type="text" name="quantity[{{$Product->product_id}}]" data-id="{{$Product->product_id}}" value="{{$Product->quantity_cart}}" size="1" class="input-mini input-cart" style="border-radius: 0px;">
+                                    <input type="text" name="quantity[{{$Product->product_id}}]" data-id="{{$Product->product_id}}" data-id="{{$Product->product_id}}" value="{{$Product->quantity_cart}}" size="1" class=" input-cart" style="border-radius: 0px;">
                                     <img src="{{asset('img/noun-plus.svg')}}" onclick="addToCartCart('{{$Product->product_id}}');" alt="Плюс" class="cart-plus" style="cursor: pointer;" >
                                 </span>
                                 <span class="flex_input_cart_bottom">
@@ -56,7 +56,9 @@
         </div>
         </div>
         <div class="right_block">
-            <p class="total_price_cart">{{$cart_info['itogo']}}</p>
+            <h4>Ваш заказ</h4>
+            <div class="info_block first"><p class="left">Товары - {{$cart_info['count_all_prod']}} шт.</p><p class="right">{{$cart_info['itogo']}} ₽</p></div>
+            <div style="font-size: 18px;" class="info_block"><strong><p class="left">Итого</p></strong><strong><p class="right">{{$cart_info['itogo']}} ₽</p></strong></div>
         </div>
     </div>
 </div>
@@ -64,6 +66,44 @@
     @push('script')
 
         <script>
+
+
+            $("#all_click_check_cart").on('click',function (){
+                if ($(this).is(':checked')){
+                    $('table input:checkbox').prop('checked', true);
+                    var result= 1;
+                } else {
+                    $('table input:checkbox').prop('checked', false);
+                    var result= 0;
+                }
+                $.ajax({
+                    url:'{{route('ActiveAllProduct')}}',
+                    method: 'get',
+                    dataType: 'json',
+                    data: {result: result},
+                    success: function(data){
+                        if(data){
+                            updateCount(0);
+                        }
+                    }
+                });
+            });
+
+            $('.flex_input_cart_top .input-cart').keyup(function(){
+                var Count = $(this).val();
+                var id=$(this).attr('data-id');
+                $.ajax({
+                   url:'{{route('UpdateCountProduct')}}',
+                    method: 'get',
+                    dataType: 'json',
+                    data: {id: id,Count:Count},
+                    success: function(data){
+                       if(data){
+                           updateCount(id);
+                       }
+                    }
+                });
+            });
 
 
             function updateCount(id){
@@ -81,9 +121,27 @@
                        $('.cartItem_'+id).find('.flex_input_cart_top input').val(data['count_prod']);
                         $('.cart-itogo-1 sup').text(data['count_all_prod']);
                         $('.total_price_cart').text(data['itogo']);
+                        $('.right_block .info_block.first .left').text("Товары - "+data['count_all_prod']+" шт.");
+                        $('.right_block .info_block .right').text(data['itogo']+" ₽");
+                        $('#cart-total').text(data['count_all_prod']+" Товаров - "+data['itogo']+" руб.");
                     }
                 });
 
+            }
+
+            function activeProduct(id){
+
+                $.ajax({
+                    url:'{{route('ActiveProduct')}}',
+                    method: 'get',
+                    dataType: 'json',
+                    data: {id: id},
+                    success: function(data){
+                        if(data){
+                            updateCount(id);
+                        }
+                    }
+                });
             }
 
             function addToCartCart(id){
@@ -94,7 +152,6 @@
                     dataType: 'json',
                     data: {id: id},
                     success: function(data){
-                        $('#cart-total').text(data);
                         updateCount(id);
                     }
                 });
