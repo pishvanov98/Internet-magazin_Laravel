@@ -101,15 +101,15 @@ class HomeController extends Controller
          $out .='<div class="card" style="width: 290px;min-height: 400px;">';
 
          if(!empty($product['image'])){
-             $out .='<img src="'.asset($product['image']).'"  class="card-img-top" alt="">';
+             $out .='<a class="card-title" href='.route('product.show',$product['slug']).'><img src="'.asset($product['image']).'"  class="card-img-top" alt=""></a>';
          }else{
              $out .='<img src="'.asset('img/zag_258x258.svg').'"  class="card-img-top" alt="">';
          }
           $out .='<div class="card-body">';
-          $out .='<h6 class="card-title">'.$product['name'].'</h6>';
+          $out .='<a class="card-title" href='.route('product.show',$product['slug']).'><h6 class="card-title">'.$product['name'].'</h6></a>';
           $out .='<div>';
           $out .='<p class="card-text">Стоимость '.$product['price'].'</p>';
-          $out .='<a href="#" onclick="addToCart('.$product['product_id'].')" class="btn btn-primary">Купить</a>';
+          $out .='<span onclick="addToCart('.$product['product_id'].')" class="btn btn-primary">Купить</span>';
           $out .='</div>';
           $out .='</div>';
 

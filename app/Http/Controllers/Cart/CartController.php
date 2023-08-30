@@ -41,7 +41,11 @@ class CartController extends Controller
 
     public function addToCart(Request $request)
     {
-    return json_encode(app('Cart')->addCart($request->get('id'),$request->get('count')));
+        $count=1;
+        if(!empty($request->get('count'))){
+            $count=$request->get('count');
+        }
+    return json_encode(app('Cart')->addCart($request->get('id'),$count));
     }
     public function DelToCart(Request $request)
     {
