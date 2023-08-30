@@ -81,7 +81,7 @@ class CategoryController extends Controller
         $categoryDescription->seo_h1='';
         $categoryDescription->slug='';
         $categoryDescription->save();
-
+        app('Search')->InsertDataProductCategory();
         return redirect()->route('admin.category');
 
     }

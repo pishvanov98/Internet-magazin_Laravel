@@ -135,6 +135,22 @@ class ProductController extends Controller
          ]
      );
 
+     $parent_category=DB::connection('mysql2')->table('sd_category')->select('category_id')->where('parent_id','=',$validate['category'])->get();
+
+     if(!empty($parent_category)){
+         $parent_category->map(function ($item) use ($product){
+
+             DB::connection('mysql2')->table('sd_product_to_category')->insert(
+                 [
+                     'product_id'=>$product->product_id,
+                     'category_id'=>$item->category_id,
+                     'main_category'=>0,
+                 ]
+             );
+
+         });
+     }
+
      foreach ($validate['attribute'] as $key=>$attribute){
 
                  $product_to_attribute=DB::connection('mysql2')->table('sd_product_attribute')->insert(
@@ -175,6 +191,7 @@ class ProductController extends Controller
                 'price'=>$validate['price3'],
             ]
         );
+        app('Search')->InsertDataProduct();
         return redirect()->route('admin.product');
     }
 
@@ -194,5 +211,7 @@ class ProductController extends Controller
 
         return redirect()->route('admin.product');
     }
+
+
 
 }
