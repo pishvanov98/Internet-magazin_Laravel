@@ -59,7 +59,7 @@
             <h4>Ваш заказ</h4>
             <div class="info_block first"><p class="left">Товары - {{$cart_info['count_all_prod']}} шт.</p><p class="right">{{$cart_info['itogo']}} ₽</p></div>
             <div style="font-size: 18px;" class="info_block"><strong><p class="left">Итого</p></strong><strong><p class="right">{{$cart_info['itogo']}} ₽</p></strong></div>
-            <button class="btn btn_order " >Оформить заказ</button>
+            <a href="{{route('checkout')}}" class="btn btn_order " >Оформить заказ</a>
         </div>
     </div>
 </div>
