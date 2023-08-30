@@ -70,6 +70,8 @@ class CartComponent
 
 
             return ['count_prod'=>$quantity_find_prod,'count_all_prod'=>$count,'itogo'=>number_format($itogo, 0, '', ' ')];
+        }else{
+            return ['count_prod'=>0,'count_all_prod'=>0,'itogo'=>0];
         }
     }
 
@@ -153,5 +155,9 @@ class CartComponent
             session()->put('cart', $cart);
         }
         return $this->checkCart();
+    }
+    public function DelAllCart(){
+        session()->forget('cart');
+        return true;
     }
 }

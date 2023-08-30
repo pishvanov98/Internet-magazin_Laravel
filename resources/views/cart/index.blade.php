@@ -12,7 +12,7 @@
                 <div class="item_all_click">
                     <input type="checkbox" checked=""  id="all_click_check_cart" class="check_cart "> <label for="all_click_check_cart">Выбрать все</label>
                 </div>
-                <div class="item_all_click2"><a  href="#">Очистить корзину</a></div>
+                <div class="item_all_click2"><span onclick="delAllCart()" >Очистить корзину</span></div>
             </div>
 
 
@@ -105,6 +105,17 @@
                 });
             });
 
+            function delAllCart(){
+                $.ajax({
+                    url:'{{route('delAllCart')}}',
+                    method: 'get',
+                    success: function(data){
+                        if(data){
+                            updateCount(0);
+                        }
+                    }
+                });
+            }
 
             function updateCount(id){
                 $.ajax({

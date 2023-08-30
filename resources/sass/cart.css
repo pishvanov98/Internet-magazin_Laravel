@@ -29,8 +29,10 @@
     display: flex;
 
 }
-.wrapper_cart_block .left_block .wrapper_cart_all_click .item_all_click2 a {
-    text-decoration: none;
+.wrapper_cart_block .left_block .wrapper_cart_all_click .item_all_click2 span {
+    color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+    cursor: pointer;
+
 }
 .wrapper_cart_block .left_block .flex_input_cart_top {
     display: flex;

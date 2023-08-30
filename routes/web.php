@@ -62,6 +62,7 @@ Route::get('/cart',[\App\Http\Controllers\Cart\CartController::class,'index'])->
 
 Route::get('/addCart',[\App\Http\Controllers\Cart\CartController::class,'addToCart'])->name('addCart');
 Route::get('/delCart',[\App\Http\Controllers\Cart\CartController::class,'DelToCart'])->name('delCart');
+Route::get('/delAllCart',[\App\Http\Controllers\Cart\CartController::class,'DelAllCart'])->name('delAllCart');
 Route::get('/updateProductCart',[\App\Http\Controllers\Cart\CartController::class,'UpdateCountProduct'])->name('UpdateCountProduct');
 Route::get('/activeProductCart',[\App\Http\Controllers\Cart\CartController::class,'ActiveProduct'])->name('ActiveProduct');
 Route::get('/activeAllProductCart',[\App\Http\Controllers\Cart\CartController::class,'ActiveAllProduct'])->name('ActiveAllProduct');
