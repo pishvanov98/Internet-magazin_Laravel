@@ -156,8 +156,15 @@ class CartComponent
         }
         return $this->checkCart();
     }
-    public function DelAllCart(){
-        session()->forget('cart');
+    public function DelAllCart($id){
+
+        if(!empty($id)){
+            $cart = session()->get('cart');
+            unset($cart[$id]);
+            session()->put('cart', $cart);
+        }else{
+            session()->forget('cart');
+        }
         return true;
     }
 }

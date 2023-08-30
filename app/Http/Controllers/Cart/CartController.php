@@ -68,7 +68,7 @@ class CartController extends Controller
         return json_encode(app('Cart')->ActiveAllProduct($request->get('result')));
     }
 
-    public function DelAllCart(){
-        return json_encode(app('Cart')->DelAllCart());
+    public function DelAllCart(Request $request){
+        return json_encode(app('Cart')->DelAllCart($request->get('id')));
     }
 }

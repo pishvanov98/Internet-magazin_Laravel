@@ -134,3 +134,8 @@
     display: flex;
     justify-content: space-between;
 }
+.btn_order{
+    width: 100%;
+    background: #00aeef !important;
+    color: #fff !important;
+}

@@ -48,7 +48,11 @@
                 <li class="nav-item" style="color: #e43535;"><a href="/promo" class="nav-link link-dark px-2">Акции</a></li>
             </ul>
             <ul class="nav right-menu">
-                <a href="#"><img style="width: 25px;height: 25px;" src="{{asset('/img/account2.0.svg')}}">Войти</a>
+                @guest
+                    <a href="{{route('login')}}"><img style="width: 25px;height: 25px;" src="{{asset('/img/account2.0.svg')}}">Войти</a>
+                @else
+                    <a href="#"><img style="width: 25px;height: 25px;" src="{{asset('/img/account2.0.svg')}}">{{ Auth::user()->name }}</a>
+                @endguest
                 @if(!empty($cart)) {{$cart}} @else
                     <a href="{{route('cart')}}"><div style="line-height: 0.6;" id="cart"><img style="width: 25px;height: 25px;" src="{{asset('/img/cart.svg')}}"> <span class="text-items" id="cart-total"> {{$infoCart}} </span> </div></a>
                 @endif

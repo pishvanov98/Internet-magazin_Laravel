@@ -12,7 +12,7 @@
                 <div class="item_all_click">
                     <input type="checkbox" checked=""  id="all_click_check_cart" class="check_cart "> <label for="all_click_check_cart">Выбрать все</label>
                 </div>
-                <div class="item_all_click2"><span onclick="delAllCart()" >Очистить корзину</span></div>
+                <div class="item_all_click2"><span onclick="delAllCart(0)" >Очистить корзину</span></div>
             </div>
 
 
@@ -39,7 +39,7 @@
                                     <img src="{{asset('img/noun-plus.svg')}}" onclick="addToCartCart({{$Product->product_id}},1);" alt="Плюс" class="cart-plus" style="cursor: pointer;" >
                                 </span>
                                 <span class="flex_input_cart_bottom">
-                                <a class="removetovar hidden" href="#" data-toggle="tooltip" title="Удалить">Удалить</a>
+                                <a class="removetovar hidden" href="#" onclick="delAllCart({{$Product->product_id}})" data-toggle="tooltip" title="Удалить">Удалить</a>
                                 <a class="towishlist-cart hidden" onclick="">В избранное</a>
                                 </span>
                             </td>
@@ -59,6 +59,7 @@
             <h4>Ваш заказ</h4>
             <div class="info_block first"><p class="left">Товары - {{$cart_info['count_all_prod']}} шт.</p><p class="right">{{$cart_info['itogo']}} ₽</p></div>
             <div style="font-size: 18px;" class="info_block"><strong><p class="left">Итого</p></strong><strong><p class="right">{{$cart_info['itogo']}} ₽</p></strong></div>
+            <button class="btn btn_order " >Оформить заказ</button>
         </div>
     </div>
 </div>
@@ -105,13 +106,19 @@
                 });
             });
 
-            function delAllCart(){
+            function delAllCart(id){
+
                 $.ajax({
                     url:'{{route('delAllCart')}}',
                     method: 'get',
+                    dataType: 'json',
+                    data: {id: id},
                     success: function(data){
                         if(data){
-                            updateCount(0);
+                            updateCount(id);
+                            if(id == 0){
+                                $("table tbody").remove();
+                            }
                         }
                     }
                 });
