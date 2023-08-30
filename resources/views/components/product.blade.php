@@ -6,7 +6,7 @@
         <a class="card-title" href="{{route('product.show',$product->slug)}}"><h6>{{$product->name}}</h6></a>
         <div>
         <p class="card-text">Стоимость {{number_format($product->price, 0, '', ' ')}} ₽</p>
-        <a href="#" onclick="addToCart({{$product->product_id}})" class="btn btn-primary ">Купить</a>
+        <a href="#" onclick="addToCart({{$product->product_id}},1)" class="btn btn-primary ">Купить</a>
         </div>
     </div>
 </div>

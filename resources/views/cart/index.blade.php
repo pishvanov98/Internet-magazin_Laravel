@@ -36,7 +36,7 @@
                                 <span class="flex_input_cart_top">
                                     <img src="{{asset('img/noun-minus.svg')}}" onclick="delToCartCart('{{$Product->product_id}}');" alt="Минус" class="cart-min" style="cursor: pointer;" >
                                     <input type="text" name="quantity[{{$Product->product_id}}]" data-id="{{$Product->product_id}}" data-id="{{$Product->product_id}}" value="{{$Product->quantity_cart}}" size="1" class=" input-cart" style="border-radius: 0px;">
-                                    <img src="{{asset('img/noun-plus.svg')}}" onclick="addToCartCart('{{$Product->product_id}}');" alt="Плюс" class="cart-plus" style="cursor: pointer;" >
+                                    <img src="{{asset('img/noun-plus.svg')}}" onclick="addToCartCart({{$Product->product_id}},1);" alt="Плюс" class="cart-plus" style="cursor: pointer;" >
                                 </span>
                                 <span class="flex_input_cart_bottom">
                                 <a class="removetovar hidden" href="#" data-toggle="tooltip" title="Удалить">Удалить</a>
@@ -144,13 +144,13 @@
                 });
             }
 
-            function addToCartCart(id){
+            function addToCartCart(id,count){
 
                 $.ajax({
                     url: '{{route('addCart')}}',
                     method: 'get',
                     dataType: 'json',
-                    data: {id: id},
+                    data: {id: id,count:count},
                     success: function(data){
                         updateCount(id);
                     }

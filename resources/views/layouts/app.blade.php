@@ -245,13 +245,13 @@
 
      }
 
-     function addToCart(id){
+     function addToCart(id,count){
 
          $.ajax({
              url: '{{route('addCart')}}',
              method: 'get',
              dataType: 'json',
-             data: {id: id},
+             data: {id: id,count:count},
              success: function(data){
                 $('#cart-total').text(data);
              }

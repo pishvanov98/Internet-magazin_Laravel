@@ -92,3 +92,9 @@
 .element-buttons-count input:focus{
     box-shadow:none;
 }
+.element-buttons-count input,
+.element-buttons-count input:hover,
+.element-buttons-count input:focus {
+    appearance: none;
+    -moz-appearance: textfield;
+}

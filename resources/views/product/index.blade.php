@@ -73,7 +73,7 @@
                     <input name="quantity" type="number" value="1" min="1" step="1">
                     <span class="incr">+</span>
                     </div>
-                        <button class="btn btn-info buy_button" type="button" >
+                        <button class="btn btn-info buy_button" onclick="addToCartProduct({{$Product['product_id']}})" type="button" >
                             Купить
                         </button>
                 </div>
@@ -119,6 +119,30 @@
                 });
 
             });
+
+
+
+
+            function addToCartProduct(id){
+            var count = 1;
+            var count_input=$(".element-buttons-count input").val();
+            if(count_input > 1){
+                count=count_input;
+            }
+                $.ajax({
+                    url: '{{route('addCart')}}',
+                    method: 'get',
+                    dataType: 'json',
+                    data: {id: id,count:count},
+                    success: function(data){
+                        $('#cart-total').text(data);
+                    }
+                });
+
+            }
+
+
+
         </script>
 
 @endsection
