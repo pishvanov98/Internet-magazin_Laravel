@@ -83,6 +83,10 @@
 
         <script>
             $(document).ready(function(){
+
+               var height1= $("#button1").height();
+                $(".page_info_prod .row").css('min-height',height1);
+
             $('.btn-collapse').on('click',function (){
 
 
