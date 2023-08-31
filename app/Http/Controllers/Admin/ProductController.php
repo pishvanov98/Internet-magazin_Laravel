@@ -135,10 +135,22 @@ class ProductController extends Controller
          ]
      );
 
-     $parent_category=DB::connection('mysql2')->table('sd_category')->select('category_id')->where('parent_id','=',$validate['category'])->get();
+     $parent_category=DB::connection('mysql2')->table('sd_category')->select('category_id','parent_id')->where('parent_id','=',$validate['category'])->get();
 
      if(!empty($parent_category)){
          $parent_category->map(function ($item) use ($product){
+
+             if(!empty($item->parent_id)){
+
+                 DB::connection('mysql2')->table('sd_product_to_category')->insert(
+                     [
+                         'product_id'=>$product->product_id,
+                         'category_id'=>$item->parent_id,
+                         'main_category'=>0,
+                     ]
+                 );
+
+             }
 
              DB::connection('mysql2')->table('sd_product_to_category')->insert(
                  [
