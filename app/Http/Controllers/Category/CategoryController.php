@@ -15,6 +15,7 @@ class CategoryController extends Controller
     {
 
         $category = CategoryDescription::where('slug', $request->route('slug'))->firstOrFail();
+
         $products_id_category=app('Search')->GetSearchAllProductToCategory($category->category_id);
         $page=0;
         $page = $request->get('page');
@@ -49,5 +50,10 @@ class CategoryController extends Controller
 
         return view('category.index',compact('images_slider','Products'));
 
+    }
+
+
+    public function categoryTree($category_id){
+//необходимо получить дерево категории
     }
 }
