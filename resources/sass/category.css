@@ -7,3 +7,33 @@
     flex-wrap: wrap;
     justify-content: flex-start;
 }
+.CategoryTree, .CategoryTreeChildren{
+    list-style-type:none;
+}
+.CategoryTree{
+    margin-bottom: 0;
+}
+.CategoryTree li, .CategoryTreeChildren li{
+    font-size: 14px;
+    padding-top: 5px;
+}
+.CategoryTree a, .CategoryTreeChildren a{
+    color: #212121;
+    text-decoration: none;
+}
+.CategoryTree li:last-child{
+    font-weight: 600;
+    text-shadow: 0 1px 0 #fff;
+    font-size: 16px;
+}
+.CategoryTree li:nth-child(1){
+    padding-left: 10px;
+    font-size: 15px;
+}
+.CategoryTree li:nth-child(2){
+    padding-left: 20px;
+}
+.CategoryTree li:nth-child(3){
+    padding-left: 30px;
+}
+

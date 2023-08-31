@@ -2,7 +2,23 @@
 @section('content')
     <div class="container block_category">
         <div>
-            Фильтр и категорий дерево
+            @if($CategoryTree)
+                <ul class="CategoryTree">
+                @foreach($CategoryTree as $key=>$item)
+                    @if($key !== 'Children')
+                            <li> <a href="{{route('category.show',$item->slug)}}">{{$item->name}}</a></li>
+                    @endif
+                @endforeach
+                </ul>
+            @endif
+                @if($CategoryTree['Children'])
+                    <ul class="CategoryTreeChildren">
+                        @foreach($CategoryTree['Children'] as $item)
+                                <li> <a href="{{route('category.show',$item->slug)}}">{{$item->name}}</a></li>
+                        @endforeach
+                    </ul>
+                @endif
+{{--         Фильтр и категорий дерево--}}
         </div>
         <div>
             <div class="row justify-content-center">
@@ -44,6 +60,9 @@
         <script type="module">
 
             $(document).ready(function () {
+
+                var cssLastCategory=$('.CategoryTree li:last').css('padding-left');
+                $('.CategoryTreeChildren li').css('padding-left',cssLastCategory);
                 const slider = $("#slider").owlCarousel({
                     loop: true,
                     margin: 5,
