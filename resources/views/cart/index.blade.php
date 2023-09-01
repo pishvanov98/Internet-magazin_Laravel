@@ -149,6 +149,15 @@
 
             function activeProduct(id){
 
+                if ($('.cartItem_'+id+' .check_cart').is(':checked')){
+
+                }else{
+
+                    if ($('#all_click_check_cart').is(':checked')){
+                        $("#all_click_check_cart").prop("checked", false)
+                    }
+                }
+
                 $.ajax({
                     url:'{{route('ActiveProduct')}}',
                     method: 'get',
