@@ -66,6 +66,8 @@ Route::get('/category/{slug}', [\App\Http\Controllers\Category\CategoryControlle
 
 
 Route::get('/checkout',[\App\Http\Controllers\Checkout\CheckoutController::class,'index'])->name('checkout');
+Route::post('/createOrder',[\App\Http\Controllers\Checkout\CheckoutController::class,'SaveOrder'])->name('SaveOrder');
+Route::get('/successfully/{id}',[\App\Http\Controllers\Checkout\CheckoutController::class,'successfully'])->name('successfully');
 
 
 Route::get('/cart',[\App\Http\Controllers\Cart\CartController::class,'index'])->name('cart');
