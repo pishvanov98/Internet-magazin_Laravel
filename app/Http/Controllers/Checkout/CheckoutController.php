@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Checkout;
 use App\Http\Controllers\Controller;
+use App\Jobs\ProcessSendingEmail;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -42,6 +43,7 @@ if(!empty(Auth::user()->id)){
         $order->customer=$user_id;
         $order->save();
         session()->forget('cart');
+        $this->sendMessage($order->mail,$validate['price'],$order->id);
         return route('successfully',$order->id);
 
     }
@@ -50,6 +52,10 @@ if(!empty(Auth::user()->id)){
             $id=$request->route('id');
             return view('checkout.successfully',compact('id'));
         }
+    }
+    public function sendMessage($mail,$price,$id){
+        $message="Здравствуйте, вы оформили заказ на сумму".$price."р. Номер заказа ".$id." наши менеджеры свяжутся с вами в ближайшее время";
+        ProcessSendingEmail::dispatch($mail,$message);
     }
 
 }
