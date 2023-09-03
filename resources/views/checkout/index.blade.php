@@ -39,6 +39,22 @@
     @push('script')
         <script>
 
+
+
+            $('.checkout input').keyup(function(){
+
+                if ($(this).hasClass('error')){
+                    $(this).removeClass('error');
+                }
+
+            });
+
+            $('.cart_item_input .btn-group button').on('click',function (){
+                if ($(".cart_item_input .btn-group button").hasClass('error')){
+                    $(".cart_item_input .btn-group button").removeClass('error');
+                }
+            });
+
             $(".save_order").on('click',function (){
                 var name=$("#name").val();
                 var Tel=$("#Tel").val();
@@ -47,6 +63,29 @@
                 var shipping=$(".cart_item_input .btn-group button.active").val();
                 var price='{{$cart_info['itogo']}}';
 
+
+                if ($(".checkout input").hasClass('error')){
+                    $(".checkout input").removeClass('error');
+                }
+
+                $(".cart_item_input .btn-group button").removeClass('error');
+
+
+                if(!name ){
+                    $("#name").addClass('error');
+                }
+                if(!Tel ){
+                    $("#Tel").addClass('error');
+                }
+                if(!mail ){
+                    $("#mail").addClass('error');
+                }
+                if(!address ){
+                    $("#address").addClass('error');
+                }
+                if(!shipping ){
+                    $(".cart_item_input .btn-group button").addClass('error');
+                }
                 if(name && Tel && mail && address && shipping){
                     $.ajaxSetup({
                         headers: {

@@ -49,3 +49,6 @@
     background: #00aeef !important;
     color: #fff !important;
 }
+.error{
+    border-color: red !important;
+}
