@@ -9,6 +9,10 @@ Route::get('/elasticSearch/index/create/productName',function (){
 Route::get('/elasticSearch/index/create/productCategory',function (){
     app('Search')->InsertDataProductCategory();
 });
+
+Route::get('/elasticSearch/index/create/InsertDataProductAttr',function (){
+    app('Search')->InsertDataProductAttr();
+});
 Route::get('/elasticSearch/index/search',function (){
     app('Search')->SearchProduct();
 });

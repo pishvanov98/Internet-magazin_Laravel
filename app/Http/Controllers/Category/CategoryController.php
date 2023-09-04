@@ -32,9 +32,9 @@ class CategoryController extends Controller
             }
         });
 
+        $AttrCategory=app('Search')->GetSearchCategoryAttr($category->category_id);
 
-
-        $slider=DB::table('sliders')->where('location','Категории')->first();
+        $slider=DB::table('sliders')->where('location','Category')->first();
         $images_slider=[];
         if(!empty($slider)){
             $data=(array)$slider;
@@ -49,7 +49,7 @@ class CategoryController extends Controller
         }
 
 
-        return view('category.index',compact('images_slider','Products','CategoryTree'));
+        return view('category.index',compact('images_slider','Products','CategoryTree','AttrCategory'));
 
     }
 

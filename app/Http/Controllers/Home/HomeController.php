@@ -35,7 +35,7 @@ class HomeController extends Controller
     public function index()
     {
 
-        $slider=DB::table('sliders')->where('location','На главной')->first();
+        $slider=DB::table('sliders')->where('location','Home')->first();
         $images_slider=[];
         if(!empty($slider)){
             $data=(array)$slider;

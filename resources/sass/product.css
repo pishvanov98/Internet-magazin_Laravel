@@ -98,3 +98,18 @@
     appearance: none;
     -moz-appearance: textfield;
 }
+.marker{
+    display: inline-block;
+    height: 7px;
+    width: 7px;
+    border-radius: 50%;
+    margin-right: 5px;
+    margin-left: 3px;
+    background-color: #ffbd17;
+}
+.marker.yellow {
+    background-color: #ffbd17;
+}
+.marker.red {
+    background-color: red;
+}

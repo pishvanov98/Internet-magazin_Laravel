@@ -19,6 +19,22 @@
                     </ul>
                 @endif
 {{--         Фильтр и категорий дерево--}}
+            @if($AttrCategory && count($AttrCategory) > 1)
+                <ul class="CategoryAttr">
+                    <li>  <h5 class="mt-3 mb-2">Фильтры</h5></li>
+                    @foreach($AttrCategory as $item)
+                        <li>  <strong>{{$item['attribute_name']}}</strong></li>
+                        <ul class="CategoryAttrName">
+                            @foreach($item['attribute_text'] as $item_attr_text)
+                            <li><input class="form-check-input attr_prod" data-id="{{$item['attribute_id']}}" type="checkbox" value=""> {{$item_attr_text}}</li>
+                            @endforeach
+                        </ul>
+
+
+                    @endforeach
+                </ul>
+
+            @endif
         </div>
         <div>
             <div class="row justify-content-center">

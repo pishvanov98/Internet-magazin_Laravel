@@ -373,20 +373,22 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 
 }
 .category_children:nth-child(7) .unstyled {
-    height: 265px;
+    height: 590px;
 
 }
 .category_children:nth-child(8) .unstyled {
-    height: 140px;
+    height: 175px;
 
 }
 .category_children:nth-child(9) .unstyled {
-    height: 320px;
+    height: 175px;
 
 }
 .category_children:nth-child(10) .unstyled {
+    height: 350px;
+}
+.category_children:nth-child(11) .unstyled {
     height: 960px;
-
 }
 .all_category_list_item {
     font-weight: 600;

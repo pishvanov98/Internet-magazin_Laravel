@@ -270,6 +270,136 @@ public function InsertDataProductCategory(){
         return true;
 }
 
+public function MappingProductAttr(){
+
+    $params = ['index' => 'products_attr'];
+    $this->deleteIndex($params['index']);
+    $params = [
+        'index' => $params['index'],
+        'body' => [
+            'mappings' => [
+                '_doc' => [
+                    '_source' => [
+                        'enabled' => true
+                    ],
+                    'properties' => [
+                        'product_id' => [
+                            'type' => 'integer'
+                        ],
+                        'category_id' => [
+                            'type' => 'integer'
+                        ],
+                        'attribute_id' => [
+                            'type' => 'integer'
+                        ],
+                        'name' => [
+                            'type' => 'string'
+                        ],
+                        'text' => [
+                            'type' => 'string'
+                        ],
+                    ]
+                ]
+            ]
+        ]
+    ];
+
+    //echo "<pre>"; print_r($params); //die;
+    $this->elasticclient->index($params);
+
+}
+
+
+public function InsertDataProductAttr(){
+
+    $this->MappingProductAttr();
+    $client = $this->elasticclient;
+    $result=[];
+    $productsAttr=DB::connection('mysql2')->table('sd_product_to_category')->select('.sd_product_to_category.product_id','sd_product_to_category.category_id','sd_product_attribute.attribute_id','sd_attribute_description.name','sd_product_attribute.text')
+        ->join('sd_category','sd_category.category_id','=','sd_product_to_category.category_id')
+        ->join('sd_product','sd_product.product_id','=','sd_product_to_category.product_id')
+        ->join('sd_product_attribute','sd_product_attribute.product_id','=','sd_product_to_category.product_id')
+        ->join('sd_attribute_description','sd_attribute_description.attribute_id','=','sd_product_attribute.attribute_id')
+        ->where('sd_category.status','=','1')
+        ->where('sd_product_to_category.main_category', '=', '1')
+        ->where('sd_product.status','=','1')
+        ->where('sd_product_attribute.attribute_id','!=','90')
+        ->where('sd_product_attribute.attribute_id','!=','91')
+        ->where('sd_product_attribute.attribute_id','!=','86')
+        ->get();
+
+
+    $productsAttr->each(function ($item) use(&$result){
+        $result[]=['product_id'=>$item->product_id,'category_id'=>$item->category_id,'attribute_id'=>$item->attribute_id,'name'=>$item->name,'text'=>$item->text];
+    });
+
+
+    $params = ['body' => []];
+    foreach($result as $row){
+
+        $params['body'][] = [
+            'index' => [
+                '_index' => 'products_attr',
+                '_id'    => $row['product_id'].$row['category_id'].$row['attribute_id']
+            ]
+        ];
+
+        $params['body'][] = [
+            'product_id'     => $row['product_id'],
+            'category_id' => $row['category_id'],
+            'attribute_id' => $row['attribute_id'],
+            'name' => $row['name'],
+            'text' => $row['text'],
+        ];
+
+    }
+
+// Send the last batch if it exists
+    if (!empty($params['body'])) {
+        $responses = $client->bulk($params);
+    }
+
+    //echo "<pre>"; print_r($responses); die;
+    return true;
+}
+
+public function GetSearchCategoryAttr($id){
+    $client = $this->elasticclient;
+    $result = array();
+
+    $params = [
+        'index' => 'products_attr',
+        'type'  => '_doc',
+
+        'body'  => [
+            'query' => [
+                "match"=> [
+                    "category_id"=> $id,
+                ],
+            ],
+        ],
+        "size"=>10000,
+    ];
+
+
+
+
+    $response = $client->search($params);
+
+    $result=[];
+    $resuil_out=[];
+    foreach ($response['hits']['hits'] as $hits){
+        $result[$hits['_source']['attribute_id']][]=['attribute_id'=>$hits['_source']['attribute_id'],'attribute_name'=>$hits['_source']['name'],'attribute_text'=>$hits['_source']['text']];
+    }
+    foreach ($result as $key=>$val){
+        $test = array_column($result[$key],'attribute_text');//получил уникальные значения атрибута
+        $test= array_unique($test);
+
+        $resuil_out[$key]=['attribute_id'=>$result[$key][0]['attribute_id'],'attribute_name'=>$result[$key][0]['attribute_name'],'attribute_text'=>$test];
+    }
+    return $resuil_out;
+}
+
 
 public function GetSearchProductName($name){
         $client = $this->elasticclient;
