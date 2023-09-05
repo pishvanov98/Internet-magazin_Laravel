@@ -87,6 +87,9 @@ public function MappingProductCategory(){
                             'main_category' => [
                                 'type' => 'integer'
                             ],
+                            'quantity' => [
+                                'type' => 'integer'
+                            ],
                         ]
                     ]
                 ]
@@ -224,7 +227,7 @@ public function InsertDataProductCategory(){
 //    $stmt = "SELECT * FROM `table_name` limit 1";
 //    $result = $this->con->query($stmt);
         $result=[];
-        $productsCategory=DB::connection('mysql2')->table('sd_product_to_category')->select('.sd_product_to_category.product_id','sd_product_to_category.category_id','sd_product_to_category.main_category','sd_category_description.name')
+        $productsCategory=DB::connection('mysql2')->table('sd_product_to_category')->select('.sd_product_to_category.product_id','sd_product_to_category.category_id','sd_product_to_category.main_category','sd_category_description.name','sd_product.quantity')
             ->join('sd_category_description', 'sd_category_description.category_id', '=', 'sd_product_to_category.category_id')
             ->join('sd_category','sd_category.category_id','=','sd_product_to_category.category_id')
             ->join('sd_product','sd_product.product_id','=','sd_product_to_category.product_id')
@@ -238,7 +241,7 @@ public function InsertDataProductCategory(){
 
 
     $productsCategory->each(function ($item) use(&$result){
-            $result[]=['id_prod'=>$item->product_id,'id_category'=>$item->category_id,'name_category'=>$item->name,'main_category'=>$item->main_category];
+            $result[]=['id_prod'=>$item->product_id,'id_category'=>$item->category_id,'name_category'=>$item->name,'main_category'=>$item->main_category,'quantity'=>$item->quantity];
         });
 
 
@@ -257,6 +260,7 @@ public function InsertDataProductCategory(){
                 'id_category' => $row['id_category'],
                 'name_category' => $row['name_category'],
                 'main_category' => $row['main_category'],
+                'quantity' => $row['quantity'],
             ];
 
         }
@@ -298,6 +302,9 @@ public function MappingProductAttr(){
                         'text' => [
                             'type' => 'string'
                         ],
+                        'quantity' => [
+                            'type' => 'integer'
+                        ],
                     ]
                 ]
             ]
@@ -315,7 +322,7 @@ public function InsertDataProductAttr(){
     $this->MappingProductAttr();
     $client = $this->elasticclient;
     $result=[];
-    $productsAttr=DB::connection('mysql2')->table('sd_product_to_category')->select('.sd_product_to_category.product_id','sd_product_to_category.category_id','sd_product_attribute.attribute_id','sd_attribute_description.name','sd_product_attribute.text')
+    $productsAttr=DB::connection('mysql2')->table('sd_product_to_category')->select('.sd_product_to_category.product_id','sd_product_to_category.category_id','sd_product_attribute.attribute_id','sd_attribute_description.name','sd_product_attribute.text','sd_product.quantity')
         ->join('sd_category','sd_category.category_id','=','sd_product_to_category.category_id')
         ->join('sd_product','sd_product.product_id','=','sd_product_to_category.product_id')
         ->join('sd_product_attribute','sd_product_attribute.product_id','=','sd_product_to_category.product_id')
@@ -330,7 +337,7 @@ public function InsertDataProductAttr(){
 
 
     $productsAttr->each(function ($item) use(&$result){
-        $result[]=['product_id'=>$item->product_id,'category_id'=>$item->category_id,'attribute_id'=>$item->attribute_id,'name'=>$item->name,'text'=>$item->text];
+        $result[]=['product_id'=>$item->product_id,'category_id'=>$item->category_id,'attribute_id'=>$item->attribute_id,'name'=>$item->name,'text'=>$item->text,'quantity'=>$item->quantity];
     });
 
 
@@ -350,6 +357,7 @@ public function InsertDataProductAttr(){
             'attribute_id' => $row['attribute_id'],
             'name' => $row['name'],
             'text' => $row['text'],
+            'quantity' => $row['quantity'],
         ];
 
     }
@@ -392,13 +400,86 @@ public function GetSearchCategoryAttr($id){
         $result[$hits['_source']['attribute_id']][]=['attribute_id'=>$hits['_source']['attribute_id'],'attribute_name'=>$hits['_source']['name'],'attribute_text'=>$hits['_source']['text']];
     }
     foreach ($result as $key=>$val){
-        $test = array_column($result[$key],'attribute_text');//получил уникальные значения атрибута
-        $test= array_unique($test);
+        $data = array_column($result[$key],'attribute_text');//получил уникальные значения атрибута
+        $data= array_unique($data);
 
-        $resuil_out[$key]=['attribute_id'=>$result[$key][0]['attribute_id'],'attribute_name'=>$result[$key][0]['attribute_name'],'attribute_text'=>$test];
+        $resuil_out[$key]=['attribute_id'=>$result[$key][0]['attribute_id'],'attribute_name'=>$result[$key][0]['attribute_name'],'attribute_text'=>$data];
     }
     return $resuil_out;
 }
+
+    public function GetSearchProductAttr($category_id,$mass_art_explode){
+        $client = $this->elasticclient;
+        $result = array();
+        $mass_attr=[];
+        $text='';
+        foreach ($mass_art_explode as $item){
+            $text=$text.' '.$item[1];
+            if(!empty($item)){
+                $mass_attr['must'][]['match']=['attribute_id'=>$item[0]];
+            }
+        }
+        $mass_attr['must'][]['match']=['text'=>$text];
+        $mass_attr['must'][]['match']=['category_id'=>$category_id];
+
+        $params = [
+            'index' => 'products_attr',
+            'type'  => '_doc',
+
+            'body'  => [
+                'query' => [
+                    "bool"=> [
+                "must"=> $mass_attr['must']
+                 ]
+                ],
+                "sort"=> [
+                "quantity"=> [
+                "order"=> "desc"
+                    ]
+                    ]
+            ],
+            "size"=>10000,
+        ];
+
+//        $params = [
+//            'index' => 'products_attr',
+//            'type'  => '_doc',
+//
+//            'body'  => [
+//                'query' => [
+//                    "bool"=> [
+//                        "must"=> [
+//                            ["match"=>[
+//                                "category_id"=> $category_id
+//                            ]],
+//                            ["match"=>[
+//                                "attribute_id"=> "5"
+//                            ]],
+//                            ["match"=>[
+//                                "text"=> "Твердосплавный Алмазный"
+//                            ]],
+//                            ["match"=>[
+//                                "attribute_id"=> "5"
+//                            ]],
+//                        ]
+//                    ]
+//                ],
+//            ],
+//            "size"=>10000,
+//        ];
+
+
+        $response = $client->search($params);
+
+        $result=[];
+        foreach ($response['hits']['hits'] as $hits){
+            $result[]=$hits['_source']['product_id'];
+        }
+
+
+        return $result;
+
+    }
 
 
 public function GetSearchProductName($name){
@@ -521,6 +602,11 @@ public function GetSearchProductCategory($name){
                         "id_category"=> $id,
                     ],
                 ],
+                "sort"=> [
+                    "quantity"=> [
+                        "order"=> "desc"
+                    ]
+                ]
             ],
             "size"=>10000,
         ];

@@ -22,11 +22,11 @@
             @if($AttrCategory && count($AttrCategory) > 1)
                 <ul class="CategoryAttr">
                     <li>  <h5 class="mt-3 mb-2">Фильтры</h5></li>
-                    @foreach($AttrCategory as $item)
+                    @foreach($AttrCategory as $key_item=>$item)
                         <li>  <strong>{{$item['attribute_name']}}</strong></li>
                         <ul class="CategoryAttrName">
-                            @foreach($item['attribute_text'] as $item_attr_text)
-                            <li><input class="form-check-input attr_prod" data-id="{{$item['attribute_id']}}" type="checkbox" value=""> {{$item_attr_text}}</li>
+                            @foreach($item['attribute_text'] as $key=> $item_attr_text)
+                            <li><input class="form-check-input attr_prod attr_{{$key_item}}_{{$key}}" data-id_item="attr_{{$key_item}}_{{$key}}" data-id="{{$item['attribute_id']}}" data-name="{{$item_attr_text}}" data-category="{{$main_category_id}}" type="checkbox" value=""> {{$item_attr_text}}</li>
                             @endforeach
                         </ul>
 
@@ -49,22 +49,20 @@
                     </div>
                 @endif
             </div>
-            <div class="wrapper_goods">
+            <div class="products_category">
+                <div class="wrapper_goods">
+                    @if($Products)
 
+                        @foreach($Products as $product)
 
-                @if($Products)
+                            @include('components.product')
 
-                    @foreach($Products as $product)
+                        @endforeach
 
-                        @include('components.product')
-
-                    @endforeach
-
-                @endif
-
-
+                    @endif
+                </div>
+                <div class="pagination_wrapper">  {{$Products->links()}} </div>
             </div>
-            <div class="pagination_wrapper">  {{$Products->links()}} </div>
         </div>
     </div>
 
@@ -76,6 +74,35 @@
         <script type="module">
 
             $(document).ready(function () {
+                var hash = window.location.hash;
+                if(hash){
+
+                    var string_art = '';
+                    let arr = hash.split('#');
+                    var category='';
+                    $.each(arr,function(index,item){
+                        if(item){
+                            $('.'+item).prop('checked', true);
+                             var id= $('.'+item).attr('data-id');
+                             var value= $('.'+item).attr('data-name');
+                              category= $('.'+item).attr('data-category');
+                             string_art=string_art+id+'#'+value+'|';
+                        }
+                    });
+                    if(string_art){
+                        $.ajax({
+                            url: '{{route('query.filter.product')}}',
+                            method: 'get',
+                            dataType: 'html',
+                            data: {string_art:string_art,category:category},
+                            success: function(data){
+                                $('.products_category').empty();
+                                $( ".products_category" ).append(data);
+                            }
+                        });
+                    }
+
+                }
 
                 var cssLastCategory=$('.CategoryTree li:last').css('padding-left');
                 $('.CategoryTreeChildren li').css('padding-left',cssLastCategory);
@@ -91,6 +118,92 @@
                         },
                     }
                 });
+            });
+
+            $('.CategoryAttrName li input').on('click',function (){
+            var string_art = '';
+            var id= $(this).attr('data-id');
+            var value= $(this).attr('data-name');
+            var category= $(this).attr('data-category');
+            var id_item=$(this).attr('data-id_item');
+            var checked=0;
+                if ($(this).is(':checked')){
+                     checked=1;
+                } else {
+                     checked=0;
+                }
+            // console.log(id);
+            // console.log(value);
+            // console.log(category);
+
+                var hash = window.location.hash;
+                var newHash='';
+                if(hash){
+                    let arr = hash.split('#');
+                    $.each(arr,function(index,value){
+                      if(value){
+                            var statusChecked=0;
+                          if ($('.'+value).is(':checked')){
+                              statusChecked=1;
+                          } else {
+                              statusChecked=0;
+                          }
+                            var status=0;
+                            if (value == id_item){
+                                status=1;
+                            }
+                        if(status == 0 && statusChecked == 1){
+                            if(newHash){
+                                newHash=newHash+'#'+value;
+                            }else{
+                                newHash=newHash+value;
+                            }
+
+                            var id_value= $('.'+value).attr('data-id');
+                            var value_value= $('.'+value).attr('data-name');
+                            string_art=string_art+id_value+'#'+value_value+'|';
+
+                        }
+
+                      }
+                    });
+                    if(checked == 1) {
+                        newHash = newHash + '#' + id_item;
+                        string_art=string_art+id+'#'+value+'|';
+                    }
+                    console.log(newHash);
+                    window.location.hash =  newHash;
+                }else{
+                    if(checked == 1){
+                        window.location.hash =  id_item;
+                        string_art=string_art+id+'#'+value+'|';
+                    }
+                }
+                if(string_art) {
+                    $.ajax({
+                        url: '{{route('query.filter.product')}}',
+                        method: 'get',
+                        dataType: 'html',
+                        data: {string_art: string_art, category: category},
+                        success: function (data) {
+                            $('.products_category').empty();
+                            $(".products_category").append(data);
+                        }
+                    });
+                }else{
+                    $.ajax({
+                        url: '{{route('query.filter.product')}}',
+                        method: 'get',
+                        dataType: 'html',
+                        data: {category: category},
+                        success: function (data) {
+                            $('.products_category').empty();
+                            $(".products_category").append(data);
+                        }
+                    });
+                }
+
+
             });
 
 

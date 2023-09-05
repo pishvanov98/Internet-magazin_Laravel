@@ -48,8 +48,9 @@ class CategoryController extends Controller
             }
         }
 
+        $main_category_id=$category->category_id;
 
-        return view('category.index',compact('images_slider','Products','CategoryTree','AttrCategory'));
+        return view('category.index',compact('images_slider','Products','CategoryTree','AttrCategory','main_category_id'));
 
     }
 
@@ -93,5 +94,67 @@ class CategoryController extends Controller
 
         return $array_category_out;
 
+    }
+
+    public function getFilterProducts(Request $request){
+        $data=$request->all();
+        if(!empty($data['category']) && !empty($data['string_art'])){
+
+            $mass_art=explode('|',$data['string_art']);
+            $mass_art_explode=[];
+            foreach ($mass_art as $item) {
+                if(!empty($item)){
+                    $mass_art_explode[]=explode('#',$item);
+                }
+
+            }
+
+
+            $filterProduct= app('Search')->GetSearchProductAttr($data['category'],$mass_art_explode);
+
+            $page=0;
+            if(!empty($data['page'])){
+                $page=$data['page'];
+            }
+            $Products=app('Product')->ProductInit($filterProduct,24,$page);
+
+            $image=new ImageComponent();//ресайз картинок
+            $Products->map(function ($item)use(&$image){
+                if(!empty($item->image)){
+                    $image_name=substr($item->image,  strrpos($item->image, '/' ));
+                    $image->resizeImg($item->image,'product',$image_name,258,258);
+                    $item->image='/image/product/resize'.$image_name;
+                    return $item;
+                }
+            });
+
+            return view('components.categoryFilter',['Products'=>$Products,'category'=>$data['category'],'string_art'=>$data['string_art']]);
+        }else{
+            if(!empty($data['category'])){
+
+
+                $products_id_category=app('Search')->GetSearchAllProductToCategory($data['category']);
+                $page=0;
+                if(!empty($data['page'])){
+                    $page=$data['page'];
+                }
+                $Products=app('Product')->ProductInit(array_column($products_id_category, 'id_product'),24,$page);
+
+                $image=new ImageComponent();//ресайз картинок
+                $Products->map(function ($item)use(&$image){
+                    if(!empty($item->image)){
+                        $image_name=substr($item->image,  strrpos($item->image, '/' ));
+                        $image->resizeImg($item->image,'product',$image_name,258,258);
+                        $item->image='/image/product/resize'.$image_name;
+                        return $item;
+                    }
+                });
+
+                return view('components.categoryFilter',['Products'=>$Products,'category'=>$data['category']]);
+
+            }
+
+        }
+        return false;
     }
 }

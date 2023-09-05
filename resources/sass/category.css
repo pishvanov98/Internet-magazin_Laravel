@@ -43,6 +43,8 @@
 }
 .CategoryTree{
     margin-bottom: 0;
+    border-bottom: 1px solid #ececec;
+    padding-bottom: 10px;
 }
 .CategoryTree li, .CategoryTreeChildren li{
     font-size: 14px;
