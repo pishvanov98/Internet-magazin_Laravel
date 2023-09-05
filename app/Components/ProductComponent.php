@@ -121,7 +121,8 @@ if(!empty($mass_prod_id)){
         ->get();
 
     $products_attr=DB::connection('mysql2')->table('sd_product_attribute')->whereIn('sd_product_attribute.product_id',$mass_prod_id)//получил атрибуты товара
-    ->select('sd_product_attribute.product_id', 'sd_product_attribute.attribute_id', 'sd_product_attribute.text')
+    ->select('sd_product_attribute.product_id', 'sd_product_attribute.attribute_id', 'sd_product_attribute.text','sd_attribute_description.name')
+        ->join('sd_attribute_description','sd_attribute_description.attribute_id','sd_product_attribute.attribute_id')
         ->get();
 
 

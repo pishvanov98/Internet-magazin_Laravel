@@ -18,7 +18,7 @@
                     <img class="img" src="{{asset($Product['image'])}}">
                 </div>
                 <div class="info">
-                    @if(!empty($Product['manufacturer_image']))   <img style="width: 65px" src="{{asset($Product['manufacturer_image'])}}"> @endif
+                    @if(!empty($Product['manufacturer_image']))   <img style="width: 65px;padding-bottom: 5px;" src="{{asset($Product['manufacturer_image'])}}"> @endif
                     <p><b>Код товара:</b> {{$Product['model']}}</p>
                     <p><b>Производитель:</b> {{$Product['manufacturer_name']}}</p>
                     <p><b>Страна:</b> {{$Product['manufacturer_region']}}</p>
@@ -43,8 +43,8 @@
                     <div class="row">
                         <div class="collapse show" id="button1">
 
-                            <div class="card card-body">
-
+                            <div class="card ">
+                                <h4>Описание</h4>
                                 {!!$Product['description']!!}
 
                             </div>
@@ -53,9 +53,20 @@
 
                         <div class="collapse" id="button2">
 
-                            <div class="card card-body">
+                            <div class="card ">
 
-                                Информация
+                                @if($Product['product_attr'])
+                                    <h4>Свойства</h4>
+                                    <div class="d-flex" style="flex-direction: column">
+                                        @foreach($Product['product_attr'] as $item)
+                                            <div>
+                                                <span><strong>{{$item->name}}:</strong></span>
+                                                <span>{{$item->text}}</span>
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+                                @endif
 
                             </div>
                         </div>
