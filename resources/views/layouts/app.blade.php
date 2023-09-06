@@ -51,7 +51,7 @@
                 @guest
                     <a href="{{route('login')}}"><img style="width: 25px;height: 25px;" src="{{asset('/img/account2.0.svg')}}">Войти</a>
                 @else
-                    <a href="#"><img style="width: 25px;height: 25px;" src="{{asset('/img/account2.0.svg')}}">{{ Auth::user()->name }}</a>
+                    <a href="{{route('account')}}"><img style="width: 25px;height: 25px;" src="{{asset('/img/account2.0.svg')}}">{{ Auth::user()->name }}</a>
                 @endguest
                 @if(!empty($cart)) {{$cart}} @else
                     <a href="{{route('cart')}}"><div style="line-height: 0.6;" id="cart"><img style="width: 25px;height: 25px;" src="{{asset('/img/cart.svg')}}"> <span class="text-items" id="cart-total"> {{$infoCart}} </span> </div></a>

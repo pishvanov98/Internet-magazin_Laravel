@@ -83,3 +83,6 @@ Route::get('/activeAllProductCart',[\App\Http\Controllers\Cart\CartController::c
 Route::get('/CheckCountProduct',[\App\Http\Controllers\Cart\CartController::class,'CheckCountProduct'])->name('CheckCountProduct');
 Route::post('/getCategoryList',[\App\Http\Controllers\Header\HeaderController::class,'index'])->name('header.category');
 Route::post('/filter/product', [\App\Http\Controllers\Category\CategoryController::class,'getFilterProducts'])->name('query.filter.product');
+
+Route::get('/account',[\App\Http\Controllers\Account\AccountController::class,'index'])->name('account');
+Route::put('/account/user/{id}',[\App\Http\Controllers\Account\AccountController::class,'update'])->name('account.user.update');

@@ -6,15 +6,16 @@
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
-@import "/resources/sass/owl.carousel.min.css";
-@import "/resources/sass/owl.theme.default.min.css";
-@import "/resources/sass/header.css";
-@import "/resources/sass/home.css";
-@import "/resources/sass/category.css";
-@import "/resources/sass/product.css";
-@import "/resources/sass/footer.css";
-@import "/resources/sass/cart.css";
-@import "/resources/sass/checkout.css";
+@import "/resources/css/owl.carousel.min.css";
+@import "/resources/css/owl.theme.default.min.css";
+@import "/resources/css/header.css";
+@import "/resources/css/home.css";
+@import "/resources/css/category.css";
+@import "/resources/css/product.css";
+@import "/resources/css/footer.css";
+@import "/resources/css/cart.css";
+@import "/resources/css/checkout.css";
+@import "/resources/css/account.css";
 body{
     background-color: #fff;
     height: 100vh;

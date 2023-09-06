@@ -5,6 +5,7 @@ use App\Jobs\ProcessSendingEmail;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 
 class CheckoutController extends Controller
@@ -25,7 +26,7 @@ $address=[];
     }
 
     public function SaveOrder(Request $request){
-        $validate=$request->validate([
+        $validate=Validator::make($request->all(), [
             'name'=>'required',
             'Tel'=>'required|numeric',
             'mail'=>'required',
@@ -33,6 +34,14 @@ $address=[];
             'shipping'=>'required',
             'price'=>'required',
         ]);
+
+
+        if ($validate->fails()) {
+
+            return redirect()->route('checkout')
+                ->withErrors($validate)
+                ->withInput();
+        }
 
 $user_id=0;
 if(!empty(Auth::user()->id)){
