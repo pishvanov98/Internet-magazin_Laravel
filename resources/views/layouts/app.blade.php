@@ -235,9 +235,14 @@
      function showCategoryList(){
 
          if($('.catalog_list').length == 0){
+             $.ajaxSetup({
+                 headers: {
+                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                 }
+             });
              $.ajax({
                 url:'{{route('header.category')}}',
-                method:'get',
+                method:'post',
                 dataType:'html',
                 success: function (data){
                     $(data).appendTo('.wrapper_category_list');

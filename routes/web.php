@@ -68,6 +68,7 @@ Route::get('/category/{slug}', [\App\Http\Controllers\Category\CategoryControlle
 Route::get('/checkout',[\App\Http\Controllers\Checkout\CheckoutController::class,'index'])->name('checkout');
 Route::post('/createOrder',[\App\Http\Controllers\Checkout\CheckoutController::class,'SaveOrder'])->name('SaveOrder');
 Route::get('/successfully/{id}',[\App\Http\Controllers\Checkout\CheckoutController::class,'successfully'])->name('successfully');
+Route::post('/saveAddress',[\App\Http\Controllers\Checkout\CheckoutController::class,'SaveAddress'])->name('save.address');
 
 
 Route::get('/cart',[\App\Http\Controllers\Cart\CartController::class,'index'])->name('cart');
@@ -80,3 +81,5 @@ Route::get('/activeProductCart',[\App\Http\Controllers\Cart\CartController::clas
 Route::get('/activeAllProductCart',[\App\Http\Controllers\Cart\CartController::class,'ActiveAllProduct'])->name('ActiveAllProduct');
 
 Route::get('/CheckCountProduct',[\App\Http\Controllers\Cart\CartController::class,'CheckCountProduct'])->name('CheckCountProduct');
+Route::post('/getCategoryList',[\App\Http\Controllers\Header\HeaderController::class,'index'])->name('header.category');
+Route::post('/filter/product', [\App\Http\Controllers\Category\CategoryController::class,'getFilterProducts'])->name('query.filter.product');

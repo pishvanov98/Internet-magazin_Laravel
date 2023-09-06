@@ -5,16 +5,16 @@
 <div class="flex_cart_item_input__all">
 <div class="checkout">
             <div class="cart_item_input">
-                <input value="" placeholder="ФИО" type="text" id="name">
+                <input @if(!empty($address[0]['name'])) value="{{$address[0]['name']}}" @endif placeholder="ФИО" type="text" id="name">
             </div>
             <div class="cart_item_input">
-                <input value="" placeholder="Контактный телефон" type="text" maxlength="12" onkeyup="this.value = this.value.replace (/[^0-9+^\d]/, '')" id="Tel">
+                <input @if(!empty($address[0]['Tel'])) value="{{$address[0]['Tel']}}" @endif placeholder="Контактный телефон" type="text" maxlength="12" onkeyup="this.value = this.value.replace (/[^0-9+^\d]/, '')" id="Tel">
             </div>
             <div class="cart_item_input">
-                <input value="" placeholder="Электронная почта" type="text" id="mail">
+                <input @if(!empty($address[0]['mail'])) value="{{$address[0]['mail']}}" @endif placeholder="Электронная почта" type="text" id="mail">
             </div>
             <div class="cart_item_input">
-                <input value="" placeholder="Адрес" type="text" id="address">
+                <input @if(!empty($address[0]['address'])) value="{{$address[0]['address']}}" @endif placeholder="Адрес" type="text" id="address">
             </div>
             <div class="cart_item_input">
                 <div class="btn-group w-100" role="group" aria-label="Basic outlined example">
@@ -46,6 +46,26 @@
                 if ($(this).hasClass('error')){
                     $(this).removeClass('error');
                 }
+
+                //закидываем данные в сессию в адреса
+
+                var name=$("#name").val();
+                var Tel=$("#Tel").val();
+                var mail=$("#mail").val();
+                var address=$("#address").val();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                   url:'{{route('save.address')}}',
+                    method:'post',
+                    dataType:'json',
+                    data:{name:name,Tel:Tel,mail:mail,address:address}
+                });
+
+
 
             });
 

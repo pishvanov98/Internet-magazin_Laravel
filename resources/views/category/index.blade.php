@@ -90,9 +90,14 @@
                         }
                     });
                     if(string_art){
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
                         $.ajax({
                             url: '{{route('query.filter.product')}}',
-                            method: 'get',
+                            method: 'post',
                             dataType: 'html',
                             data: {string_art:string_art,category:category},
                             success: function(data){
@@ -179,10 +184,15 @@
                         string_art=string_art+id+'#'+value+'|';
                     }
                 }
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
                 if(string_art) {
                     $.ajax({
                         url: '{{route('query.filter.product')}}',
-                        method: 'get',
+                        method: 'post',
                         dataType: 'html',
                         data: {string_art: string_art, category: category},
                         success: function (data) {
@@ -193,7 +203,7 @@
                 }else{
                     $.ajax({
                         url: '{{route('query.filter.product')}}',
-                        method: 'get',
+                        method: 'post',
                         dataType: 'html',
                         data: {category: category},
                         success: function (data) {

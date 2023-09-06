@@ -1,6 +1,7 @@
 .flex_cart_item_input__all {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .flex_cart_item_input__all label {

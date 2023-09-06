@@ -58,15 +58,16 @@
                                 @if($Product['product_attr'])
                                     <h4>Свойства</h4>
                                     <div class="d-flex" style="flex-direction: column">
-                                        @foreach($Product['product_attr'] as $item)
+                                    @foreach($Product['product_attr'] as $item)
                                             <div>
                                                 <span><strong>{{$item->name}}:</strong></span>
                                                 <span>{{$item->text}}</span>
                                             </div>
-                                        @endforeach
+                                    @endforeach
                                     </div>
 
                                 @endif
+
 
                             </div>
                         </div>

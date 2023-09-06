@@ -15,7 +15,13 @@ class CheckoutController extends Controller
         if($cart_info['count_all_prod'] == 0){
             return redirect()->route('cart');
         }
-        return view('checkout.index',compact('cart_info'));
+$address=[];
+        if(session()->has('address')){
+            $address=session()->get('address');
+
+        }
+
+        return view('checkout.index',compact('cart_info','address'));
     }
 
     public function SaveOrder(Request $request){
@@ -39,11 +45,11 @@ if(!empty(Auth::user()->id)){
         $order->address=$validate['address'];
         $order->shipping=$validate['shipping'];
         $order->products=serialize(session()->get('cart'));
-        $order->price=(int)$validate['price'];
+        $order->price=(int)str_replace(' ', '', $validate['price']);
         $order->customer=$user_id;
         $order->save();
         session()->forget('cart');
-        $this->sendMessage($order->mail,$validate['price'],$order->id);
+        //$this->sendMessage($order->mail,$validate['price'],$order->id);
         return route('successfully',$order->id);
 
     }
@@ -56,6 +62,19 @@ if(!empty(Auth::user()->id)){
     public function sendMessage($mail,$price,$id){
         $message="Здравствуйте, вы оформили заказ на сумму".$price."р. Номер заказа ".$id." наши менеджеры свяжутся с вами в ближайшее время";
         ProcessSendingEmail::dispatch($mail,$message);
+    }
+
+    public function SaveAddress(Request $request){
+        $data=$request->all();
+        if(!empty($data)){
+            if (session()->has('address') && !empty($data['id_key_address'])){
+                $address= session()->get('address');
+                $address[$data['id_key_address']]=['name'=>$data['name'],'Tel'=>$data['Tel'],'mail'=>$data['mail'],'address'=>$data['address']];
+            }else{
+                $address[]=['name'=>$data['name'],'Tel'=>$data['Tel'],'mail'=>$data['mail'],'address'=>$data['address']];
+            }
+            session()->put('address',$address);
+        }
     }
 
 }

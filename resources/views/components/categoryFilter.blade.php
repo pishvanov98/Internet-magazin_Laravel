@@ -35,9 +35,14 @@
                        page=1;
                    }
                }
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
                 var xhr = $.ajax({
                     url: '{{route('query.filter.product')}}',
-                    method: 'get',
+                    method: 'post',
                     dataType: 'html',
                     data: {string_art: string_art,category:category,page:page},
                     success: function(data){
@@ -71,9 +76,14 @@
                             page=1;
                         }
                     }
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
                     var xhr = $.ajax({
                         url: '{{route('query.filter.product')}}',
-                        method: 'get',
+                        method: 'post',
                         dataType: 'html',
                         data: {category:category,page:page},
                         success: function(data){

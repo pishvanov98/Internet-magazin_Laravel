@@ -98,35 +98,35 @@ class HomeController extends Controller
         $out='<div id="'.$idSlider.'" class="owl-carousel owl-theme slaider_prod">'; //формирую на отдачу в хтмл код с товарами
 
         foreach ($AjaxProduct as $product){
-            $out .='<div class="card" style="width: 290px;min-height: 400px;">';
+         $out .='<div class="card" style="width: 290px;min-height: 400px;">';
 
-            if(!empty($product['image'])){
-                $out .='<a class="card-title" href='.route('product.show',$product['slug']).'><img src="'.asset($product['image']).'"  class="card-img-top" alt=""></a>';
-            }else{
-                $out .='<img src="'.asset('img/zag_258x258.svg').'"  class="card-img-top" alt="">';
-            }
-            $out .='<div class="card-body">';
-            $out .='<a class="card-title" href='.route('product.show',$product['slug']).'><h6 class="card-title">'.$product['name'].'</h6></a>';
-            $out .='<div style="flex-direction: column" class="d-flex">';
-            $out .='<div>';
-            $out .='<p class="card-text">Стоимость '.$product['price'].'</p>';
-            $out .='<span onclick="addToCart('.$product['product_id'].')" class="btn btn-primary">Купить</span>';
-            $out .='</div>';
-            $out .='<div class="d-flex justify-content-between pt-2">';
-            $out .='<p class="mb-0">Код: '.$product['model'].'</p>';
+         if(!empty($product['image'])){
+             $out .='<a class="card-title" href='.route('product.show',$product['slug']).'><img src="'.asset($product['image']).'"  class="card-img-top" alt=""></a>';
+         }else{
+             $out .='<img src="'.asset('img/zag_258x258.svg').'"  class="card-img-top" alt="">';
+         }
+          $out .='<div class="card-body">';
+          $out .='<a class="card-title" href='.route('product.show',$product['slug']).'><h6 class="card-title">'.$product['name'].'</h6></a>';
+          $out .='<div style="flex-direction: column" class="d-flex">';
+          $out .='<div>';
+          $out .='<p class="card-text">Стоимость '.$product['price'].'</p>';
+          $out .='<span onclick="addToCart('.$product['product_id'].')" class="btn btn-primary">Купить</span>';
+          $out .='</div>';
+          $out .='<div class="d-flex justify-content-between pt-2">';
+          $out .='<p class="mb-0">Код: '.$product['model'].'</p>';
             if($product['quantity'] < 1){
                 $out .='<p class="mb-0"><span class="marker red"></span>Нет в наличии</p>';
             }else{
                 $out .='<p class="mb-0"><span class="marker yellow"></span>В наличии</p>';
             }
-            $out .='</div>';
-            $out .='</div>';
-            $out .='</div>';
+          $out .='</div>';
+          $out .='</div>';
+          $out .='</div>';
 
 
 
-            $out .='</div>';
-        }
+         $out .='</div>';
+    }
    $out .='</div>';
 
     return $out;

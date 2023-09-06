@@ -148,11 +148,14 @@
             }
 
             function activeProduct(id){
+                var count = $('.check_cart:checkbox:checked').length;
+                var countProd=$("table tbody tr").length;
 
-                if ($('.cartItem_'+id+' .check_cart').is(':checked')){
+                if(count == countProd){
+                    $("#all_click_check_cart").prop("checked", true)
+                }
 
-                }else{
-
+                if ($('.cartItem_'+id+' .check_cart').is(':checked')){}else{
                     if ($('#all_click_check_cart').is(':checked')){
                         $("#all_click_check_cart").prop("checked", false)
                     }
