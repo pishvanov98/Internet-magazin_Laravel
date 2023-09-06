@@ -74,4 +74,12 @@ class AccountController extends Controller
     }
 
 
+    public function exit()
+    {
+        session()->flush();
+
+        return redirect()->route('home');
+    }
+
+
 }

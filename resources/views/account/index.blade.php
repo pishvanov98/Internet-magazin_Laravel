@@ -11,6 +11,7 @@
                     <li ><a href="#">Мои адреса</a></li>
                     <li><a href="#">Мои заказы</a></li>
                     <li><a href="#">Избранное</a></li>
+                    <li class="mt-4"><a href="{{route('exit')}}">Выйти</a></li>
                 </ul>
             </div>
             <div class="right_block">

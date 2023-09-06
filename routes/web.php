@@ -86,3 +86,4 @@ Route::post('/filter/product', [\App\Http\Controllers\Category\CategoryControlle
 
 Route::get('/account',[\App\Http\Controllers\Account\AccountController::class,'index'])->name('account');
 Route::put('/account/user/{id}',[\App\Http\Controllers\Account\AccountController::class,'update'])->name('account.user.update');
+Route::get('account/exit',[\App\Http\Controllers\Account\AccountController::class,'exit'])->name('exit');
