@@ -17,7 +17,7 @@ class CartComponent
             foreach ($cart as $val){
                 if($val['active'] == 1){
                     $count=$count+$val['quantity'];
-                    $product_id[]=$val['id'];
+                    $product_id[]=(int)$val['id'];
                     $quantity[$val['id']]=$val['quantity'];
                 }
             }
@@ -49,7 +49,7 @@ class CartComponent
             foreach ($cart as $val){
                 if($val['active'] == 1){
                     $count=$count+$val['quantity'];
-                    $product_id[]=$val['id'];
+                    $product_id[]=(int)$val['id'];
                     $quantity[$val['id']]=$val['quantity'];
                     if($id == $val['id'] && $id !== false){
                         $quantity_find_prod=$val['quantity'];

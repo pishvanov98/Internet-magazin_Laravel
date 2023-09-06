@@ -184,7 +184,7 @@ if(!empty($mass_prod_id)){
         }
         if (is_array($products_out)){
 
-            $key = array_search((string)$item->product_id,$products_out, true);
+            $key = array_search($item->product_id,$products_out, true);
             Cache::put('product_'.$item->product_id,$item);
 
             $products_out[$key]=$item;
