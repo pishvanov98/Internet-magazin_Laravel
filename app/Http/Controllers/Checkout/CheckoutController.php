@@ -26,6 +26,7 @@ $address=[];
     }
 
     public function SaveOrder(Request $request){
+        $data=$request->all();
         $validate=Validator::make($request->all(), [
             'name'=>'required',
             'Tel'=>'required|numeric',
@@ -48,17 +49,17 @@ if(!empty(Auth::user()->id)){
     $user_id=Auth::user()->id;
 }
         $order= new Order();
-        $order->name=$validate['name'];
-        $order->telephone=$validate['Tel'];
-        $order->mail=$validate['mail'];
-        $order->address=$validate['address'];
-        $order->shipping=$validate['shipping'];
+        $order->name=$data['name'];
+        $order->telephone=$data['Tel'];
+        $order->mail=$data['mail'];
+        $order->address=$data['address'];
+        $order->shipping=$data['shipping'];
         $order->products=serialize(session()->get('cart'));
-        $order->price=(int)str_replace(' ', '', $validate['price']);
+        $order->price=(int)str_replace(' ', '', $data['price']);
         $order->customer=$user_id;
         $order->save();
         session()->forget('cart');
-        //$this->sendMessage($order->mail,$validate['price'],$order->id);
+        //$this->sendMessage($order->mail,$data['price'],$order->id);
         return route('successfully',$order->id);
 
     }
