@@ -61,6 +61,13 @@ body{
     margin-bottom: 10px;
 }
 
+.btn-primary{
+    background-color: #00aeef;
+    border-color: #00aeef;
+}
+.alert{
+    list-style-type:none;
+}
 @media (max-width: 1430px) {
     #search input {
         width: 400px;

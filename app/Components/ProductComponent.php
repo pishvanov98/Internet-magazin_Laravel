@@ -182,6 +182,7 @@ if(!empty($mass_prod_id)){
             $product_description->save();
             $item->slug=$slug;
         }
+
         if (is_array($products_out)){
 
             $key = array_search($item->product_id,$products_out, true);

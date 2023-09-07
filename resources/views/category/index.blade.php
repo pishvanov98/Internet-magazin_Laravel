@@ -18,7 +18,7 @@
                         @endforeach
                     </ul>
                 @endif
-{{--         Фильтр и категорий дерево--}}
+
             @if($AttrCategory && count($AttrCategory) > 1)
                 <ul class="CategoryAttr">
                     <li>  <h5 class="mt-3 mb-2">Фильтры</h5></li>
@@ -48,6 +48,11 @@
                         @endforeach
                     </div>
                 @endif
+            </div>
+            <div class="d-flex justify-content-center spinner hide">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
             </div>
             <div class="products_category">
                 <div class="wrapper_goods">
@@ -108,7 +113,7 @@
                     }
 
                 }
-
+                $('.spinner').css('width',$('.products_category').css('width'));
                 var cssLastCategory=$('.CategoryTree li:last').css('padding-left');
                 $('.CategoryTreeChildren li').css('padding-left',cssLastCategory);
                 const slider = $("#slider").owlCarousel({
@@ -194,9 +199,13 @@
                         url: '{{route('query.filter.product')}}',
                         method: 'post',
                         dataType: 'html',
+                        beforeSend:function (){
+                            $('.products_category').empty();
+                            $('.spinner').removeClass('hide');
+                        },
                         data: {string_art: string_art, category: category},
                         success: function (data) {
-                            $('.products_category').empty();
+                            $('.spinner').addClass('hide');
                             $(".products_category").append(data);
                         }
                     });
@@ -206,14 +215,16 @@
                         method: 'post',
                         dataType: 'html',
                         data: {category: category},
-                        success: function (data) {
+                        beforeSend:function (){
                             $('.products_category').empty();
+                            $('.spinner').removeClass('hide');
+                        },
+                        success: function (data) {
+                            $('.spinner').addClass('hide');
                             $(".products_category").append(data);
                         }
                     });
                 }
-
-
             });
 
 

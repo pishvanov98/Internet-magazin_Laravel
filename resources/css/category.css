@@ -69,4 +69,11 @@
 .CategoryTree li:nth-child(3){
     padding-left: 30px;
 }
-
+.block_category .spinner.hide{
+    display: none !important;
+}
+.spinner{
+    position: fixed;
+    width: 80%;
+    top: 40%;
+}

@@ -5,16 +5,16 @@
 <div class="flex_cart_item_input__all">
 <div class="checkout">
             <div class="cart_item_input">
-                <input @if(!empty($address[0]['name'])) value="{{$address[0]['name']}}" @endif placeholder="ФИО" type="text" id="name">
+                <input @if(!empty($address['name'])) value="{{$address['name']}}" @endif placeholder="ФИО" type="text" id="name">
             </div>
             <div class="cart_item_input">
-                <input @if(!empty($address[0]['Tel'])) value="{{$address[0]['Tel']}}" @endif placeholder="Контактный телефон" type="text" maxlength="12" onkeyup="this.value = this.value.replace (/[^0-9+^\d]/, '')" id="Tel">
+                <input @if(!empty($address['Tel'])) value="{{$address['Tel']}}" @endif placeholder="Контактный телефон" type="text" maxlength="12" onkeyup="this.value = this.value.replace (/[^0-9+^\d]/, '')" id="Tel">
             </div>
             <div class="cart_item_input">
-                <input @if(!empty($address[0]['mail'])) value="{{$address[0]['mail']}}" @endif placeholder="Электронная почта" type="text" id="mail">
+                <input @if(!empty($address['mail'])) value="{{$address['mail']}}" @endif placeholder="Электронная почта" type="email" id="mail">
             </div>
             <div class="cart_item_input">
-                <input @if(!empty($address[0]['address'])) value="{{$address[0]['address']}}" @endif placeholder="Адрес" type="text" id="address">
+                <input @if(!empty($address['address'])) value="{{$address['address']}}" @endif placeholder="Адрес" type="text" id="address">
             </div>
             <div class="cart_item_input">
                 <div class="btn-group w-100" role="group" aria-label="Basic outlined example">

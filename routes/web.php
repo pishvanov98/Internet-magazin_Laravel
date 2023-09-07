@@ -84,6 +84,15 @@ Route::get('/CheckCountProduct',[\App\Http\Controllers\Cart\CartController::clas
 Route::post('/getCategoryList',[\App\Http\Controllers\Header\HeaderController::class,'index'])->name('header.category');
 Route::post('/filter/product', [\App\Http\Controllers\Category\CategoryController::class,'getFilterProducts'])->name('query.filter.product');
 
-Route::get('/account',[\App\Http\Controllers\Account\AccountController::class,'index'])->name('account');
-Route::put('/account/user/{id}',[\App\Http\Controllers\Account\AccountController::class,'update'])->name('account.user.update');
-Route::get('account/exit',[\App\Http\Controllers\Account\AccountController::class,'exit'])->name('exit');
+
+Route::group([ 'middleware' => ['role:user']], function(){//prefix подставляет admin во всё что внутри группы в пути , namespace группа контрорреров в папке Admin middleware дал доступ роли админу
+
+    Route::get('/account',[\App\Http\Controllers\Account\AccountController::class,'index'])->name('account');
+    Route::put('/account/user/{id}',[\App\Http\Controllers\Account\AccountController::class,'update'])->name('account.user.update');
+    Route::get('account/exit',[\App\Http\Controllers\Account\AccountController::class,'exit'])->name('exit');
+
+    Route::get('/account/address',[\App\Http\Controllers\Account\ProfileController::class,'index'])->name('account.profile');
+    Route::get('/account/address/create',[\App\Http\Controllers\Account\ProfileController::class,'create'])->name('account.profile.create');
+    Route::post('/account/address',[\App\Http\Controllers\Account\ProfileController::class,'store'])->name('account.profile.store');
+
+});

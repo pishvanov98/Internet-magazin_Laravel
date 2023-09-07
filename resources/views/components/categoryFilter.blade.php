@@ -45,8 +45,12 @@
                     method: 'post',
                     dataType: 'html',
                     data: {string_art: string_art,category:category,page:page},
-                    success: function(data){
+                    beforeSend:function (){
                         $('.products_category').empty();
+                        $('.spinner').removeClass('hide');
+                    },
+                    success: function(data){
+                        $('.spinner').addClass('hide');
                         $( ".products_category" ).append(data);
                         //kill the request
                         xhr.abort()

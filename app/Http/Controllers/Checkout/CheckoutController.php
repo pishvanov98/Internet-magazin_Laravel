@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Checkout;
 use App\Http\Controllers\Controller;
 use App\Jobs\ProcessSendingEmail;
 use App\Models\Order;
+use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -16,13 +17,16 @@ class CheckoutController extends Controller
         if($cart_info['count_all_prod'] == 0){
             return redirect()->route('cart');
         }
+
+        $Profile=Profile::where('id_user',Auth::user()->id)->get();
+
 $address=[];
         if(session()->has('address')){
             $address=session()->get('address');
 
         }
 
-        return view('checkout.index',compact('cart_info','address'));
+        return view('checkout.index',compact('cart_info','address','Profile'));
     }
 
     public function SaveOrder(Request $request){
@@ -79,9 +83,9 @@ if(!empty(Auth::user()->id)){
         if(!empty($data)){
             if (session()->has('address') && !empty($data['id_key_address'])){
                 $address= session()->get('address');
-                $address[$data['id_key_address']]=['name'=>$data['name'],'Tel'=>$data['Tel'],'mail'=>$data['mail'],'address'=>$data['address']];
+                $address=['name'=>$data['name'],'Tel'=>$data['Tel'],'mail'=>$data['mail'],'address'=>$data['address']];
             }else{
-                $address[]=['name'=>$data['name'],'Tel'=>$data['Tel'],'mail'=>$data['mail'],'address'=>$data['address']];
+                $address=['name'=>$data['name'],'Tel'=>$data['Tel'],'mail'=>$data['mail'],'address'=>$data['address']];
             }
             session()->put('address',$address);
         }
