@@ -3,47 +3,41 @@
 @section('content')
 
     <div class="container">
-        <h4>Профили пользователя</h4>
+        <h4>Мои заказы</h4>
         <div class="block_account">
             <div class="left_block">
                 @include('components.accountMenu')
             </div>
             <div class="right_block">
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-2">
-                    <a href="{{route('account.profile.create')}}" class="btn btn-primary" type="button">Добавить Адрес</a>
-                </div>
+
                 <table class="table">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">Номер заказа</th>
                         <th scope="col">Фио</th>
                         <th scope="col">Телефон</th>
                         <th scope="col">Email</th>
                         <th scope="col">Адрес</th>
+                        <th scope="col">Цена</th>
+                        <th scope="col">Дата</th>
                         <th scope="col">Действие</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @if(!empty($profile))
-                        @foreach($profile as $key=>$item )
-                             @php $key++; @endphp
+                    @if(!empty($order_list))
+                        @foreach($order_list as $key=>$item )
+                            @php $key++; @endphp
                             <tr>
                                 <th scope="row">{{$key}}</th>
+                                <th>{{$item['id']}}</th>
                                 <td>{{$item['name']}}</td>
                                 <td>{{$item['telephone']}}</td>
                                 <td>{{$item['mail']}}</td>
                                 <td>{{$item['address']}}</td>
-                                <td class="d-flex ">
-                                    <div>
-                                    <a href="{{route('account.profile.edit',$item['id'])}}">Изменить</a>
-                                    <span> /</span>
-                                    </div>
-                                    <form action="{{route('account.profile.delete',$item['id'])}}" method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn-href">удалить</button>
-                                    </form>
-                                </td>
+                                <td>{{number_format($item['price'], 0, '', ' ')}} ₽</td>
+                                <td>{{$item['created_at']}}</td>
+                                <td><a href="{{route('account.order.show',$item['id'])}}">Посмотреть</a></td>
                             </tr>
                         @endforeach
                     @endif

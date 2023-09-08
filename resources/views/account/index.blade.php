@@ -6,13 +6,7 @@
         <h4>Профиль пользователя</h4>
         <div class="block_account">
             <div class="left_block">
-                <ul>
-                    <li class="active"><a href="{{route('account')}}">Профиль</a></li>
-                    <li ><a href="{{route('account.profile')}}">Мои профили</a></li>
-                    <li><a href="#">Мои заказы</a></li>
-                    <li><a href="#">Избранное</a></li>
-                    <li class="mt-4"><a href="{{route('exit')}}">Выйти</a></li>
-                </ul>
+                @include('components.accountMenu')
             </div>
             <div class="right_block">
                 @if(!empty($errors->any()))

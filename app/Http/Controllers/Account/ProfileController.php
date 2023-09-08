@@ -11,15 +11,15 @@ class ProfileController extends Controller
 {
 
     public function index(){
-        $profile='';
+        $profile=[];
         $profile=Profile::where('id_user',Auth::user()->id)->get();
-
-        return view('account.profile.index',compact('profile'));
+        $select='profile';
+        return view('account.profile.index',compact('profile','select'));
     }
 
     public function create(){
-
-        return view('account.profile.create');
+        $select='profile';
+        return view('account.profile.create',compact('select'));
 
     }
 
@@ -55,6 +55,63 @@ class ProfileController extends Controller
 
         return redirect()->route('account.profile');
 
+    }
+
+    public function edit(Request $request){
+
+
+
+        if(!empty($request->route('id'))){
+
+            $profile=Profile::findOrFail($request->route('id'));
+
+            $select='profile';
+            return view('account.profile.create',compact('select','profile'));
+
+        }
+
+    }
+
+    public function update(Request $request){
+
+        if(!empty($request->route('id'))){
+
+            $data=$request->all();
+
+            $validate=Validator::make($request->all(), [
+                'name'=>'required',
+                'Tel'=>'required|numeric',
+                'mail'=>'required',
+                'address'=>'required'
+            ]);
+
+            if ($validate->fails()) {
+
+                return redirect()->route('account.profile.edit',$request->route('id'))
+                    ->withErrors($validate)
+                    ->withInput();
+            }
+
+
+            $profile=Profile::findOrFail($request->route('id'));
+            $profile->name=$data['name'];
+            $profile->telephone=$data['Tel'];
+            $profile->mail=$data['mail'];
+            $profile->address=$data['address'];
+            $profile->update();
+
+            return redirect()->route('account.profile');
+
+        }
+    }
+
+    public function destroy(Request $request){
+        if(!empty($request->route('id'))) {
+            $profile = Profile::findOrFail($request->route('id'));
+            $profile->delete();
+
+            return redirect()->route('account.profile');
+        }
     }
 
 

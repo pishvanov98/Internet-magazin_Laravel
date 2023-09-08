@@ -4,8 +4,10 @@ use App\Http\Controllers\Controller;
 use App\Jobs\ProcessSendingEmail;
 use App\Models\Order;
 use App\Models\Profile;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -19,8 +21,10 @@ class CheckoutController extends Controller
         }
 
         $Profile=Profile::where('id_user',Auth::user()->id)->get();
-
-$address=[];
+        if(empty($Profile->all())){
+            $Profile=[];
+        }
+        $address=[];
         if(session()->has('address')){
             $address=session()->get('address');
 
@@ -48,20 +52,41 @@ $address=[];
                 ->withInput();
         }
 
-$user_id=0;
-if(!empty(Auth::user()->id)){
-    $user_id=Auth::user()->id;
-}
+        $user_id=0;
+        if(!empty(Auth::user()->id)){
+            $user_id=Auth::user()->id;
+        }
+
+        $cart=session()->get('cart');
+        $cart_prod=[];
+
+        foreach ($cart as $key=>$item){
+            if($item['active'] == 1){
+                $cart_prod[]=$item['id'];
+            }
+        }
+        $products_init=app('Product')->ProductInit($cart_prod);
+        $products_mass=[];
+
         $order= new Order();
         $order->name=$data['name'];
         $order->telephone=$data['Tel'];
         $order->mail=$data['mail'];
         $order->address=$data['address'];
         $order->shipping=$data['shipping'];
-        $order->products=serialize(session()->get('cart'));
         $order->price=(int)str_replace(' ', '', $data['price']);
         $order->customer=$user_id;
         $order->save();
+
+        $mytime = Carbon::now();
+
+        $products_init->map(function ($val)use($order,$cart,&$products_mass,$mytime){
+            $products_mass[]=['id_prod'=>$val->product_id,'id_order'=>$order->id,'count'=>$cart[$val->product_id]['quantity'],'price'=>$val->price,'created_at'=>$mytime->toDateTimeString(),'updated_at'=>$mytime->toDateTimeString()];
+        });
+
+        DB::table('productOrder')->insert($products_mass);
+
+
         session()->forget('cart');
         //$this->sendMessage($order->mail,$data['price'],$order->id);
         return route('successfully',$order->id);
@@ -81,14 +106,26 @@ if(!empty(Auth::user()->id)){
     public function SaveAddress(Request $request){
         $data=$request->all();
         if(!empty($data)){
-            if (session()->has('address') && !empty($data['id_key_address'])){
-                $address= session()->get('address');
-                $address=['name'=>$data['name'],'Tel'=>$data['Tel'],'mail'=>$data['mail'],'address'=>$data['address']];
-            }else{
-                $address=['name'=>$data['name'],'Tel'=>$data['Tel'],'mail'=>$data['mail'],'address'=>$data['address']];
-            }
+            $address=['name'=>$data['name'],'Tel'=>$data['Tel'],'mail'=>$data['mail'],'address'=>$data['address']];
             session()->put('address',$address);
         }
+    }
+
+
+    public function SelectAddress(Request $request){
+        $data=$request->all();
+        if(!empty($data['id'])){
+
+           $profile= Profile::findOrFail($data['id']);
+            if(!empty($profile)){
+                $address=['name'=>$profile->name,'Tel'=>$profile->telephone,'mail'=>$profile->mail,'address'=>$profile->address];
+                session()->put('address',$address);
+                return $address;
+            }
+            return '111';
+        }
+
+        return false;
     }
 
 }

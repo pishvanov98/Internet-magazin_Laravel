@@ -14,9 +14,9 @@ class AccountController extends Controller
     public function index(){
 
         $user=auth()->user();
-
+        $select='account';
         if(!empty($user)){
-            return view('account.index',compact('user'));
+            return view('account.index',compact('user','select'));
         }else{
             return redirect()->route('home');
         }

@@ -69,6 +69,7 @@ Route::get('/checkout',[\App\Http\Controllers\Checkout\CheckoutController::class
 Route::post('/createOrder',[\App\Http\Controllers\Checkout\CheckoutController::class,'SaveOrder'])->name('SaveOrder');
 Route::get('/successfully/{id}',[\App\Http\Controllers\Checkout\CheckoutController::class,'successfully'])->name('successfully');
 Route::post('/saveAddress',[\App\Http\Controllers\Checkout\CheckoutController::class,'SaveAddress'])->name('save.address');
+Route::post('/selectAddress',[\App\Http\Controllers\Checkout\CheckoutController::class,'SelectAddress'])->name('select.address');
 
 
 Route::get('/cart',[\App\Http\Controllers\Cart\CartController::class,'index'])->name('cart');
@@ -89,10 +90,16 @@ Route::group([ 'middleware' => ['role:user']], function(){//prefix подста�
 
     Route::get('/account',[\App\Http\Controllers\Account\AccountController::class,'index'])->name('account');
     Route::put('/account/user/{id}',[\App\Http\Controllers\Account\AccountController::class,'update'])->name('account.user.update');
-    Route::get('account/exit',[\App\Http\Controllers\Account\AccountController::class,'exit'])->name('exit');
+    Route::get('/account/exit',[\App\Http\Controllers\Account\AccountController::class,'exit'])->name('exit');
 
-    Route::get('/account/address',[\App\Http\Controllers\Account\ProfileController::class,'index'])->name('account.profile');
-    Route::get('/account/address/create',[\App\Http\Controllers\Account\ProfileController::class,'create'])->name('account.profile.create');
-    Route::post('/account/address',[\App\Http\Controllers\Account\ProfileController::class,'store'])->name('account.profile.store');
+    Route::get('/account/profile',[\App\Http\Controllers\Account\ProfileController::class,'index'])->name('account.profile');
+    Route::get('/account/profile/create',[\App\Http\Controllers\Account\ProfileController::class,'create'])->name('account.profile.create');
+    Route::post('/account/profile',[\App\Http\Controllers\Account\ProfileController::class,'store'])->name('account.profile.store');
+    Route::get('/account/profile/edit/{id}',[\App\Http\Controllers\Account\ProfileController::class,'edit'])->name('account.profile.edit');
+    Route::put('/account/profile/update/{id}',[\App\Http\Controllers\Account\ProfileController::class,'update'])->name('account.profile.update');
+    Route::delete('/account/profile/{id}',[\App\Http\Controllers\Account\ProfileController::class,'destroy'])->name('account.profile.delete');
+
+    Route::get('/account/orders',[\App\Http\Controllers\Account\OrderController::class,'index'])->name('account.order');
+    Route::get('/account/orders/{id}',[\App\Http\Controllers\Account\OrderController::class,'show'])->name('account.order.show');
 
 });

@@ -4,6 +4,14 @@
         <h4 class="mb-3">Способ оплаты и доставки</h4>
 <div class="flex_cart_item_input__all">
 <div class="checkout">
+@if( !empty($Profile))
+            <select class="form-select profile" >
+                <option selected>Выбрать профиль</option>
+                @foreach($Profile as $key=> $item)
+                    <option value="{{$item->id}}">{{$item->name}}: {{$item->address}}</option>
+                @endforeach
+            </select>
+    @endif
             <div class="cart_item_input">
                 <input @if(!empty($address['name'])) value="{{$address['name']}}" @endif placeholder="ФИО" type="text" id="name">
             </div>
@@ -40,6 +48,30 @@
         <script>
 
 
+
+$('.profile').change(function(){
+    var value = $(this).val();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url:'{{route('select.address')}}',
+        method:'post',
+        dataType:'json',
+        data:{id:value},
+        success:function (data){
+
+            if(data){
+                $("#name").val(data['name']);
+                $("#Tel").val(data['Tel']);
+                $("#mail").val(data['mail']);
+                $("#address").val(data['address']);
+            }
+        }
+    });
+});
 
             $('.checkout input').keyup(function(){
 

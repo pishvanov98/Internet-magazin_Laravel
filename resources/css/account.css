@@ -50,3 +50,11 @@
 width: 300px;
 margin-right: 20px;
 }
+.block_account table a{
+    text-decoration: none;
+}
+.btn-href{
+    border: none;
+    background: none;
+    color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+}
