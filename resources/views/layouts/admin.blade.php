@@ -99,6 +99,12 @@
                                     <p>Товары</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{route('admin.user')}}" class="nav-link flex_block @if(!empty($page) && $page == "user") active @endif">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Пользователи</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
 

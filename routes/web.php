@@ -57,6 +57,9 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['role:admin'], 'prefix'=>
     Route::post('/product',[\App\Http\Controllers\Admin\ProductController::class,'store'])->name('admin.product.store');
     Route::delete('/product/{id}',[\App\Http\Controllers\Admin\ProductController::class, 'destroy'])->name('admin.product.destroy');
 
+    Route::get('/user',[\App\Http\Controllers\Admin\UserController::class,'index'])->name('admin.user');
+    Route::get('/user/show/{id}',[\App\Http\Controllers\Admin\UserController::class,'show'])->name('admin.user.show');
+    Route::put('/user/{id}',[\App\Http\Controllers\Admin\UserController::class,'update'])->name('admin.user.update');
 
 });
 

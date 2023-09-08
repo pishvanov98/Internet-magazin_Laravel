@@ -3,8 +3,11 @@
 namespace App\Components;
 
 use App\Models\ProductDescription;
+use App\Models\UserType;
 use Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 
 class ProductComponent
@@ -201,12 +204,39 @@ if(!empty($mass_prod_id)){
 }
 
         $products_out=collect($products_out);
+$user_type='';
+if (session()->has('user_id')){
+    $user_type=session()->get('user_id');
+}else{
+    if(!empty(Auth::user()->id)) {
+        $type_user = UserType::where('user_id', Auth::user()->id)->first();
+        $user_type = $type_user->user_type;
+        session()->put('user_id', $user_type);
+    }
+}
+
+if(!empty($user_type) && $user_type == 2 || !empty($user_type) && $user_type == 3){
+    $products_out=  $this->ProductToGroupUser($user_type,$products_out);
+}
 
 if(!empty($paginate)){
     return($products_out->paginate($paginate));
 }else{
     return($products_out);
 }
+    }
+
+    public function ProductToGroupUser($user_type,$products_out){
+        $products_out->map(function ($item)use(&$user_type){
+            foreach ($item->product_discount as $value){
+            if($value->customer_group_id == $user_type){
+                $item->price=$value->price;
+            }
+            }
+            return $item;
+        });
+
+        return $products_out;
     }
 
 
