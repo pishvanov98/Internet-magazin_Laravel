@@ -204,7 +204,7 @@ if(!empty($mass_prod_id)){
 }
 
         $products_out=collect($products_out);
-$user_type='';
+$user_type=0;
 if (session()->has('user_id')){
     $user_type=session()->get('user_id');
 }else{
@@ -219,14 +219,14 @@ if (session()->has('user_id')){
     }
 }
 
-if(!empty($user_type) && $user_type == 2 || !empty($user_type) && $user_type == 3){
-    $products_out=  $this->ProductToGroupUser($user_type,$products_out);
-}
-
 if(session()->has('wishlist')){
-    $products_out=  $this->checkWishlist($products_out,session()->get('wishlist'));
+$wishlist=session()->get('wishlist');
+}else{
+$wishlist='';
 }
-
+if(!empty($wishlist) || !empty($user_type)){
+    $products_out=  $this->checkWishlistAndGroupUser($products_out,$wishlist,$user_type);
+}
 if(!empty($paginate)){
     return($products_out->paginate($paginate));
 }else{
@@ -234,25 +234,24 @@ if(!empty($paginate)){
 }
     }
 
-    public function ProductToGroupUser($user_type,$products_out){
-        $products_out->map(function ($item)use(&$user_type){
-            foreach ($item->product_discount as $value){
+
+    public function checkWishlistAndGroupUser($products_out,$wishlist,$user_type ){
+
+        $products_out->map(function ($item) use ($wishlist,$user_type){
+            if(!empty($wishlist[$item->product_id])){
+                $item->wishlist=1;
+            }
+
+ if(!empty($user_type) && $user_type == 2 || !empty($user_type) && $user_type == 3){
+
+
+     foreach ($item->product_discount as $value){
             if($value->customer_group_id == $user_type){
                 $item->price=$value->price;
             }
             }
-            return $item;
-        });
-
-        return $products_out;
-    }
-
-    public function checkWishlist($products_out,$wishlist){
-
-        $products_out->map(function ($item) use ($wishlist){
-            if(!empty($wishlist[$item->product_id])){
-                $item->wishlist=1;
-            }
+}
+     
             return $item;
         });
     return $products_out;
