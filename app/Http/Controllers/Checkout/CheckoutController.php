@@ -19,10 +19,12 @@ class CheckoutController extends Controller
         if($cart_info['count_all_prod'] == 0){
             return redirect()->route('cart');
         }
-
-        $Profile=Profile::where('id_user',Auth::user()->id)->get();
-        if(empty($Profile->all())){
-            $Profile=[];
+        $Profile=[];
+        if(!empty(Auth::user()->id)){
+            $Profile=Profile::where('id_user',Auth::user()->id)->get();
+            if(empty($Profile->all())){
+                $Profile=[];
+            }
         }
         $address=[];
         if(session()->has('address')){
