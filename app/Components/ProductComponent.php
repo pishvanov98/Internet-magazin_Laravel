@@ -210,7 +210,11 @@ if (session()->has('user_id')){
 }else{
     if(!empty(Auth::user()->id)) {
         $type_user = UserType::where('user_id', Auth::user()->id)->first();
-        $user_type = $type_user->user_type;
+        if(empty($type_user->user_type)){
+            $user_type = 0;
+        }else{
+            $user_type = $type_user->user_type;
+        }
         session()->put('user_id', $user_type);
     }
 }

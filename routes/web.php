@@ -106,4 +106,6 @@ Route::group([ 'middleware' => ['role:user']], function(){//prefix подста�
     Route::get('/account/orders',[\App\Http\Controllers\Account\OrderController::class,'index'])->name('account.order');
     Route::get('/account/orders/{id}',[\App\Http\Controllers\Account\OrderController::class,'show'])->name('account.order.show');
 
+    Route::get('/account/wishlist',[\App\Http\Controllers\Account\WishlistController::class,'index'])->name('account.wishlist');
+
 });

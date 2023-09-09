@@ -9,7 +9,7 @@
                 <p class="card-text">Стоимость {{number_format($product->price, 0, '', ' ')}} ₽</p>
                 <div class="d-flex justify-content-between align-items-center">
                 <span onclick="addToCart({{$product->product_id}},1)" class="btn btn-primary ">Купить</span>
-                    <span onclick="addToWishlist({{$product->product_id}})" class="wishlist">
+                    <span data-id="{{$product->product_id}}" onclick="addToWishlist({{$product->product_id}})" class="wishlist">
                         @if(!empty($product->wishlist))
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                               <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
