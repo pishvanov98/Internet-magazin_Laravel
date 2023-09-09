@@ -78,6 +78,7 @@ Route::post('/selectAddress',[\App\Http\Controllers\Checkout\CheckoutController:
 Route::get('/cart',[\App\Http\Controllers\Cart\CartController::class,'index'])->name('cart');
 
 Route::get('/addCart',[\App\Http\Controllers\Cart\CartController::class,'addToCart'])->name('addCart');
+Route::get('/addToWishlist',[\App\Http\Controllers\Wishlist\WishlistController::class,'addToWishlist'])->name('addToWishlist');
 Route::get('/delCart',[\App\Http\Controllers\Cart\CartController::class,'DelToCart'])->name('delCart');
 Route::get('/delAllCart',[\App\Http\Controllers\Cart\CartController::class,'DelAllCart'])->name('delAllCart');
 Route::get('/updateProductCart',[\App\Http\Controllers\Cart\CartController::class,'UpdateCountProduct'])->name('UpdateCountProduct');

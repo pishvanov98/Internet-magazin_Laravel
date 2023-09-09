@@ -219,6 +219,10 @@ if(!empty($user_type) && $user_type == 2 || !empty($user_type) && $user_type == 
     $products_out=  $this->ProductToGroupUser($user_type,$products_out);
 }
 
+if(session()->has('wishlist')){
+    $products_out=  $this->checkWishlist($products_out,session()->get('wishlist'));
+}
+
 if(!empty($paginate)){
     return($products_out->paginate($paginate));
 }else{
@@ -237,6 +241,17 @@ if(!empty($paginate)){
         });
 
         return $products_out;
+    }
+
+    public function checkWishlist($products_out,$wishlist){
+
+        $products_out->map(function ($item) use ($wishlist){
+            if(!empty($wishlist[$item->product_id])){
+                $item->wishlist=1;
+            }
+            return $item;
+        });
+    return $products_out;
     }
 
 
