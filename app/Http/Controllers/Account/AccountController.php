@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
+use App\Models\CartUser;
 use App\Models\User;
+use App\Models\WishlistUser;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -76,6 +79,23 @@ class AccountController extends Controller
 
     public function exit()
     {
+if(session()->has('cart')){
+    $cart=   session()->get('cart');
+    $cart=serialize($cart);
+
+    CartUser::updateOrCreate([
+        'user_id'   => Auth::user()->id,
+    ],['user_id'=>Auth::user()->id,'Cart'=>$cart]);
+}
+        if(session()->has('wishlist')){
+            $wishlist=   session()->get('cart');
+            $wishlist=serialize($wishlist);
+
+            WishlistUser::updateOrCreate([
+                'user_id'   => Auth::user()->id,
+            ],['user_id'=>Auth::user()->id,'wishlist'=>$wishlist]);
+        }
+
         session()->flush();
 
         return redirect()->route('home');
