@@ -242,16 +242,14 @@ if(!empty($paginate)){
                 $item->wishlist=1;
             }
 
- if(!empty($user_type) && $user_type == 2 || !empty($user_type) && $user_type == 3){
-
-
-     foreach ($item->product_discount as $value){
-            if($value->customer_group_id == $user_type){
-                $item->price=$value->price;
+             if(!empty($user_type) && $user_type == 2 || !empty($user_type) && $user_type == 3){
+                 foreach ($item->product_discount as $value){
+                        if($value->customer_group_id == $user_type){
+                            $item->price=$value->price;
+                        }
+                 }
             }
-            }
-}
-     
+
             return $item;
         });
     return $products_out;

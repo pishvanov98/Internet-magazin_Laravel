@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\CategoryDescription;
 use App\Models\Img;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
@@ -57,6 +58,11 @@ class CategoryController extends Controller
 
     public function categoryTree($category_id){
 
+        if (Cache::has('array_category_out'.$category_id)){
+            $array_category_out=Cache::get('array_category_out'.$category_id);
+            return $array_category_out;
+        }
+
        $array_category_out=[];
        $mainCategory = DB::connection('mysql2')->table('sd_category')->where('sd_category.category_id','=',$category_id)->where('sd_category.status','=',1)->select('sd_category.category_id','sd_category.parent_id','sd_category_description.name','sd_category_description.slug')
        ->join('sd_category_description','sd_category_description.category_id','=','sd_category.category_id')->first();
@@ -91,6 +97,8 @@ class CategoryController extends Controller
             return $item;
         });
         $array_category_out['Children']=$Children->all();
+
+        Cache::put('array_category_out'.$category_id,$array_category_out,1440);
 
         return $array_category_out;
 
