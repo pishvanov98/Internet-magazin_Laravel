@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\CartUser;
+use App\Models\SessionId;
 use App\Models\WishlistUser;
 use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
@@ -46,6 +47,7 @@ class LoginController extends Controller
     {
         $this->SetUserId();
         $this->loadDataDb();
+        $this->saveSessionId();
     }
     public function SetUserId(){
 
@@ -80,6 +82,13 @@ class LoginController extends Controller
                     session()->put('wishlist',$wishlistDb->wishlist);
                 }
             }
+}
+public function saveSessionId(){
+
+    SessionId::updateOrCreate([
+        'user_id'   => Auth::user()->id,
+    ],['user_id'=>Auth::user()->id,'SessionId'=>session()->getId()]);
+
 }
 
 }
