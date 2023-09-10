@@ -238,16 +238,18 @@ if(!empty($paginate)){
     public function checkWishlistAndGroupUser($products_out,$wishlist,$user_type ){
 
         $products_out->map(function ($item) use ($wishlist,$user_type){
-            if(!empty($wishlist[$item->product_id])){
-                $item->wishlist=1;
-            }
+            if(!empty($item->product_id)){//проходим по всем элементам которые выводим и проверяем в избранном они и проверяем цену
+                if(!empty($wishlist[$item->product_id])){
+                    $item->wishlist=1;
+                }
 
-             if(!empty($user_type) && $user_type == 2 || !empty($user_type) && $user_type == 3){
-                 foreach ($item->product_discount as $value){
+                if(!empty($user_type) && $user_type == 2 || !empty($user_type) && $user_type == 3){
+                    foreach ($item->product_discount as $value){
                         if($value->customer_group_id == $user_type){
                             $item->price=$value->price;
                         }
-                 }
+                    }
+                }
             }
 
             return $item;

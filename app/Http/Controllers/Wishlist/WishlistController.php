@@ -23,7 +23,7 @@ class WishlistController extends Controller
                 session()->put('wishlist',$wishlist);
                 return 0;
             }else{
-                $wishlist[$data['id']]=$data['id'];
+                $wishlist[$data['id']]=(int)$data['id'];
                 session()->put('wishlist',$wishlist);
                 return 1;
             }
