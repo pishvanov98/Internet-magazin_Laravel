@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\CartUser;
+use App\Models\WishlistUser;
 use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -43,6 +45,7 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         $this->SetUserId();
+        $this->loadDataDb();
     }
     public function SetUserId(){
 
@@ -51,5 +54,32 @@ class LoginController extends Controller
             session()->put('time_auth',strtotime(Carbon::now()->format('Y-m-d')));
         }
     }
+
+    public function loadDataDb(){
+
+            $cartDb= CartUser::where('user_id',Auth::user()->id)->first();
+            $cartDb->Cart=unserialize($cartDb->Cart);
+            $wishlistDb= WishlistUser::where('user_id',Auth::user()->id)->first();
+            $wishlistDb->wishlist=unserialize($wishlistDb->wishlist);
+
+        if(session()->has('cart') && !empty($cartDb)){
+                $cart=session()->get('cart');
+                $cart=array_merge($cart,$cartDb->Cart);
+                session()->put('cart',$cart);
+            }else{
+                if(!empty($cartDb)){
+                    session()->put('cart',$cartDb->Cart);
+                }
+            }
+            if(session()->has('wishlist')) {
+                $wishlist=session()->get('wishlist');
+                $wishlist=array_merge($wishlist,$wishlistDb->wishlist);
+                session()->put('wishlist',$wishlist);
+            }else{
+                if(!empty($wishlistDb)){
+                    session()->put('wishlist',$wishlistDb->wishlist);
+                }
+            }
+}
 
 }
