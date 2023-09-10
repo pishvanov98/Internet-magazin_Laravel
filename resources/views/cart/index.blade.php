@@ -40,7 +40,13 @@
                                 </span>
                                 <span class="flex_input_cart_bottom">
                                 <a class="removetovar hidden" href="#" onclick="delAllCart({{$Product->product_id}})" data-toggle="tooltip" title="Удалить">Удалить</a>
-                                <a class="towishlist-cart hidden" onclick="">В избранное</a>
+                                 <span data-id="{{$Product->product_id}}" onclick="addToWishlistCart({{$Product->product_id}})" class="wishlist towishlist-cart hidden">
+                                     @if(!empty($Product->wishlist))
+                                         <span>В избранном</span>
+                                    @else
+                                         <span>Добавить в избранное</span>
+                                    @endif
+                                 </span>
                                 </span>
                             </td>
                             <td><strong class="product-pricetotal">{{number_format($Product->price, 0, '', ' ')}} ₽</strong></td>
@@ -198,6 +204,28 @@
                     success: function(data){
                         $('#cart-total').text(data);
                         updateCount(id);
+                    }
+                });
+
+            }
+
+
+            function addToWishlistCart(id){
+
+                $.ajax({
+                    url: '{{route('addToWishlist')}}',
+                    method: 'get',
+                    dataType: 'json',
+                    data: {id: id},
+                    success: function(data){
+
+                        if(data == 1){
+                            $('.cartItem_'+id+ ' .wishlist').html('<span>В избранном</span>');
+                        }else{
+                            $('.cartItem_'+id+ ' .wishlist').html('<span>Добавить в избранное</span>');
+
+                        }
+
                     }
                 });
 
