@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('mail');
             $table->string('address');
             $table->string('shipping');
-            $table->text('products');
+//            $table->text('products');
             $table->integer('price');
             $table->string('customer');
             $table->timestamps();
