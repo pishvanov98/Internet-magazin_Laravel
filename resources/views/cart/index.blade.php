@@ -74,7 +74,7 @@
 
         <script>
 
-
+            updateCount(0);
             $("#all_click_check_cart").on('click',function (){
                 if ($(this).is(':checked')){
                     $('table input:checkbox').prop('checked', true);

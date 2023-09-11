@@ -22,7 +22,9 @@
 
                         @endif
                     </div>
-                    <div class="pagination_wrapper">  {{$Products->links()}} </div>
+                    @if($Products)
+                        <div class="pagination_wrapper">  {{$Products->links()}} </div>
+                    @endif
                 </div>
 
             </div>

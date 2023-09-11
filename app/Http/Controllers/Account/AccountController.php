@@ -79,14 +79,14 @@ class AccountController extends Controller
 
     public function exit()
     {
-if(session()->has('cart')){
-    $cart=   session()->get('cart');
-    $cart=serialize($cart);
+        if(session()->has('cart')){
+            $cart=   session()->get('cart');
+            $cart=serialize($cart);
 
-    CartUser::updateOrCreate([
-        'user_id'   => Auth::user()->id,
-    ],['user_id'=>Auth::user()->id,'Cart'=>$cart]);
-}
+            CartUser::updateOrCreate([
+                'user_id'   => Auth::user()->id,
+            ],['user_id'=>Auth::user()->id,'Cart'=>$cart]);
+        }
         if(session()->has('wishlist')){
             $wishlist=   session()->get('cart');
             $wishlist=serialize($wishlist);

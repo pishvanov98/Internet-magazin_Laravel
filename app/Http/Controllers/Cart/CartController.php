@@ -16,6 +16,9 @@ class CartController extends Controller
         if(session()->has('cart')){
           $cart=session()->get('cart');
         }
+
+        $cart= app('Cart')->update_cart($cart);
+
         $cart_info=app('Cart')->CheckCountProduct();
 
         $products_init=app('Product')->ProductInit(array_column($cart,'id'));

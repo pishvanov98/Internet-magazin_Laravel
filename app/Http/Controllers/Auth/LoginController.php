@@ -47,7 +47,7 @@ class LoginController extends Controller
     {
         $this->SetUserId();
         $this->loadDataDb();
-        $this->saveSessionId();
+        //$this->saveSessionId();
     }
     public function SetUserId(){
 

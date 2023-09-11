@@ -77,7 +77,6 @@ Route::get('/product/{slug}', [App\Http\Controllers\Product\ProductController::c
 Route::get('/category/{slug}', [\App\Http\Controllers\Category\CategoryController::class,'show'])->name('category.show');
 Route::get('/page/{name}',[\App\Http\Controllers\Page\PageController::class,'index'])->name('page');
 
-
 Route::get('/checkout',[\App\Http\Controllers\Checkout\CheckoutController::class,'index'])->name('checkout');
 Route::post('/createOrder',[\App\Http\Controllers\Checkout\CheckoutController::class,'SaveOrder'])->name('SaveOrder');
 Route::get('/successfully/{id}',[\App\Http\Controllers\Checkout\CheckoutController::class,'successfully'])->name('successfully');

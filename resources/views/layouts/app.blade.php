@@ -40,7 +40,7 @@
 
                 </li>
                 <li class="nav-item"><a href="/dostavka" class="nav-link link-dark px-2">Доставка</a></li>
-                <li class="nav-item"><a href="/oplata" class="nav-link link-dark px-2">Оплата</a></li>
+                <li class="nav-item"><a href="{{route('page','oplata')}}" class="nav-link link-dark px-2">Оплата</a></li>
                 <li class="nav-item"><a href="/vozvrat" class="nav-link link-dark px-2">Возврат</a></li>
                 <li class="nav-item"><a href="/samovivoz" class="nav-link link-dark px-2">Самовывоз</a></li>
                 <li class="nav-item"><a href="/predzakaz" class="nav-link link-dark px-2">Предзаказ</a></li>

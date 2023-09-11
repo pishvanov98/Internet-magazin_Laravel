@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CartUser extends Model
 {
     use HasFactory;
-    protected $table='CartUser';
+    protected $table='сartUser';
     protected $guarded=[];
 
 }

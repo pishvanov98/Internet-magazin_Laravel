@@ -3,7 +3,9 @@ namespace App\Components;
 
 
 
+use App\Models\CartUser;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 
 class CartComponent
 {
@@ -136,7 +138,7 @@ class CartComponent
         }else{
             $cart[$id]=['id'=>$id,'quantity'=>$quantity,'active'=>1];
         }
-        session()->put('cart',$cart);
+        $this->update_cart($cart,$id);
         return $this->checkCart();
     }
     public function deleteCart($id){
@@ -146,13 +148,13 @@ class CartComponent
 
             if (!empty($cart[$id]) && $cart[$id]['quantity'] > 1) {
                 $cart[$id]['quantity'] = $cart[$id]['quantity'] - 1;
-                session()->put('cart', $cart);
             } else {
                 if(isset($cart[$id])){
                     unset($cart[$id]);
                 }
             }
-            session()->put('cart', $cart);
+
+            $this->update_cart($cart,$id);
         }
         return $this->checkCart();
     }
@@ -161,10 +163,77 @@ class CartComponent
         if(!empty($id)){
             $cart = session()->get('cart');
             unset($cart[$id]);
-            session()->put('cart', $cart);
+
+           $this->update_cart($cart,$id);
+
         }else{
             session()->forget('cart');
+            $this->update_cart(0,0);
         }
         return true;
+    }
+
+    public function update_cart($cart,$id=0){
+
+        if(empty(Auth::user()->id)){
+            return $this->update_cart_guest($cart,$id);
+        }
+
+        if($cart == 0){
+            $cartDb=CartUser::where('user_id',Auth::user()->id)->first();//обновляю корзину
+            $cartDb->delete();
+            return false;
+        }
+
+        $cartDb=CartUser::where('user_id',Auth::user()->id)->first();//обновляю корзину
+        if(!empty($cartDb->Cart)){
+            $cart_massDb=unserialize($cartDb->Cart);
+            foreach ($cart_massDb as $item){
+                if(empty($cart[$item['id']]) && $item['id'] != $id){
+                    $cart[$item['id']]=$item;
+                }else{
+                    if(!empty($cart[$item['id']]['quantity']) && $cart[$item['id']]['quantity'] < $item['quantity'] && $item['id'] != $id){
+                        $cart[$item['id']]=$item;
+                    }
+                }
+            }
+            $cartDb->Cart=serialize($cart);
+            $cartDb->update();
+        }else{
+            CartUser::create(['user_id'=>Auth::user()->id,'Cart'=>serialize($cart)]);
+        }
+
+        session()->put('cart',$cart);
+        return $cart;
+    }
+    public function update_cart_guest($cart,$id=0){
+    $session_id=session()->getId();
+        if($cart == 0){
+            $cartDb=CartUser::where('session_id',$session_id)->first();//обновляю корзину
+            $cartDb->delete();
+            return false;
+        }
+
+        $cartDb=CartUser::where('session_id',$session_id)->first();//обновляю корзину
+        if(!empty($cartDb->Cart)){
+            $cart_massDb=unserialize($cartDb->Cart);
+            foreach ($cart_massDb as $item){
+                if(empty($cart[$item['id']]) && $item['id'] != $id){
+                    $cart[$item['id']]=$item;
+                }else{
+                    if(!empty($cart[$item['id']]['quantity']) && $cart[$item['id']]['quantity'] < $item['quantity'] && $item['id'] != $id){
+                        $cart[$item['id']]=$item;
+                    }
+                }
+            }
+            $cartDb->Cart=serialize($cart);
+            $cartDb->update();
+        }else{
+            CartUser::create(['session_id'=>$session_id,'Cart'=>serialize($cart)]);
+        }
+
+        session()->put('cart',$cart);
+        return $cart;
+
     }
 }
