@@ -23,11 +23,11 @@ class WishlistController extends Controller
             }
             if(!empty($wishlist[$data['id']])){
                 unset($wishlist[$data['id']]);
-                $this->update_cart($wishlist,(int)$data['id']);
+                $this->update_wishlist($wishlist,(int)$data['id']);
                 return 0;
             }else{
                 $wishlist[$data['id']]=(int)$data['id'];
-                $this->update_cart($wishlist,(int)$data['id']);
+                $this->update_wishlist($wishlist,(int)$data['id']);
                 return 1;
             }
 
@@ -35,7 +35,7 @@ class WishlistController extends Controller
 
     }
 
-    public function update_cart($wishlist,$id=0){
+    public function update_wishlist($wishlist,$id=0){
 
         if(empty(Auth::user()->id)){
             return  session()->put('wishlist',$wishlist);
