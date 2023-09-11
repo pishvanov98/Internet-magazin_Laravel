@@ -105,6 +105,18 @@
                                     <p>Пользователи</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{route('admin.order')}}" class="nav-link flex_block @if(!empty($page) && $page == "order") active @endif">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Список заказов</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{route('admin.pageGenerator')}}" class="nav-link flex_block @if(!empty($page) && $page == "pageGenerator") active @endif">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Генератор страниц</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
 

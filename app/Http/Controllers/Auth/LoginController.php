@@ -60,25 +60,27 @@ class LoginController extends Controller
     public function loadDataDb(){
 
             $cartDb= CartUser::where('user_id',Auth::user()->id)->first();
-            $cartDb->Cart=unserialize($cartDb->Cart);
             $wishlistDb= WishlistUser::where('user_id',Auth::user()->id)->first();
-            $wishlistDb->wishlist=unserialize($wishlistDb->wishlist);
 
-        if(session()->has('cart') && !empty($cartDb)){
+        if(session()->has('cart') && !empty($cartDb->Cart)){
+                $cartDb->Cart=unserialize($cartDb->Cart);
                 $cart=session()->get('cart');
                 $cart=array_merge($cart,$cartDb->Cart);
                 session()->put('cart',$cart);
             }else{
-                if(!empty($cartDb)){
+                if(!empty($cartDb->Cart)){
+                    $cartDb->Cart=unserialize($cartDb->Cart);
                     session()->put('cart',$cartDb->Cart);
                 }
             }
-            if(session()->has('wishlist')) {
+            if(session()->has('wishlist')&& !empty($wishlistDb->wishlist)) {
+                $wishlistDb->wishlist=unserialize($wishlistDb->wishlist);
                 $wishlist=session()->get('wishlist');
                 $wishlist=array_merge($wishlist,$wishlistDb->wishlist);
                 session()->put('wishlist',$wishlist);
             }else{
-                if(!empty($wishlistDb)){
+                if(!empty($wishlistDb->wishlist)){
+                    $wishlistDb->wishlist=unserialize($wishlistDb->wishlist);
                     session()->put('wishlist',$wishlistDb->wishlist);
                 }
             }

@@ -61,6 +61,15 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['role:admin'], 'prefix'=>
     Route::get('/user/show/{id}',[\App\Http\Controllers\Admin\UserController::class,'show'])->name('admin.user.show');
     Route::put('/user/{id}',[\App\Http\Controllers\Admin\UserController::class,'update'])->name('admin.user.update');
 
+    Route::get('/order',[\App\Http\Controllers\Admin\OrderController::class,'index'])->name('admin.order');
+    Route::get('/order/{id}',[\App\Http\Controllers\Admin\OrderController::class,'show'])->name('admin.order.show');
+
+    Route::get('/pageGenerator',[\App\Http\Controllers\Admin\PageGeneratorController::class,'index'])->name('admin.pageGenerator');
+    Route::get('/pageGenerator/create',[\App\Http\Controllers\Admin\PageGeneratorController::class, 'create'])->name('admin.pageGenerator.create');
+    Route::post('/pageGenerator',[\App\Http\Controllers\Admin\PageGeneratorController::class, 'store'])->name('admin.pageGenerator.store');
+    Route::delete('/pageGenerator/{id}',[\App\Http\Controllers\Admin\PageGeneratorController::class, 'destroy'])->name('admin.pageGenerator.destroy');
+    Route::get('/pageGenerator/edit/{id}',[\App\Http\Controllers\Admin\PageGeneratorController::class, 'edit'])->name('admin.pageGenerator.edit');
+    Route::put('/pageGenerator/{id}',[\App\Http\Controllers\Admin\PageGeneratorController::class, 'update'])->name('admin.pageGenerator.update');
 });
 
 
