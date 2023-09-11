@@ -88,7 +88,7 @@ class AccountController extends Controller
             ],['user_id'=>Auth::user()->id,'Cart'=>$cart]);
         }
         if(session()->has('wishlist')){
-            $wishlist=   session()->get('cart');
+            $wishlist=   session()->get('wishlist');
             $wishlist=serialize($wishlist);
 
             WishlistUser::updateOrCreate([
