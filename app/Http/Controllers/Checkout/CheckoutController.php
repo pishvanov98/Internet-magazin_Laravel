@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Checkout;
 use App\Http\Controllers\Controller;
 use App\Jobs\ProcessSendingEmail;
+use App\Models\CartUser;
 use App\Models\Order;
 use App\Models\Profile;
 use Carbon\Carbon;
@@ -90,6 +91,19 @@ class CheckoutController extends Controller
 
 
         session()->forget('cart');
+
+        if(!empty(Auth::user()->id)){
+            $cartDb=CartUser::where('user_id',Auth::user()->id)->first();//обновляю корзину
+            if(!empty($cartDb)){
+                $cartDb->delete();
+            }
+        }else{
+            $cartDb=CartUser::where('session_id',session()->getId())->first();//обновляю корзину
+            if(!empty($cartDb)){
+                $cartDb->delete();
+            }
+        }
+
         //$this->sendMessage($order->mail,$data['price'],$order->id);
         return route('successfully',$order->id);
 
