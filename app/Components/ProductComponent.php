@@ -33,7 +33,6 @@ class ProductComponent
 
         $mass_prod_id=[];
         $query=DB::connection('mysql2')->table('sd_product')->select('sd_product.product_id')
-            ->where('sd_product.quantity','>',0)
             ->where('sd_product.price','>',0);
 
         if (is_array($value_search)){
@@ -43,9 +42,11 @@ class ProductComponent
                 }else{
                     $query->orWhere('sd_product_description.tag', 'LIKE', '%'.$val.'%');
                 }
+                $query->where('sd_product.quantity','>',0);
             }
         }else{
             $query->where('sd_product_description.tag','LIKE','%'.$value_search.'%');
+            $query->where('sd_product.quantity','>',0);
         }
 
         $query->join('sd_product_description','sd_product.product_id','=','sd_product_description.product_id')
@@ -205,17 +206,17 @@ if(!empty($mass_prod_id)){
 
         $products_out=collect($products_out);
 $user_type=0;
-if (session()->has('user_id')){
-    $user_type=session()->get('user_id');
+if (session()->has('user_type')){
+    $user_type=session()->get('user_type');
 }else{
     if(!empty(Auth::user()->id)) {
-        $type_user = UserType::where('user_id', Auth::user()->id)->first();
+        $type_user = UserType::where('user_type', Auth::user()->id)->first();
         if(empty($type_user->user_type)){
             $user_type = 0;
         }else{
             $user_type = $type_user->user_type;
         }
-        session()->put('user_id', $user_type);
+        session()->put('user_type', $user_type);
     }
 }
 
