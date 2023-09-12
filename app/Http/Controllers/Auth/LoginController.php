@@ -63,8 +63,8 @@ class LoginController extends Controller
             $wishlistDb= WishlistUser::where('user_id',Auth::user()->id)->first();
 
         if(session()->has('cart') && !empty($cartDb->Cart)){
-            $cartDb->Cart=unserialize($cartDb->Cart);
-            $cart=session()->get('cart');
+                $cartDb->Cart=unserialize($cartDb->Cart);
+                $cart=session()->get('cart');
 
             foreach ($cartDb->Cart as $item){
                 if(empty($cart[$item['id']])){
@@ -77,31 +77,31 @@ class LoginController extends Controller
             }
             session()->put('cart',$cart);
 
-        }else{
-            if(!empty($cartDb->Cart)){
-                $cartDb->Cart=unserialize($cartDb->Cart);
-                session()->put('cart',$cartDb->Cart);
-            }
-        }
-        if(session()->has('wishlist')&& !empty($wishlistDb->wishlist)) {
-            $wishlistDb->wishlist=unserialize($wishlistDb->wishlist);
-            $wishlist=session()->get('wishlist');
-
-
-            foreach ($wishlistDb->wishlist as $item){
-
-                if(empty($wishlist[$item])){
-                    $wishlist[$item]=$item;
+            }else{
+                if(!empty($cartDb->Cart)){
+                    $cartDb->Cart=unserialize($cartDb->Cart);
+                    session()->put('cart',$cartDb->Cart);
                 }
             }
-
-            session()->put('wishlist',$wishlist);
-        }else{
-            if(!empty($wishlistDb->wishlist)){
+            if(session()->has('wishlist')&& !empty($wishlistDb->wishlist)) {
                 $wishlistDb->wishlist=unserialize($wishlistDb->wishlist);
-                session()->put('wishlist',$wishlistDb->wishlist);
+                $wishlist=session()->get('wishlist');
+
+
+                foreach ($wishlistDb->wishlist as $item){
+
+                    if(empty($wishlist[$item])){
+                        $wishlist[$item]=$item;
+                    }
+                }
+
+                session()->put('wishlist',$wishlist);
+            }else{
+                if(!empty($wishlistDb->wishlist)){
+                    $wishlistDb->wishlist=unserialize($wishlistDb->wishlist);
+                    session()->put('wishlist',$wishlistDb->wishlist);
+                }
             }
-        }
 }
 public function saveSessionId(){
 

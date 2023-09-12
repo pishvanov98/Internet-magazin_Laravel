@@ -37,6 +37,7 @@ class ProductComponent
 
         if (is_array($value_search)){
             foreach ($value_search as  $key=> $val){
+
                 if($key == 0){
                     $query->Where('sd_product_description.tag', 'LIKE', '%'.$val.'%');
                 }else{

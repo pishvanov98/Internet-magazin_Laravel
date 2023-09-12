@@ -26,26 +26,25 @@
                 <li class="nav-item menu_Info menu-hover">
                         <a href="tel:+74995020830" class="menu_Info">О компании <img style="width: 20px" src="{{asset('/img/caret.svg')}}"></a>
                         <ul class="submenu">
-                            <li><a href="/about_avel">О нас</a></li>
-                            <li><a href="/otzyvi">Отзывы</a></li>
-                            <li><a href="/news">Новости</a></li>
-                            <li><a href="/seminar">Семинары</a></li>
-                            <li><a href="/team">Наша команда</a></li>
-                            <li><a href="/region">Региональным клиентам</a></li>
-                            <li><a href="/viezd-predstavitelya">Выезд нашего представителя</a></li>
-                            <li><a href="/vakansii">Вакансии</a></li>
-                            <li><a href="/contact">Контакты</a></li>
-                            <li><a href="/faq">Вопрос-ответ</a></li>
+                            <li><a href="{{route('page','about_avel')}}">О нас</a></li>
+                            <li><a href="{{route('page','otzyvi')}}">Отзывы</a></li>
+                            <li><a href="#">Новости</a></li>
+                            <li><a href="#">Семинары</a></li>
+                            <li><a href="{{route('page','region')}}">Региональным клиентам</a></li>
+                            <li><a href="{{route('page','viezd-predstavitelya')}}">Выезд нашего представителя</a></li>
+                            <li><a href="{{route('page','vakansii')}}">Вакансии</a></li>
+                            <li><a href="{{route('page','contact')}}">Контакты</a></li>
+                            <li><a href="{{route('page','faq')}}">Вопрос-ответ</a></li>
                         </ul>
 
                 </li>
-                <li class="nav-item"><a href="/dostavka" class="nav-link link-dark px-2">Доставка</a></li>
+                <li class="nav-item"><a href="{{route('page','dostavka')}}" class="nav-link link-dark px-2">Доставка</a></li>
                 <li class="nav-item"><a href="{{route('page','oplata')}}" class="nav-link link-dark px-2">Оплата</a></li>
-                <li class="nav-item"><a href="/vozvrat" class="nav-link link-dark px-2">Возврат</a></li>
-                <li class="nav-item"><a href="/samovivoz" class="nav-link link-dark px-2">Самовывоз</a></li>
-                <li class="nav-item"><a href="/predzakaz" class="nav-link link-dark px-2">Предзаказ</a></li>
-                <li class="nav-item"><a href="/seminar" class="nav-link link-dark px-2">Семинары</a></li>
-                <li class="nav-item" style="color: #e43535;"><a href="/promo" class="nav-link link-dark px-2">Акции</a></li>
+                <li class="nav-item"><a href="{{route('page','vozvrat')}}" class="nav-link link-dark px-2">Возврат</a></li>
+                <li class="nav-item"><a href="{{route('page','samovivoz')}}" class="nav-link link-dark px-2">Самовывоз</a></li>
+                <li class="nav-item"><a href="{{route('page','predzakaz')}}" class="nav-link link-dark px-2">Предзаказ</a></li>
+                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Семинары</a></li>
+                <li class="nav-item" style="color: #e43535;"><a href="#" class="nav-link link-dark px-2">Акции</a></li>
             </ul>
             <ul class="nav right-menu">
                 @guest
@@ -59,7 +58,7 @@
             </ul>
         </div>
     </nav>
-    <header class="py-3 pb-0">
+    <header class="py-3 pb-0 pt-0">
         <div style="margin-top: 30px" class="container d-flex flex-wrap justify-content-center ">
             <div class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto ">
             <a href="/" class="text-decoration-none">
@@ -83,10 +82,10 @@
                         <li><span>Пункт выдачи:</span></li>
                         <li><p><img style="width: 22px;" src="{{asset('/img/marker.svg')}}"> г. Москва, Шереметьевская улица, 47</p></li>
                         <li><a href="mailto:zakaz@aveldent.ru"><img style="width: 22px" src="{{asset('/img/mail.svg')}}"> zakaz@aveldent.ru</a></li>
-                        <li><a href="https://aveldent.ru/samovivoz"><img style="width: 22px" src="{{asset('/img/ok.svg')}}"> Пн–Пт: 09:00 – 18:00</a></li>
+                        <li><a href="{{route('page','samovivoz')}}"><img style="width: 22px" src="{{asset('/img/ok.svg')}}"> Пн–Пт: 09:00 – 18:00</a></li>
                         <li><span>Склад:</span></li>
                         <li><p><img style="width: 22px" src="{{asset('/img/marker.svg')}}"> г. Долгопрудный, Московская область, улица Жуковского, 3</p></li>
-                        <li><a href="https://aveldent.ru/samovivoz"><img style="width: 22px" src="{{asset('/img/ok.svg')}}"> Пн–Пт: 09:00 – 18:00</a></li>
+                        <li><a href="{{route('page','samovivoz')}}"><img style="width: 22px" src="{{asset('/img/ok.svg')}}"> Пн–Пт: 09:00 – 18:00</a></li>
                     </ul>
                 </div>
                 <div class="button_callback popup-open-orderCall">Заказать звонок</div>
@@ -110,15 +109,14 @@
         <div>
             <ul>
                 <li>
-                    <b><a href="/about_avel">О компании</a></b>
+                    <b><a href="{{route('page','about_avel')}}">О компании</a></b>
                 </li>
-                <li><a href="/team">Наша команда</a></li>
-                <li><a href="/otzyvi">Отзывы клиентов</a></li>
-                <li><a href="/dostavka">Доставка </a></li>
-                <li><a href="/oplata">Оплата</a></li>
-                <li><a href="/vozvrat">Условия возврата</a></li>
-                <li><a href="/region">Региональным клиентам</a></li>
-                <li><a href="/viezd-predstavitelya">Выезд нашего представителя</a></li>
+                <li><a href="{{route('page','otzyvi')}}">Отзывы клиентов</a></li>
+                <li><a href="{{route('page','dostavka')}}">Доставка </a></li>
+                <li><a href="{{route('page','oplata')}}">Оплата</a></li>
+                <li><a href="{{route('page','vozvrat')}}">Условия возврата</a></li>
+                <li><a href="{{route('page','region')}}">Региональным клиентам</a></li>
+                <li><a href="{{route('page','viezd-predstavitelya')}}">Выезд нашего представителя</a></li>
             </ul>
         </div>
         <div>
@@ -126,13 +124,13 @@
                 <li>
                     <b>Сервисы</b>
                 </li>
-                <li><a href="/contact">Контакты</a></li>
-                <li><a href="/news">Новости</a></li>
+                <li><a href="{{route('page','contact')}}">Контакты</a></li>
+                <li><a href="#">Новости</a></li>
                 <li><a href="#">Производители</a></li>
                 <li><a href="#">Вебинары</a></li>
-                <li><a href="/vakansii">Вакансии</a></li>
-                <li><a href="/seminar">Семинары</a></li>
-                <li><a href="/faq">Вопрос-ответ</a></li>
+                <li><a href="{{route('page','vakansii')}}">Вакансии</a></li>
+                <li><a href="#">Семинары</a></li>
+                <li><a href="{{route('page','faq')}}">Вопрос-ответ</a></li>
             </ul>
         </div>
         <div>
@@ -140,21 +138,21 @@
                 <li>
                     <b><a href="#">Каталог</a></b>
                 </li>
-                <li><a href="#">Аптека</a></li>
-                <li><a href="#">Дезинфекция</a></li>
-                <li><a href="#">Зуботехнические материалы и <br>оборудование</a></li>
-                <li><a href="#">Инструменты</a></li>
-                <li><a href="#">Материалы</a></li>
-                <li><a href="#">Оборудование</a></li>
-                <li><a href="#">Расходные материалы</a></li>
-                <li><a href="#">Сувениры</a></li>
-                <li><a href="#">Эндодонтические инструменты</a></li>
+                <li><a href="{{route('category.show','apteka')}}">Аптека</a></li>
+                <li><a href="{{route('category.show','dezinfekciya')}}">Дезинфекция</a></li>
+                <li><a href="{{route('category.show','zubotehnicheskie-materialy-i-oborudovanie')}}">Зуботехнические материалы и <br>оборудование</a></li>
+                <li><a href="{{route('category.show','instrumenty')}}">Инструменты</a></li>
+                <li><a href="{{route('category.show','materialy')}}">Материалы</a></li>
+                <li><a href="{{route('category.show','oborudovanie')}}">Оборудование</a></li>
+                <li><a href="{{route('category.show','rashodnye-materialy')}}">Расходные материалы</a></li>
+                <li><a href="{{route('category.show','suveniry')}}">Сувениры</a></li>
+                <li><a href="{{route('category.show','endodonticheskie-instrumenty')}}">Эндодонтические инструменты</a></li>
             </ul>
         </div>
         <div>
             <div>
                 <p><b>Подпишитесь на наши <br>новости и акции</b></p>
-                <div class="d-flex"><input type="email" name="mailingList"><button class="button_mailList">&#9658;</button></div>
+                <div class="d-flex"><input type="email" name="mailingList"><button class="button_mailList"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16"><path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/></svg></button></div>
             </div>
             <div>
                 <p>Мы в социальных сетях</p>

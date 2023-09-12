@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pageGenerator', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('content');
+            $table->MEDIUMTEXT('content');
             $table->timestamps();
         });
     }

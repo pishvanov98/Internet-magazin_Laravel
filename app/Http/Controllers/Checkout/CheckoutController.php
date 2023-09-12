@@ -93,15 +93,15 @@ class CheckoutController extends Controller
         session()->forget('cart');
 
         if(!empty(Auth::user()->id)){
-            $cartDb=CartUser::where('user_id',Auth::user()->id)->first();//обновляю корзину
-            if(!empty($cartDb)){
-                $cartDb->delete();
-            }
+                $cartDb=CartUser::where('user_id',Auth::user()->id)->first();//обновляю корзину
+                if(!empty($cartDb)){
+                    $cartDb->delete();
+                }
         }else{
-            $cartDb=CartUser::where('session_id',session()->getId())->first();//обновляю корзину
-            if(!empty($cartDb)){
-                $cartDb->delete();
-            }
+                $cartDb=CartUser::where('session_id',session()->getId())->first();//обновляю корзину
+                if(!empty($cartDb)){
+                    $cartDb->delete();
+                }
         }
 
         //$this->sendMessage($order->mail,$data['price'],$order->id);

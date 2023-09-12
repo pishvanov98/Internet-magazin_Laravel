@@ -11,7 +11,7 @@
                 @endforeach
                 </ul>
             @endif
-                @if($CategoryTree['Children'])
+                @if(!empty($CategoryTree['Children']))
                     <ul class="CategoryTreeChildren">
                         @foreach($CategoryTree['Children'] as $item)
                                 <li> <a href="{{route('category.show',$item->slug)}}">{{$item->name}}</a></li>
