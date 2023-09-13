@@ -20,13 +20,13 @@
                 ?>
             <div class="filterslider_home">
                 <ul>
-                    <li data-name="Новинки" data-selectid="GoodsSlaiderHome1" data-link="/entrance" class="item activ_">
+                    <li data-name="Новинки" data-selectid="GoodsSlaiderHome1" data-link="{{route('entrance')}}" class="item activ_">
                         Новинки
                     </li>
-                    <li data-name="Эксклюзивное предложение" data-selectid="GoodsSlaiderHome2" data-link="/exclusive"
+                    <li data-name="Эксклюзивное предложение" data-selectid="GoodsSlaiderHome2" data-link="{{route('exclusive')}}"
                         class="item">Эксклюзивные предложения
                     </li>
-                    <li data-name="actiya" data-selectid="GoodsSlaiderHomeAciya" data-link="/action" class="item">
+                    <li data-name="actiya" data-selectid="GoodsSlaiderHomeAciya" data-link="{{route('action')}}" class="item">
                         Акции
                     </li>
                     <!--<li class="action_prod_home"><a href="/promo?product"> Товар дня </a></li>-->

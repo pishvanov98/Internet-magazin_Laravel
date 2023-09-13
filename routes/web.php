@@ -76,6 +76,9 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['role:admin'], 'prefix'=>
 Route::get('/product/{slug}', [App\Http\Controllers\Product\ProductController::class,'show'])->name('product.show');
 Route::get('/category/{slug}', [\App\Http\Controllers\Category\CategoryController::class,'show'])->name('category.show');
 Route::get('/page/{name}',[\App\Http\Controllers\Page\PageController::class,'index'])->name('page');
+Route::get('/exclusive',[\App\Http\Controllers\Tag\TagController::class,'index'])->name('exclusive');
+Route::get('/action',[\App\Http\Controllers\Tag\TagController::class,'index'])->name('action');
+Route::get('/entrance',[\App\Http\Controllers\Tag\TagController::class,'index'])->name('entrance');
 
 Route::get('/checkout',[\App\Http\Controllers\Checkout\CheckoutController::class,'index'])->name('checkout');
 Route::post('/createOrder',[\App\Http\Controllers\Checkout\CheckoutController::class,'SaveOrder'])->name('SaveOrder');
