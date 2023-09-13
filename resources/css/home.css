@@ -94,3 +94,11 @@
     display: none !important;
 }
 
+.see_all_slider{
+    display: block;
+    margin-top: 115px;
+    text-align: center;
+}
+.see_all_slider a{
+    text-decoration: none;
+}

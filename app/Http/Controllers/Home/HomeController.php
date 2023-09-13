@@ -142,6 +142,13 @@ class HomeController extends Controller
 
          $out .='</div>';
     }
+        $out .= '<div class="see_all_slider">';
+        if($data['name'] == "actiya") {
+            $out .= '<a href="'.route('action').'">Показать ещё →</a>';
+        }else{
+            $out .= '<a href="'.route('exclusive').'">Показать ещё →</a>';
+        }
+        $out .= '</div>';
    $out .='</div>';
 
     return $out;

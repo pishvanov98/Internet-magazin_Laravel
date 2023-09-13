@@ -37,6 +37,9 @@
                         foreach ($Products as $product) { ?>
                         @include('components.product')
                         <?php } ?>
+                                <div class="see_all_slider">
+                                    <a href="{{route('entrance')}}">Показать ещё →</a>
+                                </div>
                     </div>
                 </div>
             </div>
