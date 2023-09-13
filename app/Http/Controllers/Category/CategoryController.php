@@ -88,17 +88,17 @@ class CategoryController extends Controller
        }
        //ищем дочерние элементы категории
         $array_category_out = array_reverse($array_category_out, true);
-        if(!empty($ParentCategory2->category_id)){
-            $Children = DB::connection('mysql2')->table('sd_category')->where('sd_category.parent_id','=',$mainCategory->category_id)->where('sd_category.status','=',1)->select('sd_category.category_id','sd_category.parent_id','sd_category_description.name','sd_category_description.slug')
+
+            $Children = DB::connection('mysql2')->table('sd_category')->where('sd_category.parent_id','=',$category_id)->where('sd_category.status','=',1)->select('sd_category.category_id','sd_category.parent_id','sd_category_description.name','sd_category_description.slug')
                 ->join('sd_category_description','sd_category_description.category_id','=','sd_category.category_id')->get();
             $Children->map(function ($item){
                 if(empty($item->slug)){
-                    $item->slug=app('Header')->SlugCategory($ParentCategory2->category_id);
+                    $item->slug=app('Header')->SlugCategory($item->category_id);
                 }
                 return $item;
             });
             $array_category_out['Children']=$Children->all();
-        }
+
 
         Cache::put('array_category_out'.$category_id,$array_category_out,1440);
 
