@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Product;
 
+use App\Components\ImageComponent;
 use App\Http\Controllers\Controller;
 use App\Models\CategoryDescription;
 use App\Models\ProductDescription;
@@ -21,6 +22,34 @@ class ProductController extends Controller
 
         $initProduct=$initProduct->all();
 
+        $attr_mass=[];
+        $category_id=$initProduct['category_id'];
+        if(!empty($initProduct['product_attr'])){
+            foreach ($initProduct['product_attr'] as $item){
+                $attr_mass[]=[$item->attribute_id,$item->text];
+            }
+
+        }
+
+        $AttrProduct= app('Search')->GetSearchProductAttr($category_id,$attr_mass,20);
+        $initProductAttr=[];
+        if(!empty($AttrProduct)){
+            $initProductAttr=app('Product')->ProductInit(array_unique($AttrProduct));
+
+            $image=new ImageComponent();//ресайз картинок
+            $initProductAttr->map(function ($item)use(&$image){
+                if(!empty($item->image)){
+                    $image_name=substr($item->image,  strrpos($item->image, '/' ));
+                    $image->resizeImg($item->image,'product',$image_name,258,258);
+                    $item->image='/image/product/resize'.$image_name;
+                    return $item;
+                }
+            });
+            if(count($initProductAttr) < 3){
+                $initProductAttr=[];
+            }
+        }
+
         $category=CategoryDescription::findOrFail($initProduct['category_id']);
 
         if(empty($category->slug)){
@@ -29,6 +58,6 @@ class ProductController extends Controller
             $category->save();
         }
 
-        return view('product.index',['Product'=>$initProduct,'category'=>$category]);
+        return view('product.index',['Product'=>$initProduct,'category'=>$category,'initProductAttr'=>$initProductAttr]);
     }
 }

@@ -76,6 +76,16 @@
 
 
                 </div>
+                @if(!empty($initProductAttr))
+                    <h4>Аналоги</h4>
+                    <div class="container_carousel">
+                        <div id="GoodsSlaiderProductAttr" class="owl-carousel owl-theme slaider_prod">
+                            @foreach ($initProductAttr as $product)
+                                @include('components.product')
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
             </div>
             <div class="right_block">
                 <p class="price">{{number_format($Product['price'], 0, '', ' ')}} ₽</p>
@@ -92,7 +102,7 @@
                 </div>
 
         </div>
-
+        @push('script')
         <script>
             $(document).ready(function(){
 
@@ -136,7 +146,28 @@
 
             });
 
+            jQuery(document).ready(function () {
+                $("#GoodsSlaiderProductAttr").owlCarousel({
+                    items: 5,
+                    responsive: {
 
+                        // Ширина от 500 пикселей
+                        500: {
+                            items: 2,
+                        },
+                        1200: {
+                            items: 3,
+                        }
+                    },
+                    autoPlay: false,
+                    lazyLoad: true,
+                    navigation: true,
+                    margin: 10,
+                    nav: true,
+                    dots: false,
+                    navigationText: ['‹', '›']
+                });
+            });
 
 
             function addToCartProduct(id){
@@ -160,5 +191,5 @@
 
 
         </script>
-
+    @endpush
 @endsection

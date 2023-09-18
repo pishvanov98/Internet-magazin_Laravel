@@ -126,7 +126,7 @@ class CategoryController extends Controller
             if(!empty($data['page'])){
                 $page=$data['page'];
             }
-            $Products=app('Product')->ProductInit($filterProduct,24,$page);
+            $Products=app('Product')->ProductInit(array_unique($filterProduct),24,$page);
 
             $image=new ImageComponent();//ресайз картинок
             $Products->map(function ($item)use(&$image){

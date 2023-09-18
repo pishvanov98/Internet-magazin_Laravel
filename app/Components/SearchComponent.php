@@ -302,6 +302,9 @@ public function MappingProductAttr(){
                         'text' => [
                             'type' => 'string'
                         ],
+                        'all_text_attr' => [
+                            'type' => 'string'
+                        ],
                         'quantity' => [
                             'type' => 'integer'
                         ],
@@ -322,6 +325,7 @@ public function InsertDataProductAttr(){
     $this->MappingProductAttr();
     $client = $this->elasticclient;
     $result=[];
+    $all_text_attr=[];
     $productsAttr=DB::connection('mysql2')->table('sd_product_to_category')->select('.sd_product_to_category.product_id','sd_product_to_category.category_id','sd_product_attribute.attribute_id','sd_attribute_description.name','sd_product_attribute.text','sd_product.quantity')
         ->join('sd_category','sd_category.category_id','=','sd_product_to_category.category_id')
         ->join('sd_product','sd_product.product_id','=','sd_product_to_category.product_id')
@@ -336,10 +340,13 @@ public function InsertDataProductAttr(){
         ->get();
 
 
-    $productsAttr->each(function ($item) use(&$result){
+    $productsAttr->each(function ($item) use(&$result,&$all_text_attr){
         $result[]=['product_id'=>$item->product_id,'category_id'=>$item->category_id,'attribute_id'=>$item->attribute_id,'name'=>$item->name,'text'=>$item->text,'quantity'=>$item->quantity];
-    });
 
+            $all_text_attr[$item->product_id][]=$item->text;
+
+
+    });
 
     $params = ['body' => []];
     foreach($result as $row){
@@ -350,13 +357,16 @@ public function InsertDataProductAttr(){
                 '_id'    => $row['product_id'].$row['category_id'].$row['attribute_id']
             ]
         ];
-
+//        $myArray_all_text_attr = collect($all_text_attr[$row['product_id']]);
+//        $myArray_all_text_attr=$myArray_all_text_attr->sort();
+//       $myArray_all_text_attr->implode(' ')
         $params['body'][] = [
             'product_id'     => $row['product_id'],
             'category_id' => $row['category_id'],
             'attribute_id' => $row['attribute_id'],
             'name' => $row['name'],
             'text' => $row['text'],
+            'all_text_attr' => implode(' ',$all_text_attr[$row['product_id']]),
             'quantity' => $row['quantity'],
         ];
 
@@ -408,20 +418,15 @@ public function GetSearchCategoryAttr($id){
     return $resuil_out;
 }
 
-    public function GetSearchProductAttr($category_id,$mass_art_explode){
+    public function GetSearchProductAttr($category_id,$mass_art_explode,$count=10000){
         $client = $this->elasticclient;
         $result = array();
         $mass_attr=[];
-        $text='';
-        foreach ($mass_art_explode as $item){
-            $text=$text.' '.$item[1];
-            if(!empty($item)){
-                $mass_attr['must'][]['match']=['attribute_id'=>$item[0]];
-            }
-        }
-        $mass_attr['must'][]['match']=['text'=>$text];
-        $mass_attr['must'][]['match']=['category_id'=>$category_id];
 
+        foreach ($mass_art_explode as $item){
+            $mass_attr['must'][]['match_phrase']=['all_text_attr'=>$item[1]];
+        }
+        $mass_attr['must'][]['match']=['category_id'=>$category_id];
         $params = [
             'index' => 'products_attr',
             'type'  => '_doc',
@@ -429,7 +434,7 @@ public function GetSearchCategoryAttr($id){
             'body'  => [
                 'query' => [
                     "bool"=> [
-                "must"=> $mass_attr['must']
+                "must"=> $mass_attr['must'],
                  ]
                 ],
                 "sort"=> [
@@ -438,9 +443,8 @@ public function GetSearchCategoryAttr($id){
                     ]
                     ]
             ],
-            "size"=>10000,
+            "size"=>$count,
         ];
-
 //        $params = [
 //            'index' => 'products_attr',
 //            'type'  => '_doc',
@@ -452,14 +456,8 @@ public function GetSearchCategoryAttr($id){
 //                            ["match"=>[
 //                                "category_id"=> $category_id
 //                            ]],
-//                            ["match"=>[
-//                                "attribute_id"=> "5"
-//                            ]],
-//                            ["match"=>[
-//                                "text"=> "Твердосплавный Алмазный"
-//                            ]],
-//                            ["match"=>[
-//                                "attribute_id"=> "5"
+//                            ["match_phrase"=>[
+//                                "all_text_attr"=> "Алмазный Цилиндр с плоским концом",
 //                            ]],
 //                        ]
 //                    ]
@@ -475,7 +473,6 @@ public function GetSearchCategoryAttr($id){
         foreach ($response['hits']['hits'] as $hits){
             $result[]=$hits['_source']['product_id'];
         }
-
 
         return $result;
 
