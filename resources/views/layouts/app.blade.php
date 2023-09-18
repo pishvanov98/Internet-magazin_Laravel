@@ -69,9 +69,12 @@
                       <img style="width: 20px;height: 17.5px;margin-right: 5px;" src="{{asset('/img/menu.svg')}}">
                       <span class="centre-block-search-search">Каталог</span>
                   </div>
-                  <div class="search" id="search"><img class="button-search" src="{{asset('/img/search.svg')}}">
-                            <input type="text" name="search" placeholder="Введите название, код товара или артикул" value="" style="border: 1px solid #00b5d3;margin: 0;"/>
-                            <img class="input__clear"  src="{{asset('/img/cross.svg')}}">
+                  <div class="search" id="search">
+                      <form method="get" action="{{route('search')}}">
+                          <button class="button-search"><img width="25" src="{{asset('/img/search.svg')}}"></button>
+                          <input type="text" name="search" placeholder="Введите название, код товара или артикул" value="" style="border: 1px solid #00b5d3;margin: 0;"/>
+                          <img class="input__clear"  src="{{asset('/img/cross.svg')}}">
+                      </form>
                   </div>
             </div>
             </div>
@@ -216,6 +219,12 @@
         });
     });
 
+    $('#search input').on('keypress',function(e) {
+        if(e.which == 13) {
+            $('#search .button-search').trigger('click');
+        }
+    });
+
 </script>
 
 <script>
@@ -251,6 +260,7 @@
          }
 
      }
+
 
      function addToCart(id,count){
 

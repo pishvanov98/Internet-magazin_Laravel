@@ -101,80 +101,6 @@ public function MappingProductCategory(){
 
     }
 
-public function SearchProduct(){
-    $client = $this->elasticclient;
-    $result = array();
-
-
-
-//    $params = [
-//        'index' => 'products_name',
-//        'type'  => '_doc',
-//
-//        'body'  => [
-//            'query' => [
-//                "bool" => [
-//                    "must" => [ ],
-//                    "should" => [
-//                        [
-//                            "multi_match"=> [
-//                                "query"=> "перчатки",
-//                                "fields"=> [
-//                                    "name^10",
-//                                ],
-//                                "boost"=> 4
-//                            ]
-//                        ],
-//                        [
-//                            "wildcard"=> [
-//                                "name"=>[
-//                                    "value"=>"перчатки*",
-//                                    "boost"=> 2,
-//                                    "rewrite"=>"constant_score",
-//                                ]
-//                            ],
-//                        ],
-//                        [
-//                            "wildcard"=> [
-//                                "name"=>[
-//                                    "value"=>"*перчатки*",
-//                                    "boost"=> 1,
-//                                    "rewrite"=>"constant_score",
-//                                ]
-//                            ],
-//                        ],
-//                    ],
-//                    "minimum_should_match" => 1
-//
-//
-//                ],
-//            ],
-//            "size"=>30,
-//        ],
-//    ];
-
-    $params = [
-        'index' => 'products_category',
-        'type'  => '_doc',
-
-        'body'  => [
-            'query' => [
-                "match"=> [
-                    "name_category"=> 'инструменты',
-                ]
-            ],
-        ],
-        "size"=>1,
-    ];
-
-        $response = $client->search($params);
-
-//        printf("Total docs: %d\n", $response['hits']['total']['value']);
-//        printf("Max score : %.4f\n", $response['hits']['max_score']);
-//        printf("Took      : %d ms\n", $response['took']);
-
-        print_r($response['hits']['hits']); // documents
-}
 
 
 public function InsertDataProduct(){
@@ -479,7 +405,7 @@ public function GetSearchCategoryAttr($id){
     }
 
 
-public function GetSearchProductName($name){
+public function GetSearchProductName($name,$size=30){
         $client = $this->elasticclient;
         $result = array();
 
@@ -526,7 +452,7 @@ public function GetSearchProductName($name){
 
                     ],
                 ],
-                "size"=>30,
+                "size"=>$size,
             ],
         ];
 

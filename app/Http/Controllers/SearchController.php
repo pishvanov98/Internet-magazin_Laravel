@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+use App\Components\ImageComponent;
 use App\Models\CategoryDescription;
 use App\Models\CategoryDescriptionAdmin;
 use App\Models\ProductDescriptionAdmin;
@@ -42,7 +43,7 @@ class SearchController extends Controller
             array_unshift($Products_out,$One_category_massive);
         }
 
-return $Products_out;
+    return $Products_out;
 
     }
 
@@ -58,6 +59,61 @@ return $Products_out;
         $category = ProductDescriptionAdmin::search($request->route('name'))->select('product_id','name')->get();
         return $category;
 
+    }
+
+    public function index(Request $request){
+        $data=$request->all();
+        $Products=[];
+        $search='';
+        if(!empty($data['search'])){
+            $search=$data['search'];
+
+            $page=0;
+            if(!empty($data['page'])){
+                $page=$data['page'];
+                $array_column = $this->getArray_column($search);
+            }else{
+                $array_column = $this->getArray_column($search);
+            }
+
+            $Products=app('Product')->ProductInit($array_column[1],24,$page);
+
+            $image=new ImageComponent();//ресайз картинок
+            $Products->map(function ($item)use(&$image){
+                if(!empty($item->image)){
+                    $image_name=substr($item->image,  strrpos($item->image, '/' ));
+                    $image->resizeImg($item->image,'product',$image_name,258,258);
+                    $item->image='/image/product/resize'.$image_name;
+                    return $item;
+                }
+            });
+            $Products = $Products->appends(request()->query());
+        }
+
+        return view('search.index',compact('Products','search'));
+    }
+
+    /**
+     * @param mixed $search
+     * @return array|mixed|object
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    private function getArray_column(mixed $search): mixed
+    {
+        if (session()->has('SearchMass')) {
+            $array_column = session()->get('SearchMass');
+            if ($array_column[0] != $search) {
+                $products_id = app('Search')->GetSearchProductName(mb_strtolower($search), 250);//получили id товаров, инициализируем
+                $array_column = array_column($products_id, 'product_id');
+                session()->put('SearchMass', [$search, $array_column]);
+            }
+        } else {
+            $products_id = app('Search')->GetSearchProductName(mb_strtolower($search), 250);//получили id товаров, инициализируем
+            $array_column = array_column($products_id, 'product_id');
+            session()->put('SearchMass', [$search, $array_column]);
+        }
+        return $array_column;
     }
 
 }
