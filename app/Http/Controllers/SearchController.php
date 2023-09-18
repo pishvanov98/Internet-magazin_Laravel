@@ -107,11 +107,13 @@ class SearchController extends Controller
                 $products_id = app('Search')->GetSearchProductName(mb_strtolower($search), 250);//получили id товаров, инициализируем
                 $array_column = array_column($products_id, 'product_id');
                 session()->put('SearchMass', [$search, $array_column]);
+                $array_column = [$search, $array_column];
             }
         } else {
             $products_id = app('Search')->GetSearchProductName(mb_strtolower($search), 250);//получили id товаров, инициализируем
             $array_column = array_column($products_id, 'product_id');
             session()->put('SearchMass', [$search, $array_column]);
+            $array_column = [$search, $array_column];
         }
         return $array_column;
     }
