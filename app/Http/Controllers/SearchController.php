@@ -37,7 +37,8 @@ class SearchController extends Controller
                 $slug=route('category.show',$slug);
                 $One_category_massive=['slug_category'=>$slug,'name'=>$category->name];
             }else{
-                $One_category_massive=['slug_category'=>$category->slug,'name'=>$category->name];
+                $slug=route('category.show',$category->slug);
+                $One_category_massive=['slug_category'=>$slug,'name'=>$category->name];
             }
 
             array_unshift($Products_out,$One_category_massive);
@@ -67,6 +68,7 @@ class SearchController extends Controller
         $category_mass=[];
         $search='';
         $category='';
+        $AttrCategory=[];
         if(!empty($data['search'])){
             $search=$data['search'];
 
@@ -97,6 +99,13 @@ class SearchController extends Controller
                 }
             });
 
+            //получаем фильтр атрибуты
+            if(!empty($category_mass_id)){
+                foreach ($category_mass_id as $item_cat){
+                    $AttrCategory=app('Search')->GetSearchCategoryAttr($item_cat);
+                }
+            }
+
             $category_mass= app('Search')->GetSearchCategoryName($category_mass_id);
             if(!empty($data['category'])){
                 $category=$category_mass[$data['category']][1];
@@ -104,7 +113,11 @@ class SearchController extends Controller
             $Products = $Products->appends(request()->query());
         }
 
-        return view('search.index',compact('Products','search','category_mass','category'));
+        if(!empty($category_mass_id)){
+            $category_mass_id=implode(',',$category_mass_id);
+        }
+
+        return view('search.index',compact('Products','search','category_mass','category','AttrCategory','category_mass_id'));
     }
 
     /**

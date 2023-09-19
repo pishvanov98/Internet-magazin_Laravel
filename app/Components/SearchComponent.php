@@ -269,6 +269,7 @@ public function InsertDataProductAttr(){
         ->where('sd_product_attribute.attribute_id','!=','90')
         ->where('sd_product_attribute.attribute_id','!=','91')
         ->where('sd_product_attribute.attribute_id','!=','86')
+        ->where('sd_product_attribute.attribute_id','!=','112')
         ->get();
 
 

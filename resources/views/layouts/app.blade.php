@@ -193,7 +193,7 @@
         $('#search input').typeahead({
             hint: true,
             highlight: false,
-            minLength: 4,
+            minLength: 3,
 
         }, {
             // name: 'users',
