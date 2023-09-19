@@ -77,3 +77,13 @@
     width: 80%;
     top: 40%;
 }
+.block_category_search{
+    list-style-type: none;
+}
+.block_category_search ul{
+    list-style-type: none;
+}
+.block_category_search a{
+    text-decoration: none;
+    color: black;
+}

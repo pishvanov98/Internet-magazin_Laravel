@@ -2,7 +2,19 @@
 @section('content')
     <div class="container block_category">
         <div>
-Тут фильтр
+
+            @if(!empty($category_mass))
+                <ul class="block_category_search">
+                    <li style="font-weight: 600;"><a href="{{route('search',"search=".$search)}}">Категории</a></li>
+                    <ul>
+                        @foreach($category_mass as $item_category)
+                                <li> <a @if(!empty($category) && $category == $item_category[1]) style="font-weight: 600;"  @endif href="{{route('search',"search=".$search."&category=".$item_category[0])}}" class="category_search_all ">{{$item_category[1]}}</a></li>
+                        @endforeach
+                    </ul>
+                </ul>
+            @endif
+
+Тут фильтр будет
 {{--            @if($AttrCategory && count($AttrCategory) > 1)--}}
 {{--                <ul class="CategoryAttr">--}}
 {{--                    <li>  <h5 class="mt-3 mb-2">Фильтры</h5></li>--}}
@@ -21,7 +33,7 @@
 {{--            @endif--}}
         </div>
         <div>
-           @if(!empty($search)) <h4>Поиск: {{$search}}</h4> @endif
+           @if(!empty($search)) <h4>Поиск: {{$search}} @if(!empty($category))  : {{$category}}  @endif </h4> @endif
             <div class="d-flex justify-content-center spinner hide">
                 <div class="spinner-border" role="status">
                     <span class="visually-hidden">Loading...</span>

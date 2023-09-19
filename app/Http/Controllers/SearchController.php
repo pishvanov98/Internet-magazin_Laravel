@@ -64,22 +64,31 @@ class SearchController extends Controller
     public function index(Request $request){
         $data=$request->all();
         $Products=[];
+        $category_mass=[];
         $search='';
+        $category='';
         if(!empty($data['search'])){
             $search=$data['search'];
 
             $page=0;
-            if(!empty($data['page'])){
-                $page=$data['page'];
-                $array_column = $this->getArray_column($search);
+
+            if(!empty($data['category'])){
+                $array_column=  app('Search')->GetSearchProductNameSortToCategory(mb_strtolower($search),$data['category'], 250);//получили id товаров, инициализируем
+                $array_column = array_column($array_column, 'product_id');
+                $array_column = [$search, $array_column];
             }else{
                 $array_column = $this->getArray_column($search);
             }
 
-            $Products=app('Product')->ProductInit($array_column[1],24,$page);
+            if(!empty($data['page'])){
+                $page=$data['page'];
+            }
 
+            $Products=app('Product')->ProductInit($array_column[1],24,$page);
+            $category_mass_id=[];
             $image=new ImageComponent();//ресайз картинок
-            $Products->map(function ($item)use(&$image){
+            $Products->map(function ($item)use(&$image,&$category_mass_id){
+                $category_mass_id[$item->category_id]=$item->category_id;
                 if(!empty($item->image)){
                     $image_name=substr($item->image,  strrpos($item->image, '/' ));
                     $image->resizeImg($item->image,'product',$image_name,258,258);
@@ -87,10 +96,15 @@ class SearchController extends Controller
                     return $item;
                 }
             });
+
+            $category_mass= app('Search')->GetSearchCategoryName($category_mass_id);
+            if(!empty($data['category'])){
+                $category=$category_mass[$data['category']][1];
+            }
             $Products = $Products->appends(request()->query());
         }
 
-        return view('search.index',compact('Products','search'));
+        return view('search.index',compact('Products','search','category_mass','category'));
     }
 
     /**

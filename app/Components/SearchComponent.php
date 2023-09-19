@@ -46,6 +46,9 @@ public function MappingProductName(){
                             'id' => [
                                 'type' => 'integer'
                             ],
+                            'category_id' => [
+                                'type' => 'integer'
+                            ],
                             'model' => [
                                 'type' => 'integer'
                             ],
@@ -109,15 +112,17 @@ public function InsertDataProduct(){
 //    $stmt = "SELECT * FROM `table_name` limit 1";
 //    $result = $this->con->query($stmt);
     $result=[];
-    $products=DB::connection('mysql2')->table('sd_product_description')->select('sd_product_description.product_id','sd_product_description.name','sd_product.model')
+    $products=DB::connection('mysql2')->table('sd_product_description')->select('sd_product_description.product_id','sd_product_description.name','sd_product.model','sd_product_to_category.category_id')
         ->join('sd_product','sd_product.product_id','=','sd_product_description.product_id')
         ->where('sd_product.quantity','>',0)
         ->where('sd_product.price','>',0)
+        ->where('sd_product_to_category.main_category','=',1)
+        ->leftJoin('sd_product_to_category','sd_product_to_category.product_id','=','sd_product_description.product_id')
         ->get();
 
     $products->each(function ($item) use(&$result){
 
-        $result[]=['id'=>$item->product_id,'name'=>$item->name,'model'=>mb_substr($item->model, -5)];
+        $result[]=['id'=>$item->product_id,'name'=>$item->name,'category_id'=>$item->category_id,'model'=>mb_substr($item->model, -5)];
     });
 
     $params = ['body' => []];
@@ -132,6 +137,7 @@ public function InsertDataProduct(){
 
         $params['body'][] = [
             'id'     => $row['id'],
+            'category_id'     => $row['category_id'],
             'name' => $row['name'],
             'model' => $row['model'],
         ];
@@ -404,6 +410,38 @@ public function GetSearchCategoryAttr($id){
 
     }
 
+    public function GetSearchCategoryName($category_id){
+        $client = $this->elasticclient;
+        $result = array();
+
+
+        foreach ($category_id as $item){
+
+            $params = [
+                'index' => 'products_category',
+                'type'  => '_doc',
+
+                'body'  => [
+                    'query' => [
+                        "match"=> [
+                            "id_category"=> $item,
+                        ]
+                    ],
+                ],
+                "size"=>1,
+            ];
+
+
+            $response = $client->search($params);
+            if(!empty($response['hits']['hits'][0]['_source']['name_category'])){
+                $result[$item]=[$item,$response['hits']['hits'][0]['_source']['name_category']];
+            }
+        }
+
+        return $result;
+
+    }
+
 
 public function GetSearchProductName($name,$size=30){
         $client = $this->elasticclient;
@@ -417,6 +455,79 @@ public function GetSearchProductName($name,$size=30){
                 'query' => [
                     "bool" => [
                         "must" => [ ],
+                        "should" => [
+                            [
+                                "multi_match"=> [
+                                    "query"=> $name,
+                                    "fields"=> [
+                                        "name^10",
+                                        "model^5",
+                                    ],
+                                    "boost"=> 4
+                                ]
+                            ],
+                            [
+                                "wildcard"=> [
+                                    "name"=>[
+                                        "value"=>$name."*",
+                                        "boost"=> 2,
+                                        "rewrite"=>"constant_score",
+                                    ]
+                                ],
+                            ],
+                            [
+                                "wildcard"=> [
+                                    "name"=>[
+                                        "value"=>"*".$name."*",
+                                        "boost"=> 1,
+                                        "rewrite"=>"constant_score",
+                                    ]
+                                ],
+                            ],
+                        ],
+                        "minimum_should_match" => 1
+
+
+                    ],
+                ],
+                "size"=>$size,
+            ],
+        ];
+
+
+
+
+        $response = $client->search($params);
+
+        $resuil=[];
+        foreach ($response['hits']['hits'] as $hits){
+            $resuil[]=['product_id'=>$hits['_source']['id']];//'name'=>$hits['_source']['name']
+        }
+        return $resuil;
+
+//        printf("Total docs: %d\n", $response['hits']['total']['value']);
+//        printf("Max score : %.4f\n", $response['hits']['max_score']);
+//        printf("Took      : %d ms\n", $response['took']);
+
+//        print_r($response['hits']['hits']); // documents
+    }
+
+    public function GetSearchProductNameSortToCategory($name,$category,$size=30){
+        $client = $this->elasticclient;
+        $result = array();
+
+        $params = [
+            'index' => 'products_name',
+            'type'  => '_doc',
+
+            'body'  => [
+                'query' => [
+                    "bool" => [
+                        "must" => [
+                            "term"=> [
+                                "category_id"=>$category
+                            ],
+                            ],
                         "should" => [
                             [
                                 "multi_match"=> [
