@@ -49,6 +49,9 @@ public function MappingProductName(){
                             'category_id' => [
                                 'type' => 'integer'
                             ],
+                            'category_name' => [
+                                'type' => 'string'
+                            ],
                             'model' => [
                                 'type' => 'integer'
                             ],
@@ -112,17 +115,19 @@ public function InsertDataProduct(){
 //    $stmt = "SELECT * FROM `table_name` limit 1";
 //    $result = $this->con->query($stmt);
     $result=[];
-    $products=DB::connection('mysql2')->table('sd_product_description')->select('sd_product_description.product_id','sd_product_description.name','sd_product.model','sd_product_to_category.category_id')
+    $products=DB::connection('mysql2')->table('sd_product_description')->select('sd_product_description.product_id','sd_product_description.name','sd_product.model','sd_product_to_category.category_id','sd_category_description.name as category_description_name')
         ->join('sd_product','sd_product.product_id','=','sd_product_description.product_id')
         ->where('sd_product.quantity','>',0)
         ->where('sd_product.price','>',0)
+        ->where('sd_product.status','=',1)
         ->where('sd_product_to_category.main_category','=',1)
         ->leftJoin('sd_product_to_category','sd_product_to_category.product_id','=','sd_product_description.product_id')
+        ->join('sd_category_description','sd_category_description.category_id','=','sd_product_to_category.category_id')
         ->get();
 
     $products->each(function ($item) use(&$result){
 
-        $result[]=['id'=>$item->product_id,'name'=>$item->name,'category_id'=>$item->category_id,'model'=>mb_substr($item->model, -5)];
+        $result[]=['id'=>$item->product_id,'name'=>$item->name,'category_id'=>$item->category_id,'category_name'=>$item->category_description_name,'model'=>mb_substr($item->model, -5)];
     });
 
     $params = ['body' => []];
@@ -138,6 +143,7 @@ public function InsertDataProduct(){
         $params['body'][] = [
             'id'     => $row['id'],
             'category_id'     => $row['category_id'],
+            'category_name'   => $row['category_name'],
             'name' => $row['name'],
             'model' => $row['model'],
         ];
@@ -462,9 +468,11 @@ public function GetSearchProductName($name,$size=30){
                                     "query"=> $name,
                                     "fields"=> [
                                         "name^10",
+                                        "category_name^8",
                                         "model^5",
                                     ],
-                                    "boost"=> 4
+                                    "boost"=> 4,
+                                    "operator"=> "and",
                                 ]
                             ],
                             [
@@ -481,6 +489,15 @@ public function GetSearchProductName($name,$size=30){
                                     "name"=>[
                                         "value"=>"*".$name."*",
                                         "boost"=> 1,
+                                        "rewrite"=>"constant_score",
+                                    ]
+                                ],
+                            ],
+                            [
+                                "wildcard"=> [
+                                    "category_name"=>[
+                                        "value"=>$name."*",
+                                        "boost"=> 2,
                                         "rewrite"=>"constant_score",
                                     ]
                                 ],
@@ -535,9 +552,11 @@ public function GetSearchProductName($name,$size=30){
                                     "query"=> $name,
                                     "fields"=> [
                                         "name^10",
+                                        "category_name^8",
                                         "model^5",
                                     ],
-                                    "boost"=> 4
+                                    "boost"=> 4,
+                                    "operator"=> "and",
                                 ]
                             ],
                             [
@@ -554,6 +573,15 @@ public function GetSearchProductName($name,$size=30){
                                     "name"=>[
                                         "value"=>"*".$name."*",
                                         "boost"=> 1,
+                                        "rewrite"=>"constant_score",
+                                    ]
+                                ],
+                            ],
+                            [
+                                "wildcard"=> [
+                                    "category_name"=>[
+                                        "value"=>$name."*",
+                                        "boost"=> 2,
                                         "rewrite"=>"constant_score",
                                     ]
                                 ],

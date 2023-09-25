@@ -89,7 +89,7 @@ Route::post('/selectAddress',[\App\Http\Controllers\Checkout\CheckoutController:
 
 Route::get('/cart',[\App\Http\Controllers\Cart\CartController::class,'index'])->name('cart');
 
-Route::get('/search/{name}',[\App\Http\Controllers\SearchController::class,'index'])->name('search');
+Route::get('/search/',[\App\Http\Controllers\SearchController::class,'index'])->name('search');
 
 Route::get('/addCart',[\App\Http\Controllers\Cart\CartController::class,'addToCart'])->name('addCart');
 Route::get('/addToWishlist',[\App\Http\Controllers\Wishlist\WishlistController::class,'addToWishlist'])->name('addToWishlist');
