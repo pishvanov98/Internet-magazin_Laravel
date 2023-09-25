@@ -102,7 +102,7 @@ Route::get('/activeAllProductCart',[\App\Http\Controllers\Cart\CartController::c
 Route::get('/CheckCountProduct',[\App\Http\Controllers\Cart\CartController::class,'CheckCountProduct'])->name('CheckCountProduct');
 Route::post('/getCategoryList',[\App\Http\Controllers\Header\HeaderController::class,'index'])->name('header.category');
 Route::post('/filter/product', [\App\Http\Controllers\Category\CategoryController::class,'getFilterProducts'])->name('query.filter.product');
-Route::post('/filter/product', [\App\Http\Controllers\SearchController::class,'getFilterProducts'])->name('query.filter.product.search');
+Route::post('/filter/product/search', [\App\Http\Controllers\SearchController::class,'getFilterProducts'])->name('query.filter.product.search');
 
 
 Route::group([ 'middleware' => ['role:user']], function(){//prefix подставляет admin во всё что внутри группы в пути , namespace группа контрорреров в папке Admin middleware дал доступ роли админу
