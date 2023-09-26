@@ -43,7 +43,7 @@ class ProductComponent
         return $products;
 
     }
-    public function ExclusiveSlaider($value_search,$all=false,$paginate = false,$page=false){//получение последних 22 товаров
+    public function ExclusiveSlaider($value_search,$all=false,$paginate = false,$page=false){//получение последних 20 товаров
 
         $mass_prod_id=[];
         $query=DB::connection('mysql2')->table('sd_product')->select('sd_product.product_id')

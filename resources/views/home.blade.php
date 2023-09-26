@@ -15,9 +15,7 @@
                 </div>
             @endif
 
-            <?php
-            if (!empty($Products)){
-                ?>
+           @if(!empty($Products))
             <div class="filterslider_home">
                 <ul>
                     <li data-name="Новинки" data-selectid="GoodsSlaiderHome1" data-link="{{route('entrance')}}" class="item activ_">
@@ -43,8 +41,27 @@
                     </div>
                 </div>
             </div>
-            <?php } ?>
+            @endif
 
+            @if(!empty($brandSliderOut))
+                    <h4 class="mt-4 mb-4">Производители</h4>
+                <div class="wrapper_BrandSliderHome">
+                    <div class="container_carousel">
+                        <div id="BrandSliderHome1" class="owl-carousel owl-theme ">
+                               @foreach($brandSliderOut[0] as $brand1)
+                                <a href="{{$brand1['href']}}"><img alt="{{$brand1['name']}}" src="{{asset($brand1['image'])}}"></a>
+                               @endforeach
+                        </div>
+                    </div>
+                    <div class="container_carousel">
+                        <div id="BrandSliderHome2" class="owl-carousel owl-theme ">
+                            @foreach($brandSliderOut[1] as $brand2)
+                                <a href="{{$brand2['href']}}"><img alt="{{$brand2['name']}}" src="{{asset($brand2['image'])}}"></a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            @endif
 
         </div>
     </div>
@@ -78,6 +95,36 @@
                     nav: true,
                     dots: false,
                     navigationText: ['‹', '›']
+                });
+            });
+
+            jQuery(document).ready(function () {
+                $("#BrandSliderHome1").owlCarousel({
+                    items: 5,
+                    autoplay: true,
+                    autoplayTimeout: 2000,
+                    smartSpeed: 1000,
+                    loop:true,
+                    lazyLoad: true,
+                    navigation: true,
+                    margin: 10,
+                    nav: false,
+                    dots: false,
+                });
+            });
+
+            jQuery(document).ready(function () {
+                $("#BrandSliderHome2").owlCarousel({
+                    items: 5,
+                    autoplay: true,
+                    autoplayTimeout: 2000,
+                    smartSpeed: 1000,
+                    loop:true,
+                    lazyLoad: true,
+                    navigation: true,
+                    margin: 10,
+                    nav: false,
+                    dots: false,
                 });
             });
 

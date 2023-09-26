@@ -254,7 +254,7 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 .category_list_left {
     display: grid;
     grid-template-columns: auto;
-    grid-template-rows: repeat(12,40px);
+    grid-template-rows: repeat(13,40px);
     background-color: #f9f9f9;
     /*height: 620px;*/
 }
@@ -385,14 +385,11 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 
 }
 .category_children:nth-child(9) .unstyled {
-    height: 175px;
+    height: 305px;
 
 }
 .category_children:nth-child(10) .unstyled {
-    height: 350px;
-}
-.category_children:nth-child(11) .unstyled {
-    height: 960px;
+    height: 955px;
 }
 .all_category_list_item {
     font-weight: 600;
@@ -508,10 +505,10 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 
 @media (max-height: 800px) {
     .catalog_list_open{
-        height: 480px;
+        height: 530px;
     }
     .category_children {
-        height: 480px;
+        height: 530px;
     }
 
     .category_list_left {

@@ -16,7 +16,7 @@
                                                                                                                                          <? } ?>
                 </a>
                 <?php  } ?>
-                <a class="category_lef_2 item_img_seminar" href="/seminar"><img src="{{asset('/img/seminar2.jpg')}}"></a>
+{{--                <a class="category_lef_2 item_img_seminar" href="/seminar"><img src="{{asset('/img/seminar2.jpg')}}"></a>--}}
             <?php } ?>
         </div>
         <div class="category_list_right">

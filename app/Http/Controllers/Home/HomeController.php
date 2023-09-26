@@ -50,7 +50,13 @@ class HomeController extends Controller
         }
         //Новинки
 
-        $Products=app('Product')->NewGoodsSlaider();
+        if(Cache::has('NewGoodsSlaider')){
+            $Products=Cache::get('NewGoodsSlaider');
+        }else{
+            $Products=app('Product')->NewGoodsSlaider();
+            Cache::put('NewGoodsSlaider',$Products,10800);
+        }
+
         $image=new ImageComponent();//ресайз картинок
         $Products->map(function ($item)use(&$image){
             if(!empty($item->image)){
@@ -63,8 +69,31 @@ class HomeController extends Controller
 
         //ресайз картинок
 
+        $brands=app('Header')->BrandListSlider();
 
-        return view('home',compact('images_slider','Products'));
+        foreach ($brands as $key=>$brand){
+                if(!empty($brand['image'])){
+                    $image_name=substr($brand['image'],  strrpos($brand['image'], '/' ));
+                    $image->resizeImg($brand['image'],'brand',$image_name,200,125);
+                    $brand['image']='/image/brand/resize'.$image_name;
+                    $brands[$key]=$brand;
+                }
+        }
+
+        $brandsSlider1=[];
+        $brandsSlider2=[];
+        $i=1;
+        foreach ($brands as $brand){
+        if(($i % 2)){
+            $brandsSlider1[]=$brand;
+        }else{
+            $brandsSlider2[]=$brand;
+        }
+            $i++;
+        }
+        $brandSliderOut=[$brandsSlider1,$brandsSlider2];
+
+        return view('home',compact('images_slider','Products','brandSliderOut'));
     }
 
 

@@ -26,13 +26,14 @@ Class ImageComponent
     public function resizeImg($url,$directory,$image_name,$width,$height){
 
         if (!file_exists( public_path('/image/'.$directory.'/resize').$image_name)){
+
             $thumbnail = Image::make(public_path($url));
       //      var_dump($thumbnail->width());
             $thumbnail->resize($width,$height, function ($constraint){
                 $constraint->aspectRatio();
                 $constraint->upsize();
             });
-            $thumbnail->save(public_path('/image/product/resize').$image_name);
+            $thumbnail->save(public_path('/image/'.$directory.'/resize').$image_name);
         }
 
     }

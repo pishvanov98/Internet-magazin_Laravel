@@ -101,3 +101,10 @@
 .see_all_slider a{
     text-decoration: none;
 }
+#BrandSliderHome1 .owl-stage, #BrandSliderHome2 .owl-stage{
+    display: flex;
+    align-items: center;
+}
+.wrapper_BrandSliderHome{
+    height: 250px;
+}
