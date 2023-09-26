@@ -32,9 +32,14 @@ class ProductController extends Controller
         }
 
         $AttrProduct= app('Search')->GetSearchProductAttr($category_id,$attr_mass,20);
+        $AttrProduct=array_unique($AttrProduct);
+        $searchIdProdAttr=array_search($product->product_id, $AttrProduct);
+        if(!empty($searchIdProdAttr)){
+            unset($AttrProduct[$searchIdProdAttr]);
+        }
         $initProductAttr=[];
         if(!empty($AttrProduct)){
-            $initProductAttr=app('Product')->ProductInit(array_unique($AttrProduct));
+            $initProductAttr=app('Product')->ProductInit($AttrProduct);
 
             $image=new ImageComponent();//ресайз картинок
             $initProductAttr->map(function ($item)use(&$image){
@@ -45,6 +50,7 @@ class ProductController extends Controller
                     return $item;
                 }
             });
+
             if(count($initProductAttr) < 3){
                 $initProductAttr=[];
             }
