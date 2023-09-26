@@ -14,8 +14,10 @@
         <div class="content_prod">
             <div class="left_block">
                 <div class="d-flex">
-                <div>
-                    <img class="img" src="{{asset($Product['image'])}}">
+                <div class="wrapper_product_image">
+                        <a class="m-auto" href="{{asset($Product['image'])}}" data-fancybox>
+                            <img class="img" src="{{asset($Product['image'])}}">
+                        </a>
                 </div>
                 <div class="info">
                     @if(!empty($Product['manufacturer_image']))   <img style="width: 65px;padding-bottom: 5px;" src="{{asset($Product['manufacturer_image'])}}"> @endif
@@ -102,8 +104,24 @@
                 </div>
 
         </div>
+        @push('css')
+            <link rel="stylesheet" href="{{asset('css/jquery.fancybox.min.css')}}" />
+        @endpush
         @push('script')
+            <script src="{{asset('js/jquery.fancybox.min.js')}}"></script>
         <script>
+
+            $(document).ready(function(){
+                $(".wrapper_product_image a").fancybox({
+                    transitionIn: 'elastic',
+                    transitionOut: 'elastic',
+                    speedIn: 500,
+                    speedOut: 500,
+                    hideOnOverlayClick: false,
+                    titlePosition: 'over'
+                });
+            });
+
             $(document).ready(function(){
 
                var height1= $("#button1").height();

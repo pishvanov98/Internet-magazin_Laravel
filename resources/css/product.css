@@ -10,12 +10,28 @@
     margin: auto;
 }
 .product_container .left_block .img{
-    height: 380px;
-    width: 380px;
+    height: auto;
+    width: auto;
+    max-width: 300px;
+    max-height: 300px;
 }
 .product_container .left_block{
     width: 70%;
 }
+
+.product_container .left_block .wrapper_product_image{
+    margin-right: 20px;
+    height: 308px;
+    width: 308px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid #ddd;
+    padding: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.055);
+    border-radius: 4px;
+}
+
 .product_container .right_block{
     background-color: #f9f9f9;
     padding-top: 30px;

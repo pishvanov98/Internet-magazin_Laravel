@@ -12,6 +12,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    @stack('css')
 
     <!-- Scripts -->
     <script src="{{asset('js/jquery-3.4.1.min.js')}}"></script>

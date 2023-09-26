@@ -29,7 +29,10 @@ body{
 }
 .card .card-img-top{
     margin: auto;
-    width: 258px !important;
+    height: auto;
+    width: auto;
+    max-width: 254px;
+    max-height: 254px;
 }
 .card-title{
     overflow: hidden;
@@ -42,6 +45,7 @@ body{
 }
 .card .wrapper_img_card{
     display: flex;
+    min-height: 254px;
 }
 .card{
     background-color:#fff !important;

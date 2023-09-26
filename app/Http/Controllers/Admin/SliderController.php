@@ -98,7 +98,10 @@ class SliderController extends Controller
             if(!empty($data['width']) && !empty($data['height'])){//если задан формат то ресайзим
                 //Создаем ресайз изображения
                 $thumbnail = Image::make(public_path('/image/slider/').'origin/'.$filename);
-                $thumbnail->resize($data['width'],$data['height']);
+                $thumbnail->resize($data['width'],$data['height'], function ($constraint){
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
                 $thumbnail->save(public_path('/image/slider/').'thumbnail/'.$filename);
                 $img= new Img();
                 $img->path='image/slider/thumbnail/'.$filename;

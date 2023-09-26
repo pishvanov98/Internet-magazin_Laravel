@@ -101,7 +101,7 @@ class HomeController extends Controller
          $out .='<div class="card card_item'.$product['product_id'].'" style="width: 290px;min-height: 400px;">';
 
          if(!empty($product['image'])){
-             $out .='<a class="card-title" href='.route('product.show',$product['slug']).'><img src="'.asset($product['image']).'"  class="card-img-top" alt=""></a>';
+             $out .='<a class="card-title wrapper_img_card" href='.route('product.show',$product['slug']).'><img src="'.asset($product['image']).'"  class="card-img-top" alt=""></a>';
          }else{
              $out .='<img src="'.asset('img/zag_258x258.svg').'"  class="card-img-top" alt="">';
          }
