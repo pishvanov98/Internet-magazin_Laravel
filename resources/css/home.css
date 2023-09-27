@@ -108,3 +108,6 @@
 .wrapper_BrandSliderHome{
     height: 250px;
 }
+.brands_home{
+    text-decoration: none;
+}

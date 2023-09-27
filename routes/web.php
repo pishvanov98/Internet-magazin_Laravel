@@ -80,6 +80,9 @@ Route::get('/exclusive',[\App\Http\Controllers\Tag\TagController::class,'index']
 Route::get('/action',[\App\Http\Controllers\Tag\TagController::class,'index'])->name('action');
 Route::get('/entrance',[\App\Http\Controllers\Tag\TagController::class,'index'])->name('entrance');
 
+Route::get('/manufacturer',[\App\Http\Controllers\Manufacturer\ManufacturerController::class,'index'])->name('manufacturer');
+Route::get('/manufacturer/{id}',[\App\Http\Controllers\Manufacturer\ManufacturerController::class,'show'])->name('manufacturer.show');
+
 Route::get('/checkout',[\App\Http\Controllers\Checkout\CheckoutController::class,'index'])->name('checkout');
 Route::post('/createOrder',[\App\Http\Controllers\Checkout\CheckoutController::class,'SaveOrder'])->name('SaveOrder');
 Route::get('/successfully/{id}',[\App\Http\Controllers\Checkout\CheckoutController::class,'successfully'])->name('successfully');

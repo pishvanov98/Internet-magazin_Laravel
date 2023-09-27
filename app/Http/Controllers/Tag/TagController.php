@@ -36,8 +36,8 @@ class TagController extends Controller
                 $image_name=substr($item->image,  strrpos($item->image, '/' ));
                 $image->resizeImg($item->image,'product',$image_name,258,258);
                 $item->image='/image/product/resize'.$image_name;
-                return $item;
             }
+            return $item;
         });
 
         return view('tag.index',compact('title','products'));

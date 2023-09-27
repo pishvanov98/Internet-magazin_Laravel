@@ -63,13 +63,13 @@ class HomeController extends Controller
                 $image_name=substr($item->image,  strrpos($item->image, '/' ));
                 $image->resizeImg($item->image,'product',$image_name,258,258);
                 $item->image='/image/product/resize'.$image_name;
-                return $item;
             }
+            return $item;
         });
 
         //ресайз картинок
 
-        $brands=app('Header')->BrandListSlider();
+        $brands=$this->BrandListSlider();
 
         foreach ($brands as $key=>$brand){
                 if(!empty($brand['image'])){
@@ -181,6 +181,39 @@ class HomeController extends Controller
    $out .='</div>';
 
     return $out;
+
+    }
+
+    public function BrandListSlider(){
+
+        if(Cache::has('BrandListSlider')){
+            $brand=Cache::get('BrandListSlider');
+        }else{
+            $brand=DB::connection('mysql2')->table('sd_manufacturer')
+                ->select('manufacturer_id', 'name','image')
+                ->orderBy('sort_order','DESC')
+                ->where('image','!=','')
+                ->limit(40)
+                ->get();
+            Cache::put('BrandListSlider',$brand,86400);
+        }
+        $brand_mass=[];
+        $imageComponent= new ImageComponent();
+        foreach ($brand as $item) {
+            $data=(array)$item;
+            $brand_mass[$data['manufacturer_id']] = $data;
+            $brand_mass[$data['manufacturer_id']]['href'] = url('/manufacturer/' . $data['manufacturer_id']);
+
+            if(!empty($brand_mass[$data['manufacturer_id']]['image'])){
+                $image_name=substr($brand_mass[$data['manufacturer_id']]['image'],  strrpos($brand_mass[$data['manufacturer_id']]['image'], '/' ));
+                $imageComponent->checkImg($brand_mass[$data['manufacturer_id']]['image'],$image_name,'brand');//проверяю есть ли на сервере эта картинка, если нет то создаю
+                $brand_mass[$data['manufacturer_id']]['image']='/image/brand'.$image_name;
+            }
+
+        }
+
+        return $brand_mass;
+
 
     }
 

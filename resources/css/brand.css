@@ -1,0 +1,27 @@
+.wrapper_brand{
+    display: flex;
+    flex-wrap: wrap;
+}
+.wrapper_brand .item{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 1px 3px rgba(0,0,0,.055);
+    border-radius: 4px;
+    max-width: 200px;
+    min-width: 200px;
+    text-decoration: none;
+    color: black;
+    max-height: 235px;
+}
+.wrapper_brand .item span{
+    padding-top: 10px;
+}
+.wrapper_brand .item img{
+    width: 90%;
+    margin: auto;
+}

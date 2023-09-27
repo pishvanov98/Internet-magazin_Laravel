@@ -29,8 +29,8 @@ class CategoryController extends Controller
                 $image_name=substr($item->image,  strrpos($item->image, '/' ));
                 $image->resizeImg($item->image,'product',$image_name,258,258);
                 $item->image='/image/product/resize'.$image_name;
-                return $item;
             }
+            return $item;
         });
 
         $AttrCategory=app('Search')->GetSearchCategoryAttr($category->category_id);
@@ -134,8 +134,8 @@ class CategoryController extends Controller
                     $image_name=substr($item->image,  strrpos($item->image, '/' ));
                     $image->resizeImg($item->image,'product',$image_name,258,258);
                     $item->image='/image/product/resize'.$image_name;
-                    return $item;
                 }
+                return $item;
             });
 
             return view('components.categoryFilter',['Products'=>$Products,'category'=>$data['category'],'string_art'=>$data['string_art']]);
@@ -156,8 +156,8 @@ class CategoryController extends Controller
                         $image_name=substr($item->image,  strrpos($item->image, '/' ));
                         $image->resizeImg($item->image,'product',$image_name,258,258);
                         $item->image='/image/product/resize'.$image_name;
-                        return $item;
                     }
+                    return $item;
                 });
 
                 return view('components.categoryFilter',['Products'=>$Products,'category'=>$data['category']]);

@@ -44,7 +44,7 @@
             @endif
 
             @if(!empty($brandSliderOut))
-                    <h4 class="mt-4 mb-4">Производители</h4>
+                    <a class="brands_home" href="{{route('manufacturer')}}"><h4 class="mt-4 mb-4">Производители</h4></a>
                 <div class="wrapper_BrandSliderHome">
                     <div class="container_carousel">
                         <div id="BrandSliderHome1" class="owl-carousel owl-theme ">
