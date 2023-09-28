@@ -6,6 +6,8 @@ namespace App\Http\Controllers\Home;
 use App\Components\ImageComponent;
 use App\Http\Controllers\Controller;
 use App\Models\Img;
+use App\Models\Manufacturer;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -190,7 +192,7 @@ class HomeController extends Controller
             $brand=Cache::get('BrandListSlider');
         }else{
             $brand=DB::connection('mysql2')->table('sd_manufacturer')
-                ->select('manufacturer_id', 'name','image')
+                ->select('manufacturer_id', 'name','image','slug')
                 ->orderBy('sort_order','DESC')
                 ->where('image','!=','')
                 ->limit(40)
@@ -200,10 +202,17 @@ class HomeController extends Controller
         $brand_mass=[];
         $imageComponent= new ImageComponent();
         foreach ($brand as $item) {
+
+            if(empty($item->slug)){//чпу
+                $manufacturer=Manufacturer::findOrFail($item->manufacturer_id);
+                $slug = SlugService::createSlug(Manufacturer::class, 'slug', $manufacturer->name);//чпу slug
+                $manufacturer->slug=$slug;
+                $manufacturer->save();
+                $item->slug=$slug;
+            }
+
             $data=(array)$item;
             $brand_mass[$data['manufacturer_id']] = $data;
-            $brand_mass[$data['manufacturer_id']]['href'] = url('/manufacturer/' . $data['manufacturer_id']);
-
             if(!empty($brand_mass[$data['manufacturer_id']]['image'])){
                 $image_name=substr($brand_mass[$data['manufacturer_id']]['image'],  strrpos($brand_mass[$data['manufacturer_id']]['image'], '/' ));
                 $imageComponent->checkImg($brand_mass[$data['manufacturer_id']]['image'],$image_name,'brand');//проверяю есть ли на сервере эта картинка, если нет то создаю

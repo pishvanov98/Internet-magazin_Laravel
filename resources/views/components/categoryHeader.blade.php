@@ -24,9 +24,9 @@
                 <div class="unstyled">
                     @if(!empty($brands))
                         @foreach($brands as $val_manufactur)
-                            <a href="{{$val_manufactur['href']}}">{{$val_manufactur['name']}}</a>
+                            <a href="{{route('manufacturer.show',$val_manufactur['slug'])}}">{{$val_manufactur['name']}}</a>
                         @endforeach
-                        <a class="all_category_list_item" href="/brands" >Смотреть всех производителей</a>
+                        <a class="all_category_list_item" href="{{route('manufacturer')}}" >Смотреть всех производителей</a>
                     @endif
                 </div>
             </div>

@@ -49,14 +49,14 @@
                     <div class="container_carousel">
                         <div id="BrandSliderHome1" class="owl-carousel owl-theme ">
                                @foreach($brandSliderOut[0] as $brand1)
-                                <a href="{{$brand1['href']}}"><img alt="{{$brand1['name']}}" src="{{asset($brand1['image'])}}"></a>
+                                <a href="{{route('manufacturer.show',$brand1['slug'])}}"><img alt="{{$brand1['name']}}" src="{{asset($brand1['image'])}}"></a>
                                @endforeach
                         </div>
                     </div>
                     <div class="container_carousel">
                         <div id="BrandSliderHome2" class="owl-carousel owl-theme ">
                             @foreach($brandSliderOut[1] as $brand2)
-                                <a href="{{$brand2['href']}}"><img alt="{{$brand2['name']}}" src="{{asset($brand2['image'])}}"></a>
+                                <a href="{{route('manufacturer.show',$brand1['slug'])}}"><img alt="{{$brand2['name']}}" src="{{asset($brand2['image'])}}"></a>
                             @endforeach
                         </div>
                     </div>

@@ -12,7 +12,7 @@
         <h4>Производители</h4>
     <div class="wrapper_brand">
         @foreach($manufacturers as $manufacturer)
-            <a class="item" href="{{route('manufacturer.show',$manufacturer->manufacturer_id)}}"><img alt="{{$manufacturer->name}}" src="{{asset($manufacturer->image)}}">
+            <a class="item" href="{{route('manufacturer.show',$manufacturer['slug'])}}"><img alt="{{$manufacturer->name}}" src="{{asset($manufacturer->image)}}">
                 <span>{!! html_entity_decode($manufacturer->name) !!}</span>
             </a>
         @endforeach

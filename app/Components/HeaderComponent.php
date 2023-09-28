@@ -3,6 +3,7 @@
 namespace App\Components;
 
 use App\Models\CategoryDescription;
+use App\Models\Manufacturer;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -91,17 +92,22 @@ class HeaderComponent
     public function BrandList(){
 
         $brand=DB::connection('mysql2')->table('sd_manufacturer')
-            ->select('manufacturer_id', 'name')
+            ->select('manufacturer_id', 'name','slug')
             ->orderBy('sort_order','ASC')
             ->where('sort_order','>','0')
             ->get();
         $brand_mass=[];
         foreach ($brand as $key=> $item) {
+            if(empty($item->slug)){//чпу
+                $manufacturer=Manufacturer::findOrFail($item->manufacturer_id);
+                $slug = SlugService::createSlug(Manufacturer::class, 'slug', $manufacturer->name);//чпу slug
+                $manufacturer->slug=$slug;
+                $manufacturer->save();
+                $item->slug=$slug;
+            }
             $data=(array)$item;
-                    $brand_mass[$data['manufacturer_id']] = $data;
-                    $brand_mass[$data['manufacturer_id']]['href'] = url('/manufacturer/' . $data['manufacturer_id']);
+            $brand_mass[$data['manufacturer_id']] = $data;
         }
-
         return $brand_mass;
 
 
