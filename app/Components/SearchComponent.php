@@ -146,6 +146,7 @@ public function InsertDataProduct(){
         $params['body'][] = [
             'id'     => $row['id'],
             'category_id'     => $row['category_id'],
+            'quantity'     => $row['quantity'],
             'category_name'   => $row['category_name'],
             'name' => $row['name'],
             'model' => $row['model'],
