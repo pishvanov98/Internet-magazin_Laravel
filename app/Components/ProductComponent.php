@@ -195,9 +195,6 @@ if(!empty($mass_prod_id)){
             $image_name_manufacturer=substr($item->manufacturer_image,  strrpos($item->manufacturer_image, '/' ));
             $imageComponent->checkImg($item->manufacturer_image,$image_name_manufacturer,'brand');//проверяю есть ли на сервере эта картинка, если нет то создаю
             $item->manufacturer_image='/image/brand'.$image_name_manufacturer;
-            //Ресайз
-            $imageComponent->resizeImg($item->manufacturer_image,'brand',$image_name_manufacturer,200,125);
-            $item->manufacturer_image='/image/brand/resize'.$image_name_manufacturer;
         }
 
 

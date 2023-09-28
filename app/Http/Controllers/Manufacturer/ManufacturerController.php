@@ -25,6 +25,8 @@ class ManufacturerController extends Controller
             }
             if(!empty($item->image)){
                 $image_name=substr($item->image,  strrpos($item->image, '/' ));
+                $image->checkImg($item->image,$image_name,'brand');//проверяю есть ли на сервере эта картинка, если нет то создаю
+                $item->image='/image/brand'.$image_name;
                 $image->resizeImg($item->image,'brand',$image_name,200,125);
                 $item->image='/image/brand/resize'.$image_name;
             }
