@@ -187,12 +187,19 @@ if(!empty($mass_prod_id)){
             $image_name=substr($item->image,  strrpos($item->image, '/' ));
             $imageComponent->checkImg($item->image,$image_name,'product');//проверяю есть ли на сервере эта картинка, если нет то создаю
             $item->image='/image/product'.$image_name;
+            //Ресайз
+            $imageComponent->resizeImg($item->image,'product',$image_name,258,258);
+            $item->image='/image/product/resize'.$image_name;
         }
         if(!empty($item->manufacturer_image)){
-            $image_name=substr($item->manufacturer_image,  strrpos($item->manufacturer_image, '/' ));
-            $imageComponent->checkImg($item->manufacturer_image,$image_name,'brand');//проверяю есть ли на сервере эта картинка, если нет то создаю
-            $item->manufacturer_image='/image/brand'.$image_name;
+            $image_name_manufacturer=substr($item->manufacturer_image,  strrpos($item->manufacturer_image, '/' ));
+            $imageComponent->checkImg($item->manufacturer_image,$image_name_manufacturer,'brand');//проверяю есть ли на сервере эта картинка, если нет то создаю
+            $item->manufacturer_image='/image/brand'.$image_name_manufacturer;
+            //Ресайз
+            $imageComponent->resizeImg($item->manufacturer_image,'brand',$image_name_manufacturer,200,125);
+            $item->manufacturer_image='/image/brand/resize'.$image_name_manufacturer;
         }
+
 
 
         if (!empty($item->model)){
