@@ -41,16 +41,6 @@ class ProductController extends Controller
         if(!empty($AttrProduct)){
             $initProductAttr=app('Product')->ProductInit($AttrProduct);
 
-            $image=new ImageComponent();//ресайз картинок
-            $initProductAttr->map(function ($item)use(&$image){
-                if(!empty($item->image)){
-                    $image_name=substr($item->image,  strrpos($item->image, '/' ));
-                    $image->resizeImg($item->image,'product',$image_name,258,258);
-                    $item->image='/image/product/resize'.$image_name;
-                }
-                return $item;
-            });
-
             if(count($initProductAttr) < 3){
                 $initProductAttr=[];
             }

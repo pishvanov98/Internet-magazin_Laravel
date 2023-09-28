@@ -4,7 +4,7 @@
             <?php if ($categories) { ?>
             <a class="category_lef_2" style="color:#e43535;" href="/promo">Акции</a>
             <a class="category_lef_2" style="color:#e43535;" href="/exclusive">Эксклюзивные предложения</a>
-            <a class="category_lef" href="https://aveldent.ru/brands" data-name="Производители">Производители <img src="{{asset('/img/caret2.svg')}}"></a>
+            <a class="category_lef" href="{{route('manufacturer')}}" data-name="Производители">Производители <img src="{{asset('/img/caret2.svg')}}"></a>
                 <?php foreach ($categories as $category) { ?>
 
                 <?php if (!empty($category['children']) && count($category['children']) != 0){ ?>

@@ -30,16 +30,6 @@ class TagController extends Controller
             $products=app('Product')->ExclusiveSlaider($value,true,24,$page);
         }
 
-        $image=new ImageComponent();//ресайз картинок
-        $products->map(function ($item)use(&$image){
-            if(!empty($item->image)){
-                $image_name=substr($item->image,  strrpos($item->image, '/' ));
-                $image->resizeImg($item->image,'product',$image_name,258,258);
-                $item->image='/image/product/resize'.$image_name;
-            }
-            return $item;
-        });
-
         return view('tag.index',compact('title','products'));
     }
 

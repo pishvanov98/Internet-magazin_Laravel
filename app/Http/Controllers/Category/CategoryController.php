@@ -23,16 +23,6 @@ class CategoryController extends Controller
         $page = $request->get('page');
         $Products=app('Product')->ProductInit(array_column($products_id_category, 'id_product'),40,$page);
 
-        $image=new ImageComponent();//ресайз картинок
-        $Products->map(function ($item)use(&$image){
-            if(!empty($item->image)){
-                $image_name=substr($item->image,  strrpos($item->image, '/' ));
-                $image->resizeImg($item->image,'product',$image_name,258,258);
-                $item->image='/image/product/resize'.$image_name;
-            }
-            return $item;
-        });
-
         $AttrCategory=app('Search')->GetSearchCategoryAttr($category->category_id);
 
         $slider=DB::table('sliders')->where('location','Category')->first();
@@ -128,16 +118,6 @@ class CategoryController extends Controller
             }
             $Products=app('Product')->ProductInit(array_unique($filterProduct),40,$page);
 
-            $image=new ImageComponent();//ресайз картинок
-            $Products->map(function ($item)use(&$image){
-                if(!empty($item->image)){
-                    $image_name=substr($item->image,  strrpos($item->image, '/' ));
-                    $image->resizeImg($item->image,'product',$image_name,258,258);
-                    $item->image='/image/product/resize'.$image_name;
-                }
-                return $item;
-            });
-
             return view('components.categoryFilter',['Products'=>$Products,'category'=>$data['category'],'string_art'=>$data['string_art']]);
         }else{
             if(!empty($data['category'])){
@@ -149,16 +129,6 @@ class CategoryController extends Controller
                     $page=$data['page'];
                 }
                 $Products=app('Product')->ProductInit(array_column($products_id_category, 'id_product'),40,$page);
-
-                $image=new ImageComponent();//ресайз картинок
-                $Products->map(function ($item)use(&$image){
-                    if(!empty($item->image)){
-                        $image_name=substr($item->image,  strrpos($item->image, '/' ));
-                        $image->resizeImg($item->image,'product',$image_name,258,258);
-                        $item->image='/image/product/resize'.$image_name;
-                    }
-                    return $item;
-                });
 
                 return view('components.categoryFilter',['Products'=>$Products,'category'=>$data['category']]);
 

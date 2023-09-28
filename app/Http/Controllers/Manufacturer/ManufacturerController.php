@@ -48,15 +48,6 @@ class ManufacturerController extends Controller
             $page=0;
             $page = $request->get('page');
             $Products=app('Product')->ProductInit($Products_id_mass,40,$page);
-            $image=new ImageComponent();//ресайз картинок
-            $Products->map(function ($item)use(&$image){
-                if(!empty($item->image)){
-                    $image_name=substr($item->image,  strrpos($item->image, '/' ));
-                    $image->resizeImg($item->image,'product',$image_name,258,258);
-                    $item->image='/image/product/resize'.$image_name;
-                }
-                return $item;
-            });
 
         }
         return view('manufacturer.show',compact('manufacturer','Products'));
