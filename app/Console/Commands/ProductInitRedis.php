@@ -28,7 +28,7 @@ class ProductInitRedis extends Command
     public function handle()
     {
         $mass_prod_id=[];
-        $products_id=DB::connection('mysql2')->table('sd_product')->select('product_id')->where('quantity','>',0)->where('price','>',0)->latest('product_id')->get();
+        $products_id=DB::connection('mysql2')->table('sd_product')->select('product_id')->where('status','=',1)->where('price','>',0)->latest('product_id')->get();
         $products_id->each(function ($item) use(&$mass_prod_id){
             $mass_prod_id[]=$item->product_id;
         });

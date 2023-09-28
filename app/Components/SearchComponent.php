@@ -49,6 +49,9 @@ public function MappingProductName(){
                             'category_id' => [
                                 'type' => 'integer'
                             ],
+                            'quantity' => [
+                                'type' => 'integer'
+                            ],
                             'category_name' => [
                                 'type' => 'string'
                             ],
@@ -115,9 +118,9 @@ public function InsertDataProduct(){
 //    $stmt = "SELECT * FROM `table_name` limit 1";
 //    $result = $this->con->query($stmt);
     $result=[];
-    $products=DB::connection('mysql2')->table('sd_product_description')->select('sd_product_description.product_id','sd_product_description.name','sd_product.model','sd_product_to_category.category_id','sd_category_description.name as category_description_name')
+    $products=DB::connection('mysql2')->table('sd_product_description')->select('sd_product_description.product_id','sd_product_description.name','sd_product.model','sd_product_to_category.category_id','sd_product.quantity','sd_category_description.name as category_description_name')
         ->join('sd_product','sd_product.product_id','=','sd_product_description.product_id')
-        ->where('sd_product.quantity','>',0)
+//        ->where('sd_product.quantity','>',0)
         ->where('sd_product.price','>',0)
         ->where('sd_product.status','=',1)
         ->where('sd_product_to_category.main_category','=',1)
@@ -127,7 +130,7 @@ public function InsertDataProduct(){
 
     $products->each(function ($item) use(&$result){
 
-        $result[]=['id'=>$item->product_id,'name'=>$item->name,'category_id'=>$item->category_id,'category_name'=>$item->category_description_name,'model'=>mb_substr($item->model, -5)];
+        $result[]=['id'=>$item->product_id,'name'=>$item->name,'category_id'=>$item->category_id,'quantity'=>$item->quantity,'category_name'=>$item->category_description_name,'model'=>mb_substr($item->model, -5)];
     });
 
     $params = ['body' => []];
@@ -590,6 +593,11 @@ public function GetSearchProductName($name,$size=30){
 
                     ],
                 ],
+                "sort"=> [
+                    "quantity"=> [
+                        "order"=> "desc"
+                    ]
+                ],
                 "size"=>$size,
             ],
         ];
@@ -673,6 +681,11 @@ public function GetSearchProductName($name,$size=30){
 
 
                     ],
+                ],
+                "sort"=> [
+                    "quantity"=> [
+                        "order"=> "desc"
+                    ]
                 ],
                 "size"=>$size,
             ],
