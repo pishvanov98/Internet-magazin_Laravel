@@ -29,5 +29,6 @@ class ProductInitElasticIndex extends Command
         app('Search')->InsertDataProduct();
         app('Search')->InsertDataProductCategory();
         app('Search')->InsertDataProductAttr();
+        app('Search')->InsertDataManufacturerProduct();
     }
 }

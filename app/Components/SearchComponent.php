@@ -212,6 +212,88 @@ public function InsertDataProductCategory(){
         return true;
 }
 
+
+    public function InsertDataManufacturerProduct(){
+        $this->MappingManufacturerProduct();
+        $client = $this->elasticclient;
+//    $stmt = "SELECT * FROM `table_name` limit 1";
+//    $result = $this->con->query($stmt);
+        $result=[];
+        $query=DB::connection('mysql2')->table('sd_product')
+            ->select('sd_product.product_id','sd_product.manufacturer_id','sd_product.quantity' )
+            ->where('sd_product.status','=',1)
+            ->where('sd_product.manufacturer_id','!=','')
+            ->latest('sd_product.product_id');
+
+        $manufacturer_product= $query->get();
+
+
+
+
+        $manufacturer_product->each(function ($item) use(&$result){
+            $result[]=['product_id'=>$item->product_id,'manufacturer_id'=>$item->manufacturer_id,'quantity'=>$item->quantity];
+        });
+
+
+        $params = ['body' => []];
+        foreach($result as $row){
+
+            $params['body'][] = [
+                'index' => [
+                    '_index' => 'manufacturer_product',
+                    '_id'    => $row['product_id']
+                ]
+            ];
+
+            $params['body'][] = [
+                'product_id'     => $row['product_id'],
+                'manufacturer_id' => $row['manufacturer_id'],
+                'quantity' => $row['quantity']
+            ];
+
+        }
+
+// Send the last batch if it exists
+        if (!empty($params['body'])) {
+            $responses = $client->bulk($params);
+        }
+
+        //echo "<pre>"; print_r($responses); die;
+        return true;
+    }
+
+    public function MappingManufacturerProduct(){
+        $params = ['index' => 'manufacturer_product'];
+        $this->deleteIndex($params['index']);
+        $params = [
+            'index' => $params['index'],
+            'body' => [
+                'mappings' => [
+                    '_doc' => [
+                        '_source' => [
+                            'enabled' => true
+                        ],
+                        'properties' => [
+                            'product_id' => [
+                                'type' => 'integer'
+                            ],
+                            'manufacturer_id' => [
+                                'type' => 'integer'
+                            ],
+                            'quantity' => [
+                                'type' => 'integer'
+                            ],
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        //echo "<pre>"; print_r($params); //die;
+        $this->elasticclient->index($params);
+
+    }
+
 public function MappingProductAttr(){
 
     $params = ['index' => 'products_attr'];
@@ -650,6 +732,42 @@ public function GetSearchProductCategory($name){
 //        print_r($response['hits']['hits']); // documents
 }
 
+
+    public function GetSearchManufacturerProduct($id){
+        $client = $this->elasticclient;
+        $result = array();
+
+        $params = [
+            'index' => 'manufacturer_product',
+            'type'  => '_doc',
+
+            'body'  => [
+                'query' => [
+                    "match"=> [
+                        "manufacturer_id"=> $id,
+                    ]
+                ],
+                "sort"=> [
+                    "quantity"=> [
+                        "order"=> "desc"
+                    ]
+                ]
+            ],
+            "size"=>10000,
+        ];
+
+
+
+
+        $response = $client->search($params);
+
+        $resuil=[];
+        foreach ($response['hits']['hits'] as $hits){
+            $resuil[]=$hits['_source']['product_id'];
+        }
+        return $resuil;
+
+    }
 
     public function GetSearchAllProductToCategory($id){
         $client = $this->elasticclient;
