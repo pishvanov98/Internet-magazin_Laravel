@@ -33,15 +33,7 @@ class ProductInitRedis extends Command
             $mass_prod_id[]=$item->product_id;
         });
 
-        $products= app('Product')->ProductInit($mass_prod_id);
-
-        $image=new ImageComponent();//ресайз картинок
-        $products->map(function ($item)use(&$image){
-            if(!empty($item->image)){
-                $image_name=substr($item->image,  strrpos($item->image, '/' ));
-                $image->resizeImg($item->image,'product',$image_name,258,258);
-            }
-        });
+        app('Product')->ProductInit($mass_prod_id);
 
     }
 }
