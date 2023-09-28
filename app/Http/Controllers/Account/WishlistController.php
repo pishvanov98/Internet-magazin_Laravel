@@ -19,7 +19,7 @@ class WishlistController extends Controller
                 $page = $request->get('page');
             }
 
-            $Products=app('Product')->ProductInit($wishlist,24,$page);
+            $Products=app('Product')->ProductInit($wishlist,40,$page);
 
             $image=new ImageComponent();//ресайз картинок
             $Products->map(function ($item)use(&$image){

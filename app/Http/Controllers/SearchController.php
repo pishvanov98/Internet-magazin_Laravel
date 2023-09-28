@@ -88,7 +88,7 @@ class SearchController extends Controller
             if(!empty($data['page'])){
                 $page=$data['page'];
             }
-            $Products=app('Product')->ProductInit($array_column[1],24,$page);
+            $Products=app('Product')->ProductInit($array_column[1],40,$page);
             $category_mass_id=[];
             $image=new ImageComponent();//ресайз картинок
             $Products->map(function ($item)use(&$image,&$category_mass_id){
@@ -228,7 +228,7 @@ class SearchController extends Controller
                 if(!empty($data['page'])){
                     $page=$data['page'];
                 }
-                $Products=app('Product')->ProductInit($array_column[1],24,$page);
+                $Products=app('Product')->ProductInit($array_column[1],40,$page);
 
                 $image=new ImageComponent();//ресайз картинок
                 $Products->map(function ($item)use(&$image){

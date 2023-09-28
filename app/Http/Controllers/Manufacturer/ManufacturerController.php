@@ -39,7 +39,7 @@ class ManufacturerController extends Controller
 
             $page=0;
             $page = $request->get('page');
-            $Products=app('Product')->ProductInit($Products_id_mass,24,$page);
+            $Products=app('Product')->ProductInit($Products_id_mass,40,$page);
             $image=new ImageComponent();//ресайз картинок
             $Products->map(function ($item)use(&$image){
                 if(!empty($item->image)){

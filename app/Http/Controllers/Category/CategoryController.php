@@ -21,7 +21,7 @@ class CategoryController extends Controller
         $products_id_category=app('Search')->GetSearchAllProductToCategory($category->category_id);
         $page=0;
         $page = $request->get('page');
-        $Products=app('Product')->ProductInit(array_column($products_id_category, 'id_product'),24,$page);
+        $Products=app('Product')->ProductInit(array_column($products_id_category, 'id_product'),40,$page);
 
         $image=new ImageComponent();//ресайз картинок
         $Products->map(function ($item)use(&$image){
@@ -126,7 +126,7 @@ class CategoryController extends Controller
             if(!empty($data['page'])){
                 $page=$data['page'];
             }
-            $Products=app('Product')->ProductInit(array_unique($filterProduct),24,$page);
+            $Products=app('Product')->ProductInit(array_unique($filterProduct),40,$page);
 
             $image=new ImageComponent();//ресайз картинок
             $Products->map(function ($item)use(&$image){
@@ -148,7 +148,7 @@ class CategoryController extends Controller
                 if(!empty($data['page'])){
                     $page=$data['page'];
                 }
-                $Products=app('Product')->ProductInit(array_column($products_id_category, 'id_product'),24,$page);
+                $Products=app('Product')->ProductInit(array_column($products_id_category, 'id_product'),40,$page);
 
                 $image=new ImageComponent();//ресайз картинок
                 $Products->map(function ($item)use(&$image){
