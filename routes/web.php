@@ -70,6 +70,14 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['role:admin'], 'prefix'=>
     Route::delete('/pageGenerator/{id}',[\App\Http\Controllers\Admin\PageGeneratorController::class, 'destroy'])->name('admin.pageGenerator.destroy');
     Route::get('/pageGenerator/edit/{id}',[\App\Http\Controllers\Admin\PageGeneratorController::class, 'edit'])->name('admin.pageGenerator.edit');
     Route::put('/pageGenerator/{id}',[\App\Http\Controllers\Admin\PageGeneratorController::class, 'update'])->name('admin.pageGenerator.update');
+
+
+    Route::get('/couponGenerator',[\App\Http\Controllers\Admin\CouponController::class,'index'])->name('admin.couponGenerator');
+    Route::get('/couponGenerator/create',[\App\Http\Controllers\Admin\CouponController::class,'create'])->name('admin.couponGenerator.create');
+    Route::post('/couponGenerator',[\App\Http\Controllers\Admin\CouponController::class,'store'])->name('admin.couponGenerator.store');
+    Route::get('/couponGenerator/edit/{id}',[\App\Http\Controllers\Admin\CouponController::class,'edit'])->name('admin.couponGenerator.edit');
+    Route::put('/couponGenerator/update/{id}',[\App\Http\Controllers\Admin\CouponController::class,'update'])->name('admin.couponGenerator.update');
+
 });
 
 

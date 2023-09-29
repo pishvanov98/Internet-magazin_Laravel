@@ -49,6 +49,7 @@
 .CategoryTree li, .CategoryTreeChildren li{
     font-size: 14px;
     padding-top: 5px;
+    padding-left: 10px;
 }
 .CategoryTree a, .CategoryTreeChildren a{
     color: #212121;

@@ -45,6 +45,7 @@
     font-size: 11px;
     min-height: 18px;
     width: 170px;
+    margin: auto;
 }
 .wrapper_cart_block .left_block .cart-min, .wrapper_cart_block .left_block .cart-plus {
     width: 30px;

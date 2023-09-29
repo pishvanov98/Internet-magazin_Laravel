@@ -117,6 +117,12 @@
                                     <p>Генератор страниц</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{route('admin.couponGenerator')}}" class="nav-link flex_block @if(!empty($page) && $page == "couponGenerator") active @endif">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Генератор купонов</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
 

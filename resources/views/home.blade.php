@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
 
             @if($images_slider)
-                <div class="owl-carousel owl-theme w-75" id="slider">
+                <div style="height: 237px;" class="owl-carousel owl-theme w-75" id="slider">
                     <!--Слайд 1-->
                     @foreach($images_slider as $image)
                         <div class="slide">
