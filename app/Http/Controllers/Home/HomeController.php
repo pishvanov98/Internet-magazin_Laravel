@@ -64,15 +64,6 @@ class HomeController extends Controller
 
         $brands=$this->BrandListSlider();
 
-        foreach ($brands as $key=>$brand){
-                if(!empty($brand['image'])){
-                    $image_name=substr($brand['image'],  strrpos($brand['image'], '/' ));
-                    $image->resizeImg($brand['image'],'brand',$image_name,200,125);
-                    $brand['image']='/image/brand/resize'.$image_name;
-                    $brands[$key]=$brand;
-                }
-        }
-
         $brandsSlider1=[];
         $brandsSlider2=[];
         $i=1;
@@ -208,6 +199,8 @@ class HomeController extends Controller
                 $image_name=substr($brand_mass[$data['manufacturer_id']]['image'],  strrpos($brand_mass[$data['manufacturer_id']]['image'], '/' ));
                 $imageComponent->checkImg($brand_mass[$data['manufacturer_id']]['image'],$image_name,'brand');//проверяю есть ли на сервере эта картинка, если нет то создаю
                 $brand_mass[$data['manufacturer_id']]['image']='/image/brand'.$image_name;
+                $imageComponent->resizeImg($brand_mass[$data['manufacturer_id']]['image'],'brand',$image_name,200,125);
+                $brand_mass[$data['manufacturer_id']]['image']='/image/brand/resize'.$image_name;
             }
 
         }
