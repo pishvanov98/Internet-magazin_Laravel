@@ -562,21 +562,13 @@ public function GetSearchProductName($name,$size=30){
                                 ]
                             ],
                             [
-                                "wildcard"=> [
-                                    "name"=>[
-                                        "value"=>$name."*",
-                                        "boost"=> 2,
-                                        "rewrite"=>"constant_score",
-                                    ]
+                                "query_string"=> [
+                                    "query"=>$name."*"
                                 ],
                             ],
                             [
-                                "wildcard"=> [
-                                    "name"=>[
-                                        "value"=>"*".$name."*",
-                                        "boost"=> 1,
-                                        "rewrite"=>"constant_score",
-                                    ]
+                                "query_string"=> [
+                                    "query"=>"*".$name."*"
                                 ],
                             ],
                             [
@@ -651,21 +643,13 @@ public function GetSearchProductName($name,$size=30){
                                 ]
                             ],
                             [
-                                "wildcard"=> [
-                                    "name"=>[
-                                        "value"=>$name."*",
-                                        "boost"=> 2,
-                                        "rewrite"=>"constant_score",
-                                    ]
+                                "query_string"=> [
+                                    "query"=>$name."*"
                                 ],
                             ],
                             [
-                                "wildcard"=> [
-                                    "name"=>[
-                                        "value"=>"*".$name."*",
-                                        "boost"=> 1,
-                                        "rewrite"=>"constant_score",
-                                    ]
+                                "query_string"=> [
+                                    "query"=>"*".$name."*"
                                 ],
                             ],
                             [
