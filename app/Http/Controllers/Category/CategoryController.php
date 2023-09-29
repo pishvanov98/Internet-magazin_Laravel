@@ -22,7 +22,6 @@ class CategoryController extends Controller
         $page=0;
         $page = $request->get('page');
         $Products=app('Product')->ProductInit(array_column($products_id_category, 'id_product'),40,$page);
-
         $AttrCategory=app('Search')->GetSearchCategoryAttr($category->category_id);
 
         $slider=DB::table('sliders')->where('location','Category')->first();

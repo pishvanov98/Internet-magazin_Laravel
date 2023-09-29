@@ -52,11 +52,16 @@ class HomeController extends Controller
         }
         //Новинки
 
-        if(Cache::has('NewGoodsSlaider')){
-            $Products=Cache::get('NewGoodsSlaider');
+        $user_type=0;
+        if (session()->has('user_type')) {
+            $user_type = session()->get('user_type');
+        }
+
+        if(Cache::has('NewGoodsSlaider'.$user_type)){
+            $Products=Cache::get('NewGoodsSlaider'.$user_type);
         }else{
             $Products=app('Product')->NewGoodsSlaider();
-            Cache::put('NewGoodsSlaider',$Products,10800);
+            Cache::put('NewGoodsSlaider'.$user_type,$Products,10800);
         }
 
         $image=new ImageComponent();//ресайз картинок
@@ -122,7 +127,12 @@ class HomeController extends Controller
           $out .='<a class="card-title" href='.route('product.show',$product['slug']).'><h6 class="card-title">'.$product['name'].'</h6></a>';
           $out .='<div style="flex-direction: column" class="d-flex">';
           $out .='<div>';
-          $out .='<p class="card-text">Стоимость '.$product['price'].'</p>';
+
+            if(!empty($product['old_price'])){
+                $out .='<p class="card-text">Стоимость <span style="color: red; font-size: 16px">'.number_format($product['price'], 0, '', ' ').' ₽</span> <s style="opacity: 0.5;">'.number_format($product['old_price'], 0, '', ' ').' ₽ </s></p>';
+            }else{
+                $out .='<p class="card-text">Стоимость '.number_format($product['price'], 0, '', ' ').' ₽ </p>';
+            }
           $out .='<div class="d-flex justify-content-between align-items-center">';
           $out .='<span onclick="addToCart('.$product['product_id'].')" class="btn btn-primary">Купить</span>';
           $out .='<span data-id="'.$product['product_id'].'" onclick="addToWishlist('.$product['product_id'].')" class="wishlist">';

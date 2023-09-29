@@ -115,10 +115,10 @@ class ProductComponent
                 }
             }
         }else{
-            $products_out='';
+            $products_out=[];
             if(Cache::has('product_'.$mass_prod_id)) {
                 $result = Cache::get('product_' . $mass_prod_id);
-                $products_out=$result;
+                $products_out[]=$result;
                 unset($mass_prod_id);
             }
         }
@@ -235,7 +235,7 @@ if (session()->has('user_type')){
     $user_type=session()->get('user_type');
 }else{
     if(!empty(Auth::user()->id)) {
-        $type_user = UserType::where('user_type', Auth::user()->id)->first();
+        $type_user = UserType::where('id', Auth::user()->id)->first();
         if(empty($type_user->user_type)){
             $user_type = 0;
         }else{
@@ -250,6 +250,7 @@ $wishlist=session()->get('wishlist');
 }else{
 $wishlist='';
 }
+
 if(!empty($wishlist) || !empty($user_type)){
     $products_out=  $this->checkWishlistAndGroupUser($products_out,$wishlist,$user_type);
 }
@@ -262,7 +263,6 @@ if(!empty($paginate)){
 
 
     public function checkWishlistAndGroupUser($products_out,$wishlist,$user_type ){
-
         $products_out->map(function ($item) use ($wishlist,$user_type){
             if(!empty($item->product_id)){//проходим по всем элементам которые выводим и проверяем в избранном они и проверяем цену
                 if(!empty($wishlist[$item->product_id])){
@@ -272,6 +272,7 @@ if(!empty($paginate)){
                 if(!empty($user_type) && $user_type == 2 || !empty($user_type) && $user_type == 3){
                     foreach ($item->product_discount as $value){
                         if($value->customer_group_id == $user_type){
+                            $item->old_price=$item->price;
                             $item->price=$value->price;
                         }
                     }

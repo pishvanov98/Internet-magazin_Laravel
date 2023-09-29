@@ -21,7 +21,8 @@ class ProductController extends Controller
         }
 
         $initProduct=$initProduct->all();
-
+        $initProduct=$initProduct[0];
+        $initProduct=(array)$initProduct;
         $attr_mass=[];
         $category_id=$initProduct['category_id'];
         if(!empty($initProduct['product_attr'])){

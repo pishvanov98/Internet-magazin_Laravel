@@ -90,7 +90,11 @@
                 @endif
             </div>
             <div class="right_block">
-                <p class="price">{{number_format($Product['price'], 0, '', ' ')}} ₽</p>
+                @if(!empty($Product['old_price']))
+                    <p style="color: red" class="price">{{number_format($Product['price'], 0, '', ' ')}} ₽ <s style="opacity: 0.5;font-size: 14px">{{number_format($Product['old_price'], 0, '', ' ')}} ₽ </s></p>
+                @else
+                    <p class="price">{{number_format($Product['price'], 0, '', ' ')}} ₽</p>
+                @endif
                 <div class="d-flex ">
                     <div class="d-flex element-buttons-count">
                     <span class="decr">-</span>

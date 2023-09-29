@@ -49,7 +49,14 @@
                                  </span>
                                 </span>
                             </td>
-                            <td><strong class="product-pricetotal">{{number_format($Product->price, 0, '', ' ')}} ₽</strong></td>
+                            <td>
+                                @if(!empty($Product->old_price))
+                                    <strong style="color: red;" class="product-pricetotal">{{number_format($Product->price, 0, '', ' ')}} ₽ <s style="opacity: 0.5;font-size: 14px">{{number_format($Product->old_price, 0, '', ' ')}} ₽ </s></strong>
+                                @else
+                                    <strong class="product-pricetotal">{{number_format($Product->price, 0, '', ' ')}} ₽</strong>
+                                @endif
+
+                            </td>
                         </tr>
 
                     @endforeach

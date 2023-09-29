@@ -6,7 +6,12 @@
         <a class="card-title" href="{{route('product.show',$product->slug)}}"><h6>{{$product->name}}</h6></a>
         <div style="flex-direction: column" class="d-flex">
             <div>
-                <p class="card-text">Стоимость {{number_format($product->price, 0, '', ' ')}} ₽</p>
+
+                @if(!empty($product->old_price))
+                    <p class="card-text">Стоимость <span style="color: red; font-size: 16px">{{number_format($product->price, 0, '', ' ')}} ₽</span> <s style="opacity: 0.5;">{{number_format($product->old_price, 0, '', ' ')}} ₽ </s></p>
+                @else
+                    <p class="card-text">Стоимость {{number_format($product->price, 0, '', ' ')}} ₽ </p>
+                @endif
                 <div class="d-flex justify-content-between align-items-center">
                 <span onclick="addToCart({{$product->product_id}},1)" class="btn btn-primary ">Купить</span>
                     <span data-id="{{$product->product_id}}" onclick="addToWishlist({{$product->product_id}})" class="wishlist">
