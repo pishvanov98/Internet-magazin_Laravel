@@ -155,7 +155,7 @@ if(!empty($mass_prod_id)){
     $products->map(function ($item) use (&$products_out,&$products, &$products_discount, &$products_attr,&$imageComponent){
 
 
-        $customer_group_id=0;//обычный пользователь 2 это вип
+        //$customer_group_id=0;//обычный пользователь 2 это вип
         if($item->mpn == 1){
             //mpn спец предложение в случае mpn = 1 делаем запрос на получение цены
             $product_special=DB::connection('mysql2')->table('sd_product_special')->where('sd_product_special.product_id',$item->product_id)//получил спец цену на товар
@@ -167,15 +167,13 @@ if(!empty($mass_prod_id)){
         if(!empty($filtered_discount)){
             $item->product_discount=$filtered_discount->all();
             //если известен customer_group_id то заменяем price на нужный
-
-            if(isset($customer_group_id)){
-                $price_customer_group=$filtered_discount->where('customer_group_id',$customer_group_id)->first();
-                $price_customer_group=(array)$price_customer_group;
-                if(!empty($price_customer_group['price'])){
-                    $item->price=$price_customer_group['price'];
-                }
-            }
-
+//            if(isset($customer_group_id)){
+//                $price_customer_group=$filtered_discount->where('customer_group_id',$customer_group_id)->first();
+//                $price_customer_group=(array)$price_customer_group;
+//                if(!empty($price_customer_group['price'])){
+//                    $item->price=$price_customer_group['price'];
+//                }
+//            }
         }
 
         $filtered_attr = $products_attr->where('product_id', $item->product_id);

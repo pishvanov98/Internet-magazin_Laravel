@@ -65,7 +65,7 @@ class ProductController extends Controller
             'sku'=>'required',
             'mpn'=>'required|numeric',
             'quantity'=>'required|numeric',
-            'tag'=>'required',
+//            'tag'=>'required',
             'manufacturer'=>'required',
             'category'=>'required',
             'image'=>'required',
@@ -122,7 +122,9 @@ class ProductController extends Controller
     $productDescription->meta_keyword='';
     $productDescription->seo_title='';
     $productDescription->seo_h1='';
-    $productDescription->tag=$validate['tag'];
+    if(!empty($validate['tag'])){
+        $productDescription->tag=$validate['tag'];
+    }
     $productDescription->slug='';
     $productDescription->save();
 
