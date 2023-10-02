@@ -16,7 +16,15 @@ class CartController extends Controller
         if(session()->has('cart')){
           $cart=session()->get('cart');
         }
+        $statusCoupon='';
+        if(session()->has('statusCoupon')){
+         $statusCoupon=session()->get('statusCoupon');
+        }
 
+        $coupon=[];
+        if(session()->has('coupon')){
+            $coupon=session()->get('coupon');
+        }
         $cart= app('Cart')->update_cart($cart);
 
         $cart_info=app('Cart')->CheckCountProduct();
@@ -39,7 +47,7 @@ class CartController extends Controller
             return $item;
         });
 
-        return view('cart.index',['Products'=>$products_init,'cart_info'=>$cart_info]);
+        return view('cart.index',['Products'=>$products_init,'cart_info'=>$cart_info,'statusCoupon'=>$statusCoupon,'coupon'=>$coupon]);
     }
 
     public function addToCart(Request $request)

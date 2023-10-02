@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('type');
             $table->integer('value');
+            $table->integer('min_value')->nullable();
             $table->integer('limit');
             $table->integer('count_use');
             $table->boolean('status');

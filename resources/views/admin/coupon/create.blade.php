@@ -31,6 +31,9 @@
                         <input type="text" name="value"  class="form-control" placeholder="Значение">
                     </div>
                     <div class="col-sm-3 mb-3">
+                        <input type="text" name="min_value"  class="form-control" placeholder="Минимальная сумма в заказе">
+                    </div>
+                    <div class="col-sm-3 mb-3">
                         <input type="text" name="limit"  class="form-control" placeholder="Лимит использований">
                     </div>
                     <button type="submit" class="btn btn-primary m-lg-2">Добавить</button>

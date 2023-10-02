@@ -230,10 +230,8 @@ if(!empty($mass_prod_id)){
 }
 
         $products_out=collect($products_out);
-$user_type=0;
-if (session()->has('user_type')){
-    $user_type=session()->get('user_type');
-}else{
+        $user_type=0;
+
     if(!empty(Auth::user()->id)) {
         $type_user = UserType::where('id', Auth::user()->id)->first();
         if(empty($type_user->user_type)){
@@ -243,16 +241,22 @@ if (session()->has('user_type')){
         }
         session()->put('user_type', $user_type);
     }
-}
+
 
 if(session()->has('wishlist')){
 $wishlist=session()->get('wishlist');
 }else{
 $wishlist='';
 }
+//type=1 = фиксированная скидка
+//type=2 = процент скидка
+$coupon=[];
+if(session()->has('coupon')){
+    $coupon=session()->get('coupon');
+}
 
-if(!empty($wishlist) || !empty($user_type)){
-    $products_out=  $this->checkWishlistAndGroupUser($products_out,$wishlist,$user_type);
+if(!empty($wishlist) || !empty($user_type) || !empty($coupon)){
+    $products_out=  $this->checkWishlistAndGroupUserAndCoupon($products_out,$wishlist,$user_type,$coupon);
 }
 if(!empty($paginate)){
     return($products_out->paginate($paginate));
@@ -262,11 +266,17 @@ if(!empty($paginate)){
     }
 
 
-    public function checkWishlistAndGroupUser($products_out,$wishlist,$user_type ){
-        $products_out->map(function ($item) use ($wishlist,$user_type){
+    public function checkWishlistAndGroupUserAndCoupon($products_out,$wishlist,$user_type,$coupon){
+
+        $products_out->map(function ($item) use ($wishlist,$user_type,$coupon){
             if(!empty($item->product_id)){//проходим по всем элементам которые выводим и проверяем в избранном они и проверяем цену
                 if(!empty($wishlist[$item->product_id])){
                     $item->wishlist=1;
+                }
+                if(!empty($coupon) && $coupon['type'] == 2){
+                    $item->old_price=$item->price;
+                    $item->price=(int)round($item->price - ($item->price * ($coupon['value'] / 100)));
+                    return $item;
                 }
 
                 if(!empty($user_type) && $user_type == 2 || !empty($user_type) && $user_type == 3){

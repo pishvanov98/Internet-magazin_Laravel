@@ -77,6 +77,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['role:admin'], 'prefix'=>
     Route::post('/couponGenerator',[\App\Http\Controllers\Admin\CouponController::class,'store'])->name('admin.couponGenerator.store');
     Route::get('/couponGenerator/edit/{id}',[\App\Http\Controllers\Admin\CouponController::class,'edit'])->name('admin.couponGenerator.edit');
     Route::put('/couponGenerator/update/{id}',[\App\Http\Controllers\Admin\CouponController::class,'update'])->name('admin.couponGenerator.update');
+    Route::delete('/couponGenerator/{id}',[\App\Http\Controllers\Admin\CouponController::class, 'destroy'])->name('admin.couponGenerator.destroy');
 
 });
 
@@ -115,6 +116,7 @@ Route::post('/getCategoryList',[\App\Http\Controllers\Header\HeaderController::c
 Route::post('/filter/product', [\App\Http\Controllers\Category\CategoryController::class,'getFilterProducts'])->name('query.filter.product');
 Route::post('/filter/product/search', [\App\Http\Controllers\SearchController::class,'getFilterProducts'])->name('query.filter.product.search');
 
+Route::post('/couponCheck',[\App\Http\Controllers\Coupon\CouponController::class,'CheckCoupon'])->name('CheckCoupon');
 
 Route::group([ 'middleware' => ['role:user']], function(){//prefix подставляет admin во всё что внутри группы в пути , namespace группа контрорреров в папке Admin middleware дал доступ роли админу
 

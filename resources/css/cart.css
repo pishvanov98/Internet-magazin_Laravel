@@ -136,8 +136,28 @@
     display: flex;
     justify-content: space-between;
 }
+.right_block .info_block_coupon{
+    display: flex;
+    justify-content: space-between;
+}
 .btn_order{
     width: 100%;
     background: #00aeef !important;
     color: #fff !important;
+}
+.wrapper_cart_block .right_block .input-append{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+.wrapper_cart_block .right_block .input-append #input-coupon{
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 4px 6px;
+    border-radius: 4px;
+    width: 155px;
+    margin-right: 10px;
+}
+.alert_block.hide{
+    display: none;
 }

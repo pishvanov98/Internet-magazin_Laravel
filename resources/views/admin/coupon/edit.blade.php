@@ -32,6 +32,9 @@
                         <input type="text" name="value" value="{{$coupon->value}}"  class="form-control" placeholder="Значение">
                     </div>
                     <div class="col-sm-3 mb-3">
+                        <input type="text" name="min_value" value="{{$coupon->min_value}}"  class="form-control" placeholder="Минимальная сумма в заказе">
+                    </div>
+                    <div class="col-sm-3 mb-3">
                         <input type="text" name="limit" value="{{$coupon->limit}}"  class="form-control" placeholder="Лимит использований">
                     </div>
                     <div class="col-sm-3 mb-3">

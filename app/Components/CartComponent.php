@@ -24,11 +24,30 @@ class CartComponent
                 }
             }
 
+            $coupon=[];
+            if(session()->has('coupon')){
+                $coupon=session()->get('coupon');
+            }
+
            $products= App('Product')->ProductInit($product_id);
             $itogo=0;
-            $products->map(function ($item)use (&$itogo,&$quantity){
+            $itogoDiscount=0;
+            $products->map(function ($item)use (&$itogo,&$quantity,$coupon,&$itogoDiscount){
+                if(!empty($coupon) && $coupon['type'] == 2){
+                    $itogoDiscount=$itogoDiscount + ($item->old_price * $quantity[$item->product_id]);
+                }
+
                 $itogo= $itogo + ($item->price * $quantity[$item->product_id]);
             });
+            if(!empty($coupon)){
+                if( $coupon['type'] == 2){
+                    $coupon['discount']=(int)round($itogoDiscount-$itogo);
+                    session()->put('coupon',$coupon);
+                }else{
+                    $coupon['discount']=(int)$coupon['value'];
+                    session()->put('coupon',$coupon);
+                }
+            }
 
 
             return $count." Товаров - ".number_format($itogo, 0, '', ' ')." руб.";
@@ -62,18 +81,42 @@ class CartComponent
                     }
                 }
             }
-
+            $coupon=[];
+            if(session()->has('coupon')){
+                $coupon=session()->get('coupon');
+            }
             $products= App('Product')->ProductInit($product_id);
             $itogo=0;
-            $products->map(function ($item)use (&$itogo,&$quantity){
+            $itogoDiscount=0;
+            $discount=0;
+            $products->map(function ($item)use (&$itogo,&$quantity,$coupon,&$itogoDiscount){
+
+                if(!empty($coupon) && $coupon['type'] == 2){
+                    $itogoDiscount=$itogoDiscount + ($item->old_price * $quantity[$item->product_id]);
+                }
+
                 $itogo= $itogo + ($item->price * $quantity[$item->product_id]);
             });
 
+            if(!empty($coupon)){
+                if( $coupon['type'] == 2){
+                    $coupon['discount']=(int)round($itogoDiscount-$itogo);
+                    $discount=$coupon['discount'];
+                    session()->put('coupon',$coupon);
+                }elseif($coupon['type'] == 1){
+                    $coupon['discount']=(int)$coupon['value'];
+                    $discount=$coupon['discount'];
+                    session()->put('coupon',$coupon);
+                }
+            }
+            $itogoAddDiscount=0;
+            if(!empty($coupon['discount'])){
+                $itogoAddDiscount=number_format((int)$discount + (int)$itogo, 0, '', ' ');
+            }
 
-
-            return ['count_prod'=>$quantity_find_prod,'count_all_prod'=>$count,'itogo'=>number_format($itogo, 0, '', ' ')];
+            return ['itogoAddDiscount'=>$itogoAddDiscount,'discount'=>number_format($discount, 0, '', ' '),'count_prod'=>$quantity_find_prod,'count_all_prod'=>$count,'itogo'=>number_format($itogo, 0, '', ' ')];
         }else{
-            return ['count_prod'=>0,'count_all_prod'=>0,'itogo'=>0];
+            return ['itogoAddDiscount'=>$itogoAddDiscount,'discount'=>0,'count_prod'=>0,'count_all_prod'=>0,'itogo'=>0];
         }
     }
 

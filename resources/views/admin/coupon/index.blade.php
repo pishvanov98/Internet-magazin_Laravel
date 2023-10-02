@@ -34,7 +34,14 @@
                             <td>{{$coupon->count_use}}</td>
                             <td>{{$coupon->status}}</td>
                             <td>{{$coupon->created_at}}</td>
-                            <td><a href="{{route('admin.couponGenerator.edit',$coupon->id)}}">Изменить</a>/Удалить</td>
+                            <td>
+                                <a href="{{route('admin.couponGenerator.edit',$coupon->id)}}">Изменить</a>
+                                <form method="post" action="{{route('admin.couponGenerator.destroy',$coupon->id)}}">
+                                    @csrf
+                                    @method('delete')
+                                    <input type="submit" class="btn btn-link ml-0 pl-0" value="Удалить">
+                                </form>
+                            </td>
 
                         </tr>
 

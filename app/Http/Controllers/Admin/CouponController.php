@@ -52,6 +52,9 @@ class CouponController extends Controller
         $coupon->name=$data['name'];
         $coupon->type=$data['type'];
         $coupon->value=$data['value'];
+        if (!empty($data['min_value'])){
+            $coupon->min_value=$data['min_value'];
+        }
         $coupon->limit=$data['limit'];
         $coupon->count_use=0;
         $coupon->status=true;
@@ -91,9 +94,20 @@ class CouponController extends Controller
         $coupon->name=$data['name'];
         $coupon->type=$data['type'];
         $coupon->value=$data['value'];
+        if (!empty($data['min_value'])){
+            $coupon->min_value=$data['min_value'];
+        }
         $coupon->limit=$data['limit'];
         $coupon->status=$data['status'];
         $coupon->update();
         return redirect()->route('admin.couponGenerator');
     }
+
+
+    public function destroy(Request $request){
+        $category=Coupon::findOrFail($request->route('id'));
+        $category->delete();
+        return redirect()->route('admin.couponGenerator');
+    }
+
 }
