@@ -86,18 +86,18 @@ services:
             - ./cache_data_redis:/data
         networks:
             - app-network
-    kibana:
-        image: kibana:8.8.0
-        depends_on:
-            - elasticsearch
-        environment:
-            ELASTICSEARCH_URL: http://sitelight-es01:9200
-            ELASTICSEARCH_HOSTS: http://sitelight-es01:9200
-            LOGGING_VERBOSE: "true"
-        ports:
-            - 5601:5601
-        networks:
-            - app-network
+#    kibana:
+#        image: kibana:8.8.0
+#        depends_on:
+#            - elasticsearch
+#        environment:
+#            ELASTICSEARCH_URL: http://sitelight-es01:9200
+#            ELASTICSEARCH_HOSTS: http://sitelight-es01:9200
+#            LOGGING_VERBOSE: "true"
+#        ports:
+#            - 5601:5601
+#        networks:
+#            - app-network
 #Docker Networks
 networks:
     app-network:
