@@ -88,6 +88,18 @@
                         </div>
                     </div>
                 @endif
+
+                @if(!empty($initProductViewed))
+                    <h4>Просмотренные товары</h4>
+                    <div class="container_carousel">
+                        <div id="GoodsSlaiderProductViewed" class="owl-carousel owl-theme slaider_prod">
+                            @foreach ($initProductViewed as $product)
+                                @include('components.product')
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
             </div>
             <div class="right_block">
                 @if(!empty($Product['old_price']))
@@ -170,6 +182,29 @@
 
             jQuery(document).ready(function () {
                 $("#GoodsSlaiderProductAttr").owlCarousel({
+                    items: 5,
+                    responsive: {
+
+                        // Ширина от 500 пикселей
+                        500: {
+                            items: 2,
+                        },
+                        1200: {
+                            items: 3,
+                        }
+                    },
+                    autoPlay: false,
+                    lazyLoad: true,
+                    navigation: true,
+                    margin: 10,
+                    nav: true,
+                    dots: false,
+                    navigationText: ['‹', '›']
+                });
+            });
+
+            jQuery(document).ready(function () {
+                $("#GoodsSlaiderProductViewed").owlCarousel({
                     items: 5,
                     responsive: {
 

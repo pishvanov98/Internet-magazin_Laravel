@@ -140,6 +140,9 @@
     display: flex;
     justify-content: space-between;
 }
+.right_block .info_block_coupon.hide{
+    display: none;
+}
 .btn_order{
     width: 100%;
     background: #00aeef !important;

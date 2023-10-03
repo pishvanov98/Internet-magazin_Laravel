@@ -539,6 +539,8 @@ public function GetSearchCategoryAttr($id){
 public function GetSearchProductName($name,$size=30){
         $client = $this->elasticclient;
         $result = array();
+    $query_string=trim($name);
+    $query_string = str_replace(" ", " AND ", $query_string);
 
         $params = [
             'index' => 'products_name',
@@ -550,6 +552,16 @@ public function GetSearchProductName($name,$size=30){
                         "must" => [ ],
                         "should" => [
                             [
+                                "match_phrase"=> [
+                                    "name"=>$name
+                                ],
+                            ],
+                            [
+                                "query_string"=> [
+                                    "query"=>$query_string."*"
+                                ],
+                            ],
+                            [
                                 "multi_match"=> [
                                     "query"=> $name,
                                     "fields"=> [
@@ -560,16 +572,6 @@ public function GetSearchProductName($name,$size=30){
                                     "boost"=> 4,
                                     "operator"=> "and",
                                 ]
-                            ],
-                            [
-                                "query_string"=> [
-                                    "query"=>$name."*"
-                                ],
-                            ],
-                            [
-                                "query_string"=> [
-                                    "query"=>"*".$name."*"
-                                ],
                             ],
                             [
                                 "wildcard"=> [
@@ -617,6 +619,9 @@ public function GetSearchProductName($name,$size=30){
         $client = $this->elasticclient;
         $result = array();
 
+        $query_string=trim($name);
+        $query_string = str_replace(" ", " AND ", $query_string);
+
         $params = [
             'index' => 'products_name',
             'type'  => '_doc',
@@ -631,6 +636,16 @@ public function GetSearchProductName($name,$size=30){
                             ],
                         "should" => [
                             [
+                                "match_phrase"=> [
+                                    "name"=>$name
+                                ],
+                            ],
+                            [
+                                "query_string"=> [
+                                    "query"=>$query_string."*"
+                                ],
+                            ],
+                            [
                                 "multi_match"=> [
                                     "query"=> $name,
                                     "fields"=> [
@@ -641,16 +656,6 @@ public function GetSearchProductName($name,$size=30){
                                     "boost"=> 4,
                                     "operator"=> "and",
                                 ]
-                            ],
-                            [
-                                "query_string"=> [
-                                    "query"=>$name."*"
-                                ],
-                            ],
-                            [
-                                "query_string"=> [
-                                    "query"=>"*".$name."*"
-                                ],
                             ],
                             [
                                 "wildcard"=> [

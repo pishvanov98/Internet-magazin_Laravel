@@ -24,8 +24,8 @@
                     <div class="col-sm-3 mb-3">
                         <select name="type" class="custom-select" >
                             <option @if($coupon->type != 1 && $coupon->type != 2) selected @endif>Тип купона</option>
-                            <option @if($coupon->type == 1) selected @endif value="1">Процент от заказа</option>
-                            <option @if($coupon->type == 2) selected @endif value="2">Фиксированный</option>
+                            <option @if($coupon->type == 1) selected @endif value="1">Фиксированный</option>
+                            <option @if($coupon->type == 2) selected @endif value="2">Процент</option>
                         </select>
                     </div>
                     <div class="col-sm-3 mb-3">

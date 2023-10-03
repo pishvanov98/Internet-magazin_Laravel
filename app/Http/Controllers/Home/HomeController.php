@@ -64,9 +64,6 @@ class HomeController extends Controller
             Cache::put('NewGoodsSlaider'.$user_type,$Products,10800);
         }
 
-        $image=new ImageComponent();//ресайз картинок
-        //ресайз картинок
-
         $brands=$this->BrandListSlider();
 
         $brandsSlider1=[];
@@ -82,7 +79,18 @@ class HomeController extends Controller
         }
         $brandSliderOut=[$brandsSlider1,$brandsSlider2];
 
-        return view('home',compact('images_slider','Products','brandSliderOut'));
+
+
+        if(session()->has('viewed_products')){
+            $viewed_products=session()->get('viewed_products');
+        }
+        $initProductViewed=[];
+        if(!empty($viewed_products) && count($viewed_products) >= 5){
+            $initProductViewed=app('Product')->ProductInit(array_reverse($viewed_products));
+        }
+
+
+        return view('home',compact('images_slider','Products','brandSliderOut','initProductViewed'));
     }
 
 

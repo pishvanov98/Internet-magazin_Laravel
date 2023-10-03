@@ -14,11 +14,28 @@ class ProductController extends Controller
     public function show(Request $request)
     {
 
+
+
         $product = ProductDescription::where('slug', $request->route('slug'))->select('product_id')->firstOrFail();
 
         if(!empty($product)){
             $initProduct=app('Product')->ProductInit($product->product_id);
         }
+
+        if(session()->has('viewed_products')){
+            $viewed_products=session()->get('viewed_products');
+            if (count($viewed_products) > 5){
+                array_shift($viewed_products);
+            }
+
+            $searchViewed=array_search($product->product_id, $viewed_products);
+            if($searchViewed !== false ){}else{
+                $viewed_products[]=$product->product_id;
+            }
+        }else{
+            $viewed_products[]=$product->product_id;
+        }
+        session()->put('viewed_products',$viewed_products);
 
         $initProduct=$initProduct->all();
         $initProduct=$initProduct[0];
@@ -35,7 +52,7 @@ class ProductController extends Controller
         $AttrProduct= app('Search')->GetSearchProductAttr($category_id,$attr_mass,20);
         $AttrProduct=array_unique($AttrProduct);
         $searchIdProdAttr=array_search($product->product_id, $AttrProduct);
-        if(!empty($searchIdProdAttr)){
+        if($searchIdProdAttr !== false){
             unset($AttrProduct[$searchIdProdAttr]);
         }
         $initProductAttr=[];
@@ -47,6 +64,11 @@ class ProductController extends Controller
             }
         }
 
+        $initProductViewed=[];
+
+        if(!empty($viewed_products) && count($viewed_products) >= 5){
+            $initProductViewed=app('Product')->ProductInit(array_reverse($viewed_products));
+        }
         $category=CategoryDescription::findOrFail($initProduct['category_id']);
 
         if(empty($category->slug)){
@@ -55,6 +77,6 @@ class ProductController extends Controller
             $category->save();
         }
 
-        return view('product.index',['Product'=>$initProduct,'category'=>$category,'initProductAttr'=>$initProductAttr]);
+        return view('product.index',['Product'=>$initProduct,'category'=>$category,'initProductAttr'=>$initProductAttr,'initProductViewed'=>$initProductViewed]);
     }
 }

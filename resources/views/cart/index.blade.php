@@ -6,6 +6,7 @@
         <div class="left_block">
             <div class="cart_product_info">
                 @if(!empty($statusCoupon))
+                    <div class="alert_block_success">
                     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
                         <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
                             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
@@ -16,6 +17,7 @@
                         <div>
                             {{$statusCoupon}}
                         </div>
+                    </div>
                     </div>
                 @endif
                 <div class="alert_block hide">
@@ -114,6 +116,9 @@
         <script>
 
             updateCount(0);
+            setTimeout(function(){
+                $('.alert_block_success').remove();
+            }, 10000);
             $("#all_click_check_cart").on('click',function (){
                 if ($(this).is(':checked')){
                     $('table input:checkbox').prop('checked', true);
@@ -149,7 +154,11 @@
                     data: {value: value},
                     success: function(data){
                         if(data == 0){
+                            if($('.right_block  .info_block_coupon').length){
+                                $('.right_block  .info_block_coupon').addClass('hide');
+                            }
                             $('.alert_block').removeClass('hide');
+                            updateCount(0);
                             setTimeout(function(){
                                 $('.alert_block').addClass('hide');
                             }, 5000);

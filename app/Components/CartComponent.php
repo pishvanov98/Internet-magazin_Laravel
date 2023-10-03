@@ -46,6 +46,7 @@ class CartComponent
                 }else{
                     $coupon['discount']=(int)$coupon['value'];
                     session()->put('coupon',$coupon);
+                    $itogo=$itogo-(int)$coupon['value'];
                 }
             }
 
@@ -107,6 +108,7 @@ class CartComponent
                     $coupon['discount']=(int)$coupon['value'];
                     $discount=$coupon['discount'];
                     session()->put('coupon',$coupon);
+                    $itogo=$itogo-(int)$coupon['value'];
                 }
             }
             $itogoAddDiscount=0;

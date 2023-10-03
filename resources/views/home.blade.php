@@ -62,6 +62,16 @@
                     </div>
                 </div>
             @endif
+                @if(!empty($initProductViewed))
+                   <h4 class="mt-4 mb-2">Просмотренные товары</h4>
+                        <div class="container_carousel">
+                            <div id="GoodsSlaiderProductViewed" class="owl-carousel owl-theme ">
+                                @foreach($initProductViewed as $product)
+                                    @include('components.product')
+                                @endforeach
+                            </div>
+                        </div>
+                @endif
 
         </div>
     </div>
@@ -120,6 +130,19 @@
                     autoplayTimeout: 2000,
                     smartSpeed: 1000,
                     loop:true,
+                    lazyLoad: true,
+                    navigation: true,
+                    margin: 10,
+                    nav: false,
+                    dots: false,
+                });
+            });
+
+            jQuery(document).ready(function () {
+                $("#GoodsSlaiderProductViewed").owlCarousel({
+                    items: 5,
+                    autoplay: false,
+                    loop:false,
                     lazyLoad: true,
                     navigation: true,
                     margin: 10,

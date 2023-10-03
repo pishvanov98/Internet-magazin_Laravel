@@ -23,8 +23,8 @@
                     <div class="col-sm-3 mb-3">
                         <select name="type" class="custom-select" >
                             <option selected>Тип купона</option>
-                            <option value="1">Процент от заказа</option>
-                            <option value="2">Фиксированный</option>
+                            <option value="1">Фиксированный</option>
+                            <option value="2">Процент</option>
                         </select>
                     </div>
                     <div class="col-sm-3 mb-3">
