@@ -48,7 +48,16 @@
                             <div class="card ">
                                 <h4>Описание</h4>
                                 {!!$Product['description']!!}
-
+                                @if(!empty($Product['description_two']))
+                                    <div class="collapse" id="collapseExample">
+                                        <div class="card card-body">
+                                            {!!$Product['description_two']!!}
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-primary btn-sm all_show_description" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                        Показать еще...
+                                    </button>
+                                @endif
                             </div>
 
                         </div>
@@ -226,6 +235,15 @@
                 });
             });
 
+$('.all_show_description').on('click',function (){
+    if ($(this).hasClass('roll')){
+        $(this).text('Показать еще...');
+        $(this).removeClass('roll');
+    }else{
+        $(this).text('Свернуть текст');
+        $(this).addClass('roll');
+    }
+});
 
             function addToCartProduct(id){
             var count = 1;

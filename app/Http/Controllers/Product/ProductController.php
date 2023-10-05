@@ -40,6 +40,17 @@ class ProductController extends Controller
         $initProduct=$initProduct->all();
         $initProduct=$initProduct[0];
         $initProduct=(array)$initProduct;
+        //разделяем описание
+        if(strlen($initProduct['description']) > 500){
+            $arr = explode('<br />' , $initProduct['description']);
+            $arr_2 = array_slice ($arr , 0, 15);
+            $str_2 = implode('<br />' , $arr_2 );
+            $arr_4 = array_slice ($arr , 15);
+            $str_4 = implode('<br />' , $arr_4 );
+            $initProduct['description_two'] = $str_4;
+            $initProduct['description'] = $str_2;
+        }
+
         $attr_mass=[];
         $category_id=$initProduct['category_id'];
         if(!empty($initProduct['product_attr'])){
