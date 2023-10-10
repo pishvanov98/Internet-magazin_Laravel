@@ -70,7 +70,13 @@ class CheckoutController extends Controller
         }
         $products_init=app('Product')->ProductInit($cart_prod);
         $products_mass=[];
-
+        $discount=0;
+        if (session()->has('coupon')){
+            $discount_mass=session()->get('coupon');
+            if(!empty($discount_mass['discount'])){
+                $discount=$discount_mass['discount'];
+            }
+        }
         $order= new Order();
         $order->name=$data['name'];
         $order->telephone=$data['Tel'];
@@ -78,6 +84,7 @@ class CheckoutController extends Controller
         $order->address=$data['address'];
         $order->shipping=$data['shipping'];
         $order->price=(int)str_replace(' ', '', $data['price']);
+        $order->discount=$discount;
         $order->customer=$user_id;
         $order->save();
 

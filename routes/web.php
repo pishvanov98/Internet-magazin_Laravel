@@ -137,3 +137,6 @@ Route::group([ 'middleware' => ['role:user']], function(){//prefix подста�
     Route::get('/account/wishlist',[\App\Http\Controllers\Account\WishlistController::class,'index'])->name('account.wishlist');
 
 });
+
+
+Route::get('/exchange1c',[\App\Http\Controllers\Export\ExportController::class,'index'])->name('export_1c');
