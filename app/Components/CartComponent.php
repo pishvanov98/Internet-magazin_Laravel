@@ -118,7 +118,7 @@ class CartComponent
 
             return ['itogoAddDiscount'=>$itogoAddDiscount,'discount'=>number_format($discount, 0, '', ' '),'count_prod'=>$quantity_find_prod,'count_all_prod'=>$count,'itogo'=>number_format($itogo, 0, '', ' ')];
         }else{
-            return ['itogoAddDiscount'=>$itogoAddDiscount,'discount'=>0,'count_prod'=>0,'count_all_prod'=>0,'itogo'=>0];
+            return ['itogoAddDiscount'=>0,'discount'=>0,'count_prod'=>0,'count_all_prod'=>0,'itogo'=>0];
         }
     }
 

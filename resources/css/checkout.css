@@ -63,3 +63,20 @@
     width: 100%;
     margin-bottom: 10px;
 }
+.checkout textarea{
+    width: 100%;
+    border-radius: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    transition: border linear .2s , box-shadow linear .2s;
+    padding: 4px 6px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    line-height: 20px;
+    margin-top: 10px;
+    height: 100px;
+}
+.collapse_button_type{
+    width: 250px;
+}

@@ -56,12 +56,15 @@ class HomeController extends Controller
         if (session()->has('user_type')) {
             $user_type = session()->get('user_type');
         }
-
-        if(Cache::has('NewGoodsSlaider'.$user_type)){
-            $Products=Cache::get('NewGoodsSlaider'.$user_type);
+        $coupon=0;
+        if(session()->has('coupon')){
+            $coupon=1;
+        }
+        if(Cache::has('NewGoodsSlaider'.$user_type.$coupon)){
+            $Products=Cache::get('NewGoodsSlaider'.$user_type.$coupon);
         }else{
             $Products=app('Product')->NewGoodsSlaider();
-            Cache::put('NewGoodsSlaider'.$user_type,$Products,10800);
+            Cache::put('NewGoodsSlaider'.$user_type.$coupon,$Products,10800);
         }
 
         $brands=$this->BrandListSlider();
