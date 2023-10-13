@@ -102,7 +102,8 @@ class HomeController extends Controller
         if(!empty($data['name'])){
             $value_search=$data['name'];
             if($value_search == "actiya"){
-                $value_search=['6+1','3+1','1+1=3','Подарок за покупку', '10+2', 'акция', 'специальная цена', '5+1', '3+1', 'asepta1', 'asepta2', 'asepta3', '2+1', 'asepta'];
+                //$value_search=['6+1','3+1','1+1=3','Подарок за покупку', '10+2', 'акция', 'специальная цена', '5+1', '3+1', 'asepta1', 'asepta2', 'asepta3', '2+1', 'asepta'];
+                $value_search=['специальная цена'];
             }
         }else{
             return '';
@@ -128,6 +129,10 @@ class HomeController extends Controller
 
         foreach ($AjaxProduct as $product){
          $out .='<div class="card card_item'.$product['product_id'].'" style="width: 290px;min-height: 400px;">';
+
+            if(!empty($product['icon_img'])){
+                $out .='<span class="specsale"><img width="80" height="80" src="'.asset($product['icon_img']).'"  alt=""></span>';
+            }
 
          if(!empty($product['image'])){
              $out .='<a class="card-title wrapper_img_card" href='.route('product.show',$product['slug']).'><img src="'.asset($product['image']).'"  class="card-img-top" alt=""></a>';

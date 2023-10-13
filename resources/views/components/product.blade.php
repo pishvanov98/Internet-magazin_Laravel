@@ -1,5 +1,7 @@
 <div class="card card_item{{$product->product_id}}" style="width: 290px;min-height: 400px;">
-
+    @if(!empty($product->icon_img))
+        <span class="specsale"><img width="80" height="80" src="{{asset($product->icon_img)}}"></span>
+    @endif
     <a class="wrapper_img_card" href="{{route('product.show',$product->slug)}}">@if($product->image) <img src="{{asset($product->image)}}"  class="card-img-top" alt=""> @else <img src="{{asset('img/zag_258x258.svg')}}"  class="card-img-top" alt=""> @endif </a>
 
     <div class="card-body">

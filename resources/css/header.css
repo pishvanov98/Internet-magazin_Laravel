@@ -254,7 +254,7 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 .category_list_left {
     display: grid;
     grid-template-columns: auto;
-    grid-template-rows: repeat(13,40px);
+    grid-template-rows: repeat(14,40px);
     background-color: #f9f9f9;
     /*height: 620px;*/
 }
@@ -389,7 +389,10 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 
 }
 .category_children:nth-child(10) .unstyled {
-    height: 955px;
+    height: 460px;
+}
+.category_children:nth-child(11) .unstyled {
+    height: 960px;
 }
 .all_category_list_item {
     font-weight: 600;

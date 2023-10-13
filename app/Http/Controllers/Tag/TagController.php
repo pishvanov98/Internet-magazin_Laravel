@@ -16,7 +16,8 @@ class TagController extends Controller
             $value="Эксклюзивное предложение";
         }else if($title == "action"){
                 $title= "Акции";
-                $value=['6+1','3+1','1+1=3','Подарок за покупку', '10+2', 'акция', 'специальная цена', '5+1', '3+1', 'asepta1', 'asepta2', 'asepta3', '2+1', 'asepta'];
+                //$value=['6+1','3+1','1+1=3','Подарок за покупку', '10+2', 'акция', 'специальная цена', '5+1', '3+1', 'asepta1', 'asepta2', 'asepta3', '2+1', 'asepta'];
+                $value=['специальная цена'];
         }else if($title == "entrance"){
             $title= "Новинки";
             $Products=app('Product')->NewGoodsSlaider();

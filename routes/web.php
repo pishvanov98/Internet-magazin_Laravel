@@ -97,6 +97,7 @@ Route::post('/createOrder',[\App\Http\Controllers\Checkout\CheckoutController::c
 Route::post('/createOrderUr',[\App\Http\Controllers\Checkout\CheckoutController::class,'SaveOrderUr'])->name('SaveOrderUr');
 Route::get('/successfully/{id}',[\App\Http\Controllers\Checkout\CheckoutController::class,'successfully'])->name('successfully');
 Route::post('/saveAddress',[\App\Http\Controllers\Checkout\CheckoutController::class,'SaveAddress'])->name('save.address');
+Route::post('/saveAddressUr',[\App\Http\Controllers\Checkout\CheckoutController::class,'SaveAddressUr'])->name('save.addressUr');
 Route::post('/selectAddress',[\App\Http\Controllers\Checkout\CheckoutController::class,'SelectAddress'])->name('select.address');
 
 

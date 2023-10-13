@@ -179,6 +179,14 @@ if(!empty($mass_prod_id)){
         $filtered_attr = $products_attr->where('product_id', $item->product_id);
         if(!empty($filtered_attr)){
             $item->product_attr=$filtered_attr->all();
+
+            $filtered_attr->each(function ($item_attr) use (&$item){
+                if($item_attr->attribute_id== 102){//Акция Цена Большая
+                    $item->old_price=(int)$item_attr->text;
+                    $item->icon_img="/img/speccena2.png";
+                }
+            });
+
         }
 
         if(!empty($item->image)){

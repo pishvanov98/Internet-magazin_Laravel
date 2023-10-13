@@ -32,8 +32,12 @@ class CheckoutController extends Controller
             $address=session()->get('address');
 
         }
+        $addressUr=[];
+        if(session()->has('addressUr')){
+            $addressUr=session()->get('addressUr');
+        }
 
-        return view('checkout.index',compact('cart_info','address','Profile'));
+        return view('checkout.index',compact('cart_info','address','Profile','addressUr'));
     }
 
     public function SaveOrder(Request $request){
@@ -180,6 +184,13 @@ class CheckoutController extends Controller
         if(!empty($data)){
             $address=['name'=>$data['name'],'Tel'=>$data['Tel'],'mail'=>$data['mail'],'address'=>$data['address'],'comment'=>$data['comment']];
             session()->put('address',$address);
+        }
+    }
+    public function SaveAddressUr(Request $request){
+        $data=$request->all();
+        if(!empty($data)){
+            $address=['name'=>$data['name'],'Tel'=>$data['Tel'],'mail'=>$data['mail'],'address'=>$data['address'],'comment'=>$data['comment'],'inn'=>$data['inn'],'company'=>$data['company']];
+            session()->put('addressUr',$address);
         }
     }
 

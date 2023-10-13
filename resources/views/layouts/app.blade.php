@@ -29,8 +29,8 @@
                         <ul class="submenu">
                             <li><a href="{{route('page','about_avel')}}">О нас</a></li>
                             <li><a href="{{route('page','otzyvi')}}">Отзывы</a></li>
-                            <li><a href="#">Новости</a></li>
-                            <li><a href="#">Семинары</a></li>
+{{--                            <li><a href="#">Новости</a></li>--}}
+{{--                            <li><a href="#">Семинары</a></li>--}}
                             <li><a href="{{route('page','region')}}">Региональным клиентам</a></li>
                             <li><a href="{{route('page','viezd-predstavitelya')}}">Выезд нашего представителя</a></li>
                             <li><a href="{{route('page','vakansii')}}">Вакансии</a></li>
@@ -44,8 +44,8 @@
                 <li class="nav-item"><a href="{{route('page','vozvrat')}}" class="nav-link link-dark px-2">Возврат</a></li>
                 <li class="nav-item"><a href="{{route('page','samovivoz')}}" class="nav-link link-dark px-2">Самовывоз</a></li>
                 <li class="nav-item"><a href="{{route('page','predzakaz')}}" class="nav-link link-dark px-2">Предзаказ</a></li>
-                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Семинары</a></li>
-                <li class="nav-item" style="color: #e43535;"><a href="#" class="nav-link link-dark px-2">Акции</a></li>
+{{--                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Семинары</a></li>--}}
+{{--                <li class="nav-item" style="color: #e43535;"><a href="#" class="nav-link link-dark px-2">Акции</a></li>--}}
             </ul>
             <ul class="nav right-menu">
                 @guest
@@ -129,11 +129,11 @@
                     <b>Сервисы</b>
                 </li>
                 <li><a href="{{route('page','contact')}}">Контакты</a></li>
-                <li><a href="#">Новости</a></li>
-                <li><a href="#">Производители</a></li>
-                <li><a href="#">Вебинары</a></li>
+{{--                <li><a href="#">Новости</a></li>--}}
+                <li><a href="{{route('manufacturer')}}">Производители</a></li>
+{{--                <li><a href="#">Вебинары</a></li>--}}
                 <li><a href="{{route('page','vakansii')}}">Вакансии</a></li>
-                <li><a href="#">Семинары</a></li>
+{{--                <li><a href="#">Семинары</a></li>--}}
                 <li><a href="{{route('page','faq')}}">Вопрос-ответ</a></li>
             </ul>
         </div>

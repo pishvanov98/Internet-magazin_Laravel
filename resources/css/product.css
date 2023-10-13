@@ -134,3 +134,19 @@
     margin: auto;
     margin-top: 10px;
 }
+.specsale{
+    position: absolute;
+    background-size: contain;
+    width: 80px;
+    height: 80px;
+    background-repeat: no-repeat;
+    top: -2px;
+    right: 0;
+    transition: all .3s;
+}
+.specsale.product{
+    margin-bottom: 250px;
+    margin-left: 250px;
+    top: auto;
+    right: auto;
+}

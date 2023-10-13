@@ -15,6 +15,9 @@
             <div class="left_block">
                 <div class="d-flex">
                 <div class="wrapper_product_image">
+                    @if(!empty($Product['icon_img']))
+                        <span class="specsale product"><img width="80" height="80" src="{{asset($Product['icon_img'])}}"></span>
+                    @endif
                         <a class="m-auto" href="{{asset($Product['image'])}}" data-fancybox>
                             <img class="img" src="{{asset($Product['image'])}}">
                         </a>
