@@ -126,6 +126,10 @@ class ProductComponent
 
 if(!empty($mass_prod_id)){
 
+    if(!is_array($mass_prod_id)){
+        $mass_prod_id=array($mass_prod_id);
+    }
+
     $imageComponent= new ImageComponent();
 
     $query=DB::connection('mysql2')->table('sd_product')->whereIn('sd_product.product_id',$mass_prod_id)

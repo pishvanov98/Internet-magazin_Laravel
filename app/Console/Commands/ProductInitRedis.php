@@ -28,12 +28,17 @@ class ProductInitRedis extends Command
     public function handle()
     {
         ini_set('memory_limit', '2048M');
-        $mass_prod_id=[];
-        $products_id=DB::connection('mysql2')->table('sd_product')->select('product_id')->where('status','=',1)->where('price','>',0)->latest('product_id')->get();
-        $products_id->each(function ($item) use(&$mass_prod_id){
-            $mass_prod_id[]=$item->product_id;
-        });
-        app('Product')->ProductInit($mass_prod_id);
+        //$mass_prod_id=[];
+        $products_id=DB::connection('mysql2')->table('sd_product')->where('status','=',1)->where('price','>',0)->latest('product_id')->pluck('product_id');
+        $ProgressBar = $this->output->createProgressBar(count($products_id));
+        $ProgressBar->start();
+        $products_id->each(function ($item) use(&$ProgressBar){
+            //$mass_prod_id[]=$item->product_id;
+            app('Product')->ProductInit($item);
+            $ProgressBar->advance();
 
+        });
+        $ProgressBar->finish();
+      //  app('Product')->ProductInit($mass_prod_id);
     }
 }
