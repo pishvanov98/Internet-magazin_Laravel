@@ -102,8 +102,8 @@ class HomeController extends Controller
         if(!empty($data['name'])){
             $value_search=$data['name'];
             if($value_search == "actiya"){
-                //$value_search=['6+1','3+1','1+1=3','Подарок за покупку', '10+2', 'акция', 'специальная цена', '5+1', '3+1', 'asepta1', 'asepta2', 'asepta3', '2+1', 'asepta'];
-                $value_search=['специальная цена'];
+                //$value_search=['6+1','3+1','1+1=3','Подарок за покупку', '10+2', 'акция', 'Специальная цена', '5+1', '3+1', 'asepta1', 'asepta2', 'asepta3', '2+1', 'asepta'];
+                $value_search=['Специальная цена'];
             }
         }else{
             return '';
