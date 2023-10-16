@@ -20,12 +20,19 @@ class CheckoutController extends Controller
         if($cart_info['count_all_prod'] == 0){
             return redirect()->route('cart');
         }
-        $Profile=[];
+        $Profile_fiz=[];
+        $Profile_ur=[];
         if(!empty(Auth::user()->id)){
-            $Profile=Profile::where('id_user',Auth::user()->id)->get();
-            if(empty($Profile->all())){
-                $Profile=[];
+            $Profile_fiz=Profile::where('id_user',Auth::user()->id)->where('inn',Null)->where('company',Null)->get();
+            if(empty($Profile_fiz->all())){
+                $Profile_fiz=[];
             }
+
+            $Profile_ur=Profile::where('id_user',Auth::user()->id)->where('inn','!=',Null)->where('company','!=',Null)->get();
+            if(empty($Profile_ur->all())){
+                $Profile_ur=[];
+            }
+
         }
         $address=[];
         if(session()->has('address')){
@@ -37,7 +44,7 @@ class CheckoutController extends Controller
             $addressUr=session()->get('addressUr');
         }
 
-        return view('checkout.index',compact('cart_info','address','Profile','addressUr'));
+        return view('checkout.index',compact('cart_info','address','Profile_fiz','Profile_ur','addressUr'));
     }
 
     public function SaveOrder(Request $request){
@@ -210,6 +217,27 @@ class CheckoutController extends Controller
                 }
                 $address=['name'=>$profile->name,'Tel'=>$profile->telephone,'mail'=>$profile->mail,'address'=>$profile->address,'comment'=>$comment];
                 session()->put('address',$address);
+                return $address;
+            }
+        }
+
+        return false;
+    }
+    public function SelectAddress_ur(Request $request){
+        $data=$request->all();
+        if(!empty($data['id'])){
+
+            $profile= Profile::findOrFail($data['id']);
+            if(!empty($profile)){
+                $comment='';
+                if(session()->has('addressUr')){
+                    $address_mass=session()->get('addressUr');
+                    if(!empty($address_mass['comment'])){
+                        $comment=$address_mass['comment'];
+                    }
+                }
+                $address=['name'=>$profile->name,'Tel'=>$profile->telephone,'mail'=>$profile->mail,'address'=>$profile->address,'comment'=>$comment,'inn'=>$profile->inn,'company'=>$profile->company];
+                session()->put('addressUr',$address);
                 return $address;
             }
         }

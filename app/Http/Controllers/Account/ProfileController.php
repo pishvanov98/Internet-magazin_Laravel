@@ -23,6 +23,12 @@ class ProfileController extends Controller
 
     }
 
+    public function create_ur(){
+        $select='profile';
+        return view('account.profile.create_ur',compact('select'));
+
+    }
+
     public function store(Request $request){
 
         $data=$request->all();
@@ -51,6 +57,12 @@ class ProfileController extends Controller
         $profile->telephone=$data['Tel'];
         $profile->mail=$data['mail'];
         $profile->address=$data['address'];
+
+        if(!empty($data['inn']) && !empty($data['company'])){
+            $profile->inn=$data['inn'];
+            $profile->company=$data['company'];
+        }
+
         $profile->save();
 
         return redirect()->route('account.profile');
@@ -71,6 +83,20 @@ class ProfileController extends Controller
         }
 
     }
+
+    public function edit_ur(Request $request){
+
+        if(!empty($request->route('id'))){
+
+            $profile=Profile::findOrFail($request->route('id'));
+
+            $select='profile';
+            return view('account.profile.create_ur',compact('select','profile'));
+
+        }
+
+    }
+
 
     public function update(Request $request){
 

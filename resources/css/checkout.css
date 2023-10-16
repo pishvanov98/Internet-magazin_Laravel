@@ -53,7 +53,7 @@
 .error{
     border-color: red !important;
 }
-.checkout .profile{
+.checkout .profile, .checkout .profile_ur{
     background-color: #fff;
     padding-top: 22px;
     padding-left: 22px;

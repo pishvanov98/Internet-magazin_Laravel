@@ -99,6 +99,7 @@ Route::get('/successfully/{id}',[\App\Http\Controllers\Checkout\CheckoutControll
 Route::post('/saveAddress',[\App\Http\Controllers\Checkout\CheckoutController::class,'SaveAddress'])->name('save.address');
 Route::post('/saveAddressUr',[\App\Http\Controllers\Checkout\CheckoutController::class,'SaveAddressUr'])->name('save.addressUr');
 Route::post('/selectAddress',[\App\Http\Controllers\Checkout\CheckoutController::class,'SelectAddress'])->name('select.address');
+Route::post('/selectAddress_ur',[\App\Http\Controllers\Checkout\CheckoutController::class,'SelectAddress_ur'])->name('select.address_ur');
 
 
 Route::get('/cart',[\App\Http\Controllers\Cart\CartController::class,'index'])->name('cart');
@@ -128,8 +129,10 @@ Route::group([ 'middleware' => ['role:user']], function(){//prefix подста�
 
     Route::get('/account/profile',[\App\Http\Controllers\Account\ProfileController::class,'index'])->name('account.profile');
     Route::get('/account/profile/create',[\App\Http\Controllers\Account\ProfileController::class,'create'])->name('account.profile.create');
+    Route::get('/account/profile_ur/create',[\App\Http\Controllers\Account\ProfileController::class,'create_ur'])->name('account.profile.create_ur');
     Route::post('/account/profile',[\App\Http\Controllers\Account\ProfileController::class,'store'])->name('account.profile.store');
     Route::get('/account/profile/edit/{id}',[\App\Http\Controllers\Account\ProfileController::class,'edit'])->name('account.profile.edit');
+    Route::get('/account/profile/edit_ur/{id}',[\App\Http\Controllers\Account\ProfileController::class,'edit_ur'])->name('account.profile.edit_ur');
     Route::put('/account/profile/update/{id}',[\App\Http\Controllers\Account\ProfileController::class,'update'])->name('account.profile.update');
     Route::delete('/account/profile/{id}',[\App\Http\Controllers\Account\ProfileController::class,'destroy'])->name('account.profile.delete');
 

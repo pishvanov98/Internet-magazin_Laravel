@@ -18,10 +18,10 @@
 
     <div class="tab-content" id="pills-tabContent">
         <div aria-labelledby="pills-home-tab" class="tab-pane fade show active" id="pills-1" role="tabpanel">
-            @if( !empty($Profile))
+            @if( !empty($Profile_fiz))
                 <select class="form-select profile" >
                     <option selected>Выбрать профиль</option>
-                    @foreach($Profile as $key=> $item)
+                    @foreach($Profile_fiz as $key=> $item)
                         <option value="{{$item->id}}">{{$item->name}}: {{$item->address}}</option>
                     @endforeach
                 </select>
@@ -57,6 +57,14 @@
             </div>
         </div>
         <div aria-labelledby="pills-home-tab" class="tab-pane fade" id="pills-2" role="tabpanel">
+            @if( !empty($Profile_ur))
+                <select class="form-select profile_ur" >
+                    <option selected>Выбрать профиль</option>
+                    @foreach($Profile_ur as $key=> $item)
+                        <option value="{{$item->id}}">{{$item->name}}: {{$item->address}}</option>
+                    @endforeach
+                </select>
+            @endif
             <div class="cart_item_input">
                 <input @if(!empty($addressUr['inn'])) value="{{$addressUr['inn']}}" @endif placeholder="Инн" type="text" maxlength="12" onkeyup="this.value = this.value.replace (/[^0-9^\d]/, '')" id="inn_ur">
             </div>
@@ -123,6 +131,31 @@ $('.profile').change(function(){
                 $("#Tel").val(data['Tel']);
                 $("#mail").val(data['mail']);
                 $("#address").val(data['address']);
+            }
+        }
+    });
+});
+
+$('.profile_ur').change(function(){
+    var value = $(this).val();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url:'{{route('select.address_ur')}}',
+        method:'post',
+        dataType:'json',
+        data:{id:value},
+        success:function (data){
+            if(data){
+                $("#name_ur").val(data['name']);
+                $("#Tel_ur").val(data['Tel']);
+                $("#mail_ur").val(data['mail']);
+                $("#address_ur").val(data['address']);
+                $("#inn_ur").val(data['inn']);
+                $("#company_ur").val(data['company']);
             }
         }
     });
