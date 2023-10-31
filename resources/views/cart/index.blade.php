@@ -54,7 +54,7 @@
 
                         <tr class="cartItem_{{$Product->product_id}}">
                             <th scope="row"><input @if($Product->active == 1) checked  @endif    onclick="activeProduct({{$Product->product_id}})" type="checkbox" class="check_cart "></th>
-                            <td><a href="{{route('product.show',$Product->slug)}}"><img width="120" height="120" src="{{asset($Product->image)}}"></a></td>
+                            <td><a href="{{route('product.show',$Product->slug)}}"><img  src="{{asset($Product->image)}}"></a></td>
                             <td>
                                 <div class="flex_product-text">
                                     <a href="{{route('product.show',$Product->slug)}}">{{$Product->name}}</a>
@@ -233,6 +233,10 @@
                         }
 
                         $('#cart-total').text(data['count_all_prod']+" Товаров - "+data['itogo']+" руб.");
+
+                        if($('.mobile-header #cart_itogo_mobile').length != 0){
+                            $('.mobile-header #cart_itogo_mobile').text(data['count_all_prod']);
+                        }
                     }
                 });
 
@@ -287,7 +291,7 @@
                     dataType: 'json',
                     data: {id: id},
                     success: function(data){
-                        $('#cart-total').text(data);
+                        $('#cart-total').text(data[0]+data[1]);
                         updateCount(id);
                     }
                 });

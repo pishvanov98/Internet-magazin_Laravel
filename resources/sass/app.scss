@@ -18,12 +18,16 @@
 @import "/resources/css/account.css";
 @import "/resources/css/tag.css";
 @import "/resources/css/brand.css";
+@import "/resources/css/mobile.css";
 body{
     background-color: #fff;
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+body.desctop{
+    min-width: 850px;
 }
 .container{
     max-width: 1620px;
@@ -74,6 +78,23 @@ body{
 .alert{
     list-style-type:none;
 }
+
+.owl-item .card{
+    margin: auto;
+}
+#slider .owl-item img{
+    width: 100%;
+}
+.wrapper_BrandSliderHome .owl-item a img{
+    margin: auto;
+}
+.navbar-toggler:focus {
+    text-decoration: none;
+    outline: 0;
+    box-shadow: none;
+}
+
+
 @media (max-width: 1430px) {
     #search input {
         width: 400px;
@@ -83,11 +104,65 @@ body{
         width: 400px;
     }
 }
-@media (max-width: 1230px) {
+@media (max-width: 1220px) {
     #search input {
         width: 300px;
     }
     .tt-menu{
         width: 300px;
+    }
+
+    .filterslider_home ul li{
+        padding-left: 0;
+    }
+
+    .centre-block-info{
+        display: none;
+    }
+
+}
+@media (max-width: 1000px) {
+.content_prod .right_block{
+    display: none;
+}
+.product_container .add_cart_block_hide{
+    display: block;
+}
+.product_container .left_block{
+    width: 100%;
+}
+
+.container.block_category{
+    flex-direction: column;
+    display: flex;
+}
+
+.block_category .show_filter_btn{
+        display: block;
+    }
+.wrapper_goods {
+        justify-content: center;
+}
+    .wrapper_cart_block {
+        display: flex;
+        flex-direction: column;
+    }
+    .wrapper_cart_block .left_block {
+        display: block;
+        width: 100%;
+    }
+    .wrapper_cart_block .right_block {
+         margin-left: 0px;
+         margin-top: 20px;
+        width: 100%;
+    }
+    .wrapper_cart_block .right_block .input-append #input-coupon {
+        width: 190px;
+    }
+    .icon_header{
+        display: none;
+    }
+    .top_header .me-auto li:last-child{
+        display: none;
     }
 }

@@ -51,9 +51,9 @@ class CartComponent
             }
 
 
-            return $count." Товаров - ".number_format($itogo, 0, '', ' ')." руб.";
+            return array($count," Товаров - ".number_format($itogo, 0, '', ' ')." руб.");
         }else{
-            return "0 Товаров - 0 руб.";
+            return array(0," Товаров - 0 руб.");
         }
 
     }

@@ -19,11 +19,15 @@
                     <thead>
                     <tr>
                         <th scope="col">#</th>
+                        @notmobile
                         <th scope="col">Фото</th>
+                        @endnotmobile
                         <th scope="col">Наименование</th>
                         <th scope="col">Количество</th>
                         <th scope="col">Сумма</th>
+                        @notmobile
                         <th scope="col">Действие</th>
+                        @endnotmobile
                     </tr>
                     </thead>
                     <tbody>
@@ -32,11 +36,15 @@
                             @php $key++; @endphp
                             <tr>
                                 <th style="width: 25px;" scope="row">{{$key}}</th>
+                                @notmobile
                                 <th><img width="100" class="img" src="{{asset($item->image)}}"></th>
+                                @endnotmobile
                                 <th>{{$item->name}}</th>
                                 <th>{{$item->quantity_buy}}</th>
-                                <th>{{number_format($item->total, 0, '', ' ')}} ₽</th>
+                                <th style="white-space: nowrap">{{number_format($item->total, 0, '', ' ')}} ₽</th>
+                                @notmobile
                                 <th><a href="{{route('product.show',$item->slug)}}">Перейти</a></th>
+                                @endnotmobile
 
                             </tr>
                         @endforeach

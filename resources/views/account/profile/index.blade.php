@@ -18,11 +18,13 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Фио</th>
+                        @notmobile
                         <th scope="col">Телефон</th>
                         <th scope="col">Email</th>
                         <th scope="col">Адрес</th>
                         <th scope="col">Инн</th>
                         <th scope="col">Компания</th>
+                        @endnotmobile
                         <th scope="col">Действие</th>
                     </tr>
                     </thead>
@@ -33,11 +35,13 @@
                             <tr>
                                 <th scope="row">{{$key}}</th>
                                 <td>{{$item['name']}}</td>
+                                @notmobile
                                 <td>{{$item['telephone']}}</td>
                                 <td>{{$item['mail']}}</td>
                                 <td>{{$item['address']}}</td>
                                 <td> @if(!empty($item['inn'])) {{$item['inn']}} @else Нет @endif </td>
                                 <td>@if(!empty($item['company'])) {{$item['company']}} @else Нет @endif</td>
+                                @endnotmobile
                                 <td class="d-flex ">
                                     <div>
                                     <a href="@if(!empty($item['inn']) && !empty($item['company'])) {{route('account.profile.edit_ur',$item['id'])}}  @else {{route('account.profile.edit',$item['id'])}} @endif ">Изменить</a>

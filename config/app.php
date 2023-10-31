@@ -175,6 +175,7 @@ return [
         App\Providers\SearchServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        Riverskies\Laravel\MobileDetect\MobileDetectServiceProvider::class
     ])->toArray(),
 
     /*

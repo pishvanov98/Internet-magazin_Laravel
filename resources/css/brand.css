@@ -1,6 +1,7 @@
 .wrapper_brand{
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 .wrapper_brand .item{
     padding: 10px;

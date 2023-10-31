@@ -22,16 +22,24 @@
             @if($AttrCategory && count($AttrCategory) > 1)
                 <ul class="CategoryAttr">
                     <li>  <h5 class="mt-3 mb-2">Фильтры</h5></li>
-                    @foreach($AttrCategory as $key_item=>$item)
+
+
+                    <li>
+                        <button class="btn btn-primary show_filter_btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExampleFilter" aria-expanded="false" aria-controls="collapseExampleFilter">
+                            Показать фильтры
+                        </button>
+                    </li>
+                    <ul class="collapse @notmobile show @endnotmobile" id="collapseExampleFilter">
+                        @foreach($AttrCategory as $key_item=>$item)
                         <li>  <strong>{{$item['attribute_name']}}</strong></li>
                         <ul class="CategoryAttrName">
                             @foreach($item['attribute_text'] as $key=> $item_attr_text)
-                            <li><input class="form-check-input attr_prod attr_{{$key_item}}_{{$key}}" data-id_item="attr_{{$key_item}}_{{$key}}" data-id="{{$item['attribute_id']}}" data-name="{{$item_attr_text}}" data-category="{{$main_category_id}}" type="checkbox" value=""> {{$item_attr_text}}</li>
+                                <li><input class="form-check-input attr_prod attr_{{$key_item}}_{{$key}}" data-id_item="attr_{{$key_item}}_{{$key}}" data-id="{{$item['attribute_id']}}" data-name="{{$item_attr_text}}" data-category="{{$main_category_id}}" type="checkbox" value=""> {{$item_attr_text}}</li>
                             @endforeach
                         </ul>
+                        @endforeach
 
-
-                    @endforeach
+                    </ul>
                 </ul>
 
             @endif

@@ -88,3 +88,9 @@
     text-decoration: none;
     color: black;
 }
+.block_category .show_filter_btn{
+    display: none;
+}
+#collapseExampleFilter li{
+    list-style-type: none;
+}

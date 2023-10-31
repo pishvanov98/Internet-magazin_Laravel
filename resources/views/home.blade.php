@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
 
             @if($images_slider)
-                <div style="height: 237px;" class="owl-carousel owl-theme w-75" id="slider">
+                <div  class="owl-carousel owl-theme w-75" id="slider">
                     <!--Слайд 1-->
                     @foreach($images_slider as $image)
                         <div class="slide">
@@ -22,7 +22,7 @@
                         Новинки
                     </li>
                     <li data-name="Эксклюзивное предложение" data-selectid="GoodsSlaiderHome2" data-link="{{route('exclusive')}}"
-                        class="item">Эксклюзивные предложения
+                        class="item"> @notmobile Эксклюзивные предложения @elsenotmobile Эксклюзивное @endnotmobile
                     </li>
                     <li data-name="actiya" data-selectid="GoodsSlaiderHomeAciya" data-link="{{route('action')}}" class="item">
                         Акции
@@ -104,7 +104,21 @@
                     margin: 10,
                     nav: true,
                     dots: false,
-                    navigationText: ['‹', '›']
+                    navigationText: ['‹', '›'],
+                    responsive:{
+                        0:{
+                            items:1
+                        },
+                        600:{
+                            items:2
+                        },
+                        1200:{
+                            items:4
+                        },
+                        1600:{
+                            items:5
+                        }
+                    }
                 });
             });
 
@@ -120,6 +134,20 @@
                     margin: 10,
                     nav: false,
                     dots: false,
+                    responsive:{
+                        0:{
+                            items:1
+                        },
+                        600:{
+                            items:2
+                        },
+                        1200:{
+                            items:4
+                        },
+                        1600:{
+                            items:5
+                        }
+                    }
                 });
             });
 
@@ -135,6 +163,20 @@
                     margin: 10,
                     nav: false,
                     dots: false,
+                    responsive:{
+                        0:{
+                            items:1
+                        },
+                        600:{
+                            items:2
+                        },
+                        1200:{
+                            items:4
+                        },
+                        1600:{
+                            items:5
+                        }
+                    }
                 });
             });
 
@@ -148,6 +190,20 @@
                     margin: 10,
                     nav: false,
                     dots: false,
+                    responsive:{
+                        0:{
+                            items:1
+                        },
+                        600:{
+                            items:2
+                        },
+                        1200:{
+                            items:4
+                        },
+                        1600:{
+                            items:5
+                        }
+                    }
                 });
             });
 
@@ -172,7 +228,7 @@
                 var name_id_slider = $(this).data("selectid");
 
                 $.ajax({
-                    url: 'api/home/exclusive', //Путь к файлу, который нужно подгрузить https://aveldent.ru/index.php?route=product/search&tag=Эксклюзивное предложение
+                    url: 'api/home/exclusive',
                     type: 'GET',
                     data: {
                         name: name,
@@ -198,7 +254,21 @@
                                     margin: 10,
                                     nav: true,
                                     dots: false,
-                                    navigationText: ['‹', '›']
+                                    navigationText: ['‹', '›'],
+                                    responsive:{
+                                        0:{
+                                            items:1
+                                        },
+                                        600:{
+                                            items:2
+                                        },
+                                        1200:{
+                                            items:4
+                                        },
+                                        1600:{
+                                            items:5
+                                        }
+                                    }
                                 });
                             });
 

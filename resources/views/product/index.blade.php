@@ -13,7 +13,7 @@
         <h1>{{$Product['name']}}</h1>
         <div class="content_prod">
             <div class="left_block">
-                <div class="d-flex">
+                <div class="d-flex cart_info_prod">
                 <div class="wrapper_product_image">
                     @if(!empty($Product['icon_img']))
                         <span class="specsale product"><img width="80" height="80" src="{{asset($Product['icon_img'])}}"></span>
@@ -29,6 +29,23 @@
                     <p><b>Страна:</b> {{$Product['manufacturer_region']}}</p>
                     <p><b>Наличие:</b> ({{$Product['quantity']}} шт.)</p>
                 </div>
+                </div>
+                <div class="add_cart_block_hide">
+                    @if(!empty($Product['old_price']))
+                        <p style="color: red" class="price">{{number_format($Product['price'], 0, '', ' ')}} ₽ <s style="opacity: 0.5;font-size: 14px">{{number_format($Product['old_price'], 0, '', ' ')}} ₽ </s></p>
+                    @else
+                        <p class="price">{{number_format($Product['price'], 0, '', ' ')}} ₽</p>
+                    @endif
+                    <div class="d-flex ">
+                        <div class="d-flex element-buttons-count">
+                            <span class="decr">-</span>
+                            <input name="quantity" type="number" value="1" min="1" step="1">
+                            <span class="incr">+</span>
+                        </div>
+                        <button class="btn btn-info buy_button" onclick="addToCartProduct({{$Product['product_id']}})" type="button" >
+                            Купить
+                        </button>
+                    </div>
                 </div>
                 <div class="page_info_prod">
 
@@ -196,12 +213,14 @@
                 $("#GoodsSlaiderProductAttr").owlCarousel({
                     items: 5,
                     responsive: {
-
+                        0:{
+                            items:1
+                        },
                         // Ширина от 500 пикселей
                         500: {
                             items: 2,
                         },
-                        1200: {
+                        1300: {
                             items: 3,
                         }
                     },
@@ -219,12 +238,14 @@
                 $("#GoodsSlaiderProductViewed").owlCarousel({
                     items: 5,
                     responsive: {
-
+                        0:{
+                            items:1
+                        },
                         // Ширина от 500 пикселей
                         500: {
                             items: 2,
                         },
-                        1200: {
+                        1300: {
                             items: 3,
                         }
                     },
@@ -260,7 +281,10 @@ $('.all_show_description').on('click',function (){
                     dataType: 'json',
                     data: {id: id,count:count},
                     success: function(data){
-                        $('#cart-total').text(data);
+                        $('#cart-total').text(data[0]+data[1]);
+                        if($('.mobile-header #cart_itogo_mobile').length != 0){
+                            $('.mobile-header #cart_itogo_mobile').text(data[0]);
+                        }
                     }
                 });
 

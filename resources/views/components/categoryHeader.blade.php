@@ -1,3 +1,4 @@
+@notmobile
 <div class="catalog_list">
     <div class="catefory_list">
         <div class="category_list_left">
@@ -74,8 +75,6 @@
         </div>
     </div>
 </div>
-
-
     <script>
         function open_category_children(a){
             if($('.caret_category_child').hasClass('active')){
@@ -124,4 +123,70 @@
         });
 
     </script>
+@elsenotmobile
+
+<?php if ($categories) { ?>
+
+<li>
+    <a href="/promo" class="dropdown-item">Акции</a>
+</li>
+<li>
+    <a href="/exclusive" class="dropdown-item">Эксклюзивные предложения</a>
+</li>
+<li>
+{{--    <a href="{{route('manufacturer')}}" class="dropdown-item">Производители</a>--}}
+
+    <li class="nav-item dropend">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Производители
+        </a>
+        <ul class="dropdown-menu">
+
+            @if(!empty($brands))
+                @foreach($brands as $val_manufactur)
+                    <li><a class="dropdown-item" href="{{route('manufacturer.show',$val_manufactur['slug'])}}">{{$val_manufactur['name']}}</a></li>
+                @endforeach
+                    <li><a class="dropdown-item" href="{{route('manufacturer')}}" >Смотреть всех производителей</a></li>
+            @endif
+
+
+        </ul>
+    </li>
+
+</li>
+
+
+<?php foreach ($categories as $category) { ?>
+
+<?php if (!empty($category['children']) && count($category['children']) != 0){ ?>
+
+    <li class="nav-item dropend">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <?php echo $category['name']; ?>
+        </a>
+        <ul class="dropdown-menu">
+
+            @foreach($category['children'] as $children)
+                    <li><a class="dropdown-item" href="{{$children['href']}}">{{$children['name']}}</a></li>
+            @endforeach
+
+        </ul>
+    </li>
+
+    <?php  } else { ?>
+
+    <li>
+        <a href="<?php echo $category['href']; ?>" class="dropdown-item"><?php echo $category['name']; ?></a>
+    </li>
+
+        <? } ?>
+
+    <?php  } ?>
+
+    <?php } ?>
+
+
+@endnotmobile
+
+
 

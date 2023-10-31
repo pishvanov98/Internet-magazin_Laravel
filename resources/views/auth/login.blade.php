@@ -51,7 +51,7 @@
                         </div>
 
                         <div class="mb-0">
-                            <div class="col-md-8 offset-md-4 d-flex justify-content-between">
+                            <div class="col-md-8 offset-md-4 d-flex justify-content-between login_block_down">
                                 <div>
                                 <button type="submit" class="btn btn-primary">
                                     Войти

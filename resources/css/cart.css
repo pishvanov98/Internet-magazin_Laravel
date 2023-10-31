@@ -8,6 +8,7 @@
 .wrapper_cart_block .right_block{
      display: block;
      width: 20%;
+     min-width: 315px;
  }
 .wrapper_cart_block .left_block .cart-itogo-1 {
     font-size: 20px;
@@ -163,4 +164,12 @@
 }
 .alert_block.hide{
     display: none;
+}
+.wrapper_cart_block .left_block table tbody tr td:nth-of-type(1) a img{
+    width: auto;
+    height: auto;
+    max-height: 120px;
+}
+.wrapper_cart_block .left_block table tbody tr td:nth-of-type(1){
+    text-align: center;
 }
