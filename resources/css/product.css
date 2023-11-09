@@ -179,3 +179,19 @@
     top: auto;
     right: auto;
 }
+.product_container .left_block .attr_out_group b{
+    min-width: 70px;
+    display: inline-block;
+    height: 33px;
+    padding-top: 5px;
+}
+.product_container .left_block .attr_out_group li{
+    list-style-type: none;
+    margin-bottom: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.product_container .left_block .attr_out_group li span{
+margin: 5px;
+}

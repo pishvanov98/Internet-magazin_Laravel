@@ -83,11 +83,14 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['role:admin'], 'prefix'=>
 
 
 Route::get('/product/{slug}', [App\Http\Controllers\Product\ProductController::class,'show'])->name('product.show');
+Route::post('/getProduct',[\App\Http\Controllers\Product\ProductController::class,'GetProduct'])->name('product.init');
 Route::get('/category/{slug}', [\App\Http\Controllers\Category\CategoryController::class,'show'])->name('category.show');
 Route::get('/page/{name}',[\App\Http\Controllers\Page\PageController::class,'index'])->name('page');
 Route::get('/exclusive',[\App\Http\Controllers\Tag\TagController::class,'index'])->name('exclusive');
 Route::get('/action',[\App\Http\Controllers\Tag\TagController::class,'index'])->name('action');
 Route::get('/entrance',[\App\Http\Controllers\Tag\TagController::class,'index'])->name('entrance');
+
+Route::get('/home/exclusive',[\App\Http\Controllers\Home\HomeController::class,'getAjaxProduct'])->name('exclusive.slider');
 
 Route::get('/manufacturer',[\App\Http\Controllers\Manufacturer\ManufacturerController::class,'index'])->name('manufacturer');
 Route::get('/manufacturer/{slug}',[\App\Http\Controllers\Manufacturer\ManufacturerController::class,'show'])->name('manufacturer.show');

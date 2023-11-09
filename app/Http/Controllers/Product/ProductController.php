@@ -8,13 +8,12 @@ use App\Models\CategoryDescription;
 use App\Models\ProductDescription;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
     public function show(Request $request)
     {
-
-
 
         $product = ProductDescription::where('slug', $request->route('slug'))->select('product_id')->firstOrFail();
 
@@ -52,11 +51,36 @@ class ProductController extends Controller
         }
 
         $attr_mass=[];
+        $attr_out_group=[];
         $category_id=$initProduct['category_id'];
+        //18 атрибут группа товара свойство которое связано с другими товарами
         if(!empty($initProduct['product_attr'])){
             foreach ($initProduct['product_attr'] as $item){
+
+                if ($item->attribute_id == 18){
+                    $attr_out_group_mass_id=DB::connection('mysql2')->table('sd_product_attribute')->where('text','=',$item->text)->pluck('product_id');
+                }
+
                 $attr_mass[]=[$item->attribute_id,$item->text];
             }
+
+        }
+        if(!empty($attr_out_group_mass_id)){
+
+            $attr_out_group_attr=DB::connection('mysql2')->table('sd_product_attribute')->whereIn('product_id',$attr_out_group_mass_id->all())->select('sd_product_attribute.product_id','sd_product_attribute.attribute_id','sd_product_attribute.text','sd_attribute_description.name')
+                ->join('sd_attribute_description','sd_attribute_description.attribute_id','=','sd_product_attribute.attribute_id')
+                ->whereIn('sd_product_attribute.attribute_id',array_column($attr_mass,0))
+                ->where('sd_product_attribute.attribute_id','!=','18')
+                ->where('sd_product_attribute.attribute_id','!=','16')
+                ->get();
+
+            $attr_out_group_by=$attr_out_group_attr->groupBy('product_id');
+
+            $attr_out_group_by->map(function ($item) use(&$attr_out_group){
+                foreach ($item->all() as $item_attr){
+                    $attr_out_group[$item_attr->name][$item_attr->text]=$item_attr->product_id;
+                }
+            });
 
         }
 
@@ -88,6 +112,21 @@ class ProductController extends Controller
             $category->save();
         }
 
-        return view('product.index',['Product'=>$initProduct,'category'=>$category,'initProductAttr'=>$initProductAttr,'initProductViewed'=>$initProductViewed]);
+        return view('product.index',['Product'=>$initProduct,'category'=>$category,'initProductAttr'=>$initProductAttr,'initProductViewed'=>$initProductViewed,'attr_out_group'=>$attr_out_group]);
     }
+
+
+    public function GetProduct(Request $request){
+
+        $data=$request->all();
+        if(!empty($data['id'])){
+            $initProduct=app('Product')->ProductInit($data['id']);
+            return(route('product.show',$initProduct[0]->slug));
+        }
+
+      return '';
+
+    }
+
+
 }

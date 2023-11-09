@@ -228,7 +228,7 @@
                 var name_id_slider = $(this).data("selectid");
 
                 $.ajax({
-                    url: 'api/home/exclusive',
+                    url: '{{route('exclusive.slider')}}',
                     type: 'GET',
                     data: {
                         name: name,

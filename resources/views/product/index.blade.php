@@ -28,6 +28,24 @@
                     <p><b>Производитель:</b> {{$Product['manufacturer_name']}}</p>
                     <p><b>Страна:</b> {{$Product['manufacturer_region']}}</p>
                     <p><b>Наличие:</b> ({{$Product['quantity']}} шт.)</p>
+
+
+                    @if($attr_out_group)
+                    <ul class="attr_out_group">
+                        @foreach($attr_out_group as $key_item=>$attr_item)
+                    <li>
+                        @if(count($attr_item) > 1)
+                            <b>{{$key_item}}:</b>
+                            @foreach($attr_item as $key_attr=>$attr)
+                                <span class="btn btn-primary" onclick="attrGroup({{$attr}});" >{{$key_attr}}</span>
+                            @endforeach
+
+                        @endif
+                    </li>
+                        @endforeach
+                    </ul>
+                    @endif
+
                 </div>
                 </div>
                 <div class="add_cart_block_hide">
@@ -284,6 +302,28 @@ $('.all_show_description').on('click',function (){
                         $('#cart-total').text(data[0]+data[1]);
                         if($('.mobile-header #cart_itogo_mobile').length != 0){
                             $('.mobile-header #cart_itogo_mobile').text(data[0]);
+                        }
+                    }
+                });
+
+            }
+
+
+            function attrGroup(id){
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: '{{route('product.init')}}',
+                    method: 'post',
+                    dataType: 'html',
+                    data: {id: id},
+                    success: function(data){
+                        if(data){
+                            window.location.href = data;
                         }
                     }
                 });
