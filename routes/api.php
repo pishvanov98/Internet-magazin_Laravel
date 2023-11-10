@@ -19,5 +19,5 @@ Route::get('/query/admin/product/{name}', [\App\Http\Controllers\SearchControlle
 
 
 
-Route::post('/user/{hash}',[\App\Http\Controllers\Auth\AuthMobileApiController::class,'index'])->middleware('AuthenticateApi');
+Route::post('/user',[\App\Http\Controllers\Auth\AuthMobileApiController::class,'index'])->middleware('AuthenticateApi');
 
