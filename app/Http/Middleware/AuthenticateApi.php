@@ -10,15 +10,16 @@ class AuthenticateApi
 
     public function handle($request, Closure $next)
     {
-//AveldentMob1
+        $data=$request->all();
 
-        if($request->route('hash')){
-            if (strpos($request->route('hash'), "Test") !== false) {
-                //берем и создаем сессию с ид пользователя и в дальнейшем туда записываем и сохр данные
-                return $next($request);
+        if($data['token']){
+            if ($data['token'] == env('TokenApi')) {
+
+                return $next($request);//если токен есть и он совпадает с токеном, пропускаем
             }
         }
-        return response('');
+
+        return response()->json('error');
     }
 
 }
