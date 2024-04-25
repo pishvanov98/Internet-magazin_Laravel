@@ -14,7 +14,8 @@ services:
             - ./:/var/www
             - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
         networks:
-            - app-network
+            - internet
+            - no-internet
     #Nginx Service
     webserverAvel:
         image: nginx:alpine
@@ -28,7 +29,8 @@ services:
             - ./:/var/www
             - ./nginx/conf.d/:/etc/nginx/conf.d/
         networks:
-            - app-network
+            - internet
+            - no-internet
     #MySQL Service
     dbAvel:
         image: mariadb:10.3
@@ -43,7 +45,8 @@ services:
             SERVICE_TAGS: dev
             SERVICE_NAME: mysql
         networks:
-            - app-network
+            - internet
+            - no-internet
     phpmyadmin:
         image: phpmyadmin
         restart: always
@@ -53,7 +56,8 @@ services:
             - PMA_HOST=dbAvel
             - PMA_PORT=3306
         networks:
-            - app-network
+            - internet
+            - no-internet
     elasticsearch:
         image: elasticsearch:8.8.0
         restart: always
@@ -75,7 +79,7 @@ services:
         volumes:
             - ./Elasticsearch:/usr/share/elasticsearch/data
         networks:
-            - app-network
+            - no-internet
     redis:
         image: redis:latest
         container_name: laravel_cache
@@ -85,7 +89,7 @@ services:
         volumes:
             - ./cache_data_redis:/data
         networks:
-            - app-network
+            - no-internet
 #    kibana:
 #        image: kibana:8.8.0
 #        depends_on:
@@ -100,7 +104,10 @@ services:
 #            - app-network
 #Docker Networks
 networks:
-    app-network:
+    no-internet:
+        driver: bridge
+        internal: true
+    internet:
         driver: bridge
 #Volumes
 volumes:
